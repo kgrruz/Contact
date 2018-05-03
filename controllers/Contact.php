@@ -32,7 +32,7 @@ class Contact extends Front_Controller{
         $this->load->library('users/Online_Users');
 
         $this->load->library('contact/Nested_set');
-        $this->nested_set->setControlParams('co_groups','lft','rgt','id_group','parent_group','group_name');
+        $this->nested_set->setControlParams('groups','lft','rgt','id_group','parent_group','group_name');
 
 
         Assets::add_module_css('contact', 'contact.css');
@@ -277,8 +277,8 @@ class Contact extends Front_Controller{
         // Validate the data
         $this->form_validation->set_rules($this->contact_model->get_validation_rules());
 
-          $this->form_validation->set_rules('email', 'lang:contact_field_email', "unique[co_contacts.email{$extraUniqueRule}]|trim|valid_email|max_length[255]");
-          $this->form_validation->set_rules('phone', 'lang:contact_field_phone', "unique[co_contacts.phone{$extraUniqueRule}]|trim|max_length[20]");
+          $this->form_validation->set_rules('email', 'lang:contact_field_email', "unique[contacts.email{$extraUniqueRule}]|trim|valid_email|max_length[255]");
+          $this->form_validation->set_rules('phone', 'lang:contact_field_phone', "unique[contacts.phone{$extraUniqueRule}]|trim|max_length[20]");
 
         if ($this->form_validation->run() === false) {
             return false;
@@ -291,7 +291,7 @@ class Contact extends Front_Controller{
         $config = array(
             'field' => 'slug_contact',
             'title' => 'display_name',
-            'table' => 'co_contacts',
+            'table' => 'contacts',
             'id' => 'id_contact',
         );
 
@@ -521,7 +521,7 @@ class Contact extends Front_Controller{
 			 $config = array(
 					 'field' => 'slug_contact',
 					 'title' => 'display_name',
-					 'table' => 'co_contacts',
+					 'table' => 'contacts',
 					 'id' => 'id_contact',
 			 );
 

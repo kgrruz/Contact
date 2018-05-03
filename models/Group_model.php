@@ -73,7 +73,7 @@ class Group_model extends BF_Model{
 
     $like = array('group_name' => $term);
     $this->db->select("id_group,group_name,description");
-    $this->db->from('co_groups');
+    $this->db->from('groups');
     $this->db->where('deleted', 0);
     $this->db->like($like);
     $this->db->limit(5);
@@ -86,8 +86,8 @@ class Group_model extends BF_Model{
   function get_contact_groups($id){
 
     $this->db->select('id_group,group_name');
-    $this->db->from('co_contacts_groups');
-    $this->db->join('co_groups','co_groups.id_group  = co_contacts_groups.id_group_join');
+    $this->db->from('contacts_groups');
+    $this->db->join('groups','groups.id_group  = contacts_groups.id_group_join');
     $this->db->where('id_contact_join',$id);
     return $this->db->get()->result();
 
@@ -111,9 +111,9 @@ class Group_model extends BF_Model{
 
   function get_contacts_in_group($id){
 
-    $this->db->select('id_contact,slug_contact,phone,modified_on,display_name,email,co_contacts_groups.created_on');
-    $this->db->from('co_contacts_groups');
-    $this->db->join('co_contacts','co_contacts.id_contact  = co_contacts_groups.id_contact_join');
+    $this->db->select('id_contact,slug_contact,phone,modified_on,display_name,email,contacts_groups.created_on');
+    $this->db->from('contacts_groups');
+    $this->db->join('contacts','contacts.id_contact  = contacts_groups.id_contact_join');
     $this->db->where('id_group_join',$id);
     return $this->db->get()->result();
 
@@ -123,7 +123,7 @@ class Group_model extends BF_Model{
   public function count_contacts_in_group($id){
 
     $this->db->select('id_join_group');
-    $this->db->from('co_contacts_groups');
+    $this->db->from('contacts_groups');
     $this->db->where('id_group_join',$id);
     return $this->db->get()->num_rows();
 

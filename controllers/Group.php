@@ -28,12 +28,11 @@ class Group extends Front_Controller{
         $this->lang->load('contact');
 
         $this->load->library('users/Online_Users');
-
         $this->load->library('contact/Nested_set');
 
-        $this->nested_set->setControlParams('co_groups','lft','rgt','id_group','parent_group','group_name');
+        $this->nested_set->setControlParams('groups','lft','rgt','id_group','parent_group','group_name');
 
-        //$this->nested_set->initialiseRoot(array('group_name'=>'groups','description'=>'contact groups','created_by'=>1,'slug_group'=>'groups'));
+        //$this->nested_set->initialiseRoot(array('group_name'=>'grupo geral','description'=>'grupo geral','created_by'=>1,'slug_group'=>'groups'));
 
         $this->form_validation->set_error_delimiters("<span class='error'>", "</span>");
 
