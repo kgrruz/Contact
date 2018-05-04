@@ -412,7 +412,7 @@ class Contact extends Front_Controller{
 
    public function ajax_search(&$records){
 
-    $this->db->select("id_contact,email,display_name");
+    $this->db->select("id_contact,email,phone,display_name");
     $this->db->from('contacts');
     $this->db->like('display_name',$this->input->get('query'));
     $contacts = $this->db->get();
@@ -432,8 +432,13 @@ class Contact extends Front_Controller{
     'id' => $contact->id_contact,
     'idc'=> $contact->id_contact,
     'email'=> $contact->email,
+    'phone'=> $contact->phone,
     'name'=> ucfirst($contact->display_name),
     'descc'=> $adress,
+    'address'=> $adress,
+    'city'=> $meta->city,
+    'neibor'=> $meta->neibor,
+    'num_address'=> $meta->num_adress,
     'coord'=> $coord
     ));
 
