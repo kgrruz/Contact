@@ -16,15 +16,20 @@ if($('#geocomplete_contact').length){
 
   if(edit_mode){
 
-      var coordinates = $('#lat').val() + ', ' + $('#lng').val();
 
-       var map = $("#geocomplete_contact").geocomplete({
-         map: ".map_canvas",
-         details: "#details",
-         location: coordinates,
-         types: ["geocode", "establishment"]
+         var map = $("#geocomplete_contact").geocomplete({
+           map: ".map_canvas",
+           details: "#details",
+           types: ["geocode", "establishment"],
+           mapOptions: {
+           scrollwheel: true
+         }
 
-       });
+         });
+
+         map.geocomplete("find",{lat: parseFloat($('#lat').val()), lng: parseFloat($('#lng').val()) });
+
+
 
 }else{
 

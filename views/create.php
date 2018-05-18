@@ -1,4 +1,4 @@
-<script src="https://maps.googleapis.com/maps/api/js?key=<?php echo $this->settings_lib->item('contact.api_key_maps'); ?>libraries=places"></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=<?php echo $this->settings_lib->item('contact.api_key_maps'); ?>&libraries=places"></script>
 
 <div class="Subhead">
 <h2 class="Subhead-heading"><?php echo $toolbar_title; ?></h2>
@@ -73,46 +73,41 @@ $id = isset($contact->id_contact) ? $contact->id_contact : '';
             </div>
 
             <div class="col-md-4" id="details">
-
-              <div class="form-group">
-<label>Procurar</label>
-<input id="geocomplete_contact" value="<?php echo $this->settings_lib->item('contact.default_location'); ?>" type="text" placeholder="Digite o endereço completo..." class="form-control form-control-sm " />
+  <div class="form-group<?php echo form_error('adress') ? ' error' : ''; ?>">
+    <label>Endereço</label>
+<input type="text" class="form-control form-control-sm" placeholder="Digite o endereço..." id="geocomplete_contact" />
 </div>
 
 
 <input type="hidden" data-geo="country" name="country" value="BR" />
-<input type="hidden" data-geo="state" name="state" value="MG" />
+<input type="hidden" data-geo="administrative_area_level_1" name="state" value="MG" />
 
 
               <div class="form-group<?php echo form_error('city') ? ' error' : ''; ?>">
-                  <?php echo form_label(lang('contact_field_city') . lang('bf_form_label_required'), 'city', array('class' => 'control-label')); ?>
-                      <input id='city' type='text' data-geo="administrative_area_level_2" class="form-control form-control-sm "  name='city' maxlength='20' value="<?php echo set_value('city', isset($contact->city) ? $contact->city : ''); ?>" />
+                      <input id='city' type='text' data-geo="administrative_area_level_2" class="form-control form-control-sm "  placeholder="<?php echo lang('contact_field_city'); ?>" name='city' maxlength='20' value="<?php echo set_value('city', isset($contact->city) ? $contact->city : ''); ?>" />
                       <span class='help-inline'><?php echo form_error('city'); ?></span>
               </div>
 
               <div class="form-group<?php echo form_error('neibor') ? ' error' : ''; ?>">
-                  <?php echo form_label(lang('contact_field_neibor') . lang('bf_form_label_required'), 'neibor', array('class' => 'control-label')); ?>
-                      <input id='neibor' type='text' data-geo="sublocality" class="form-control form-control-sm "  name='neibor' maxlength='40' value="<?php echo set_value('neibor', isset($contact->neibor) ? $contact->neibor : ''); ?>" />
+                      <input id='neibor' type='text' data-geo="sublocality" class="form-control form-control-sm "  name='neibor' maxlength='40' placeholder="<?php echo lang('contact_field_neibor'); ?>" value="<?php echo set_value('neibor', isset($contact->neibor) ? $contact->neibor : ''); ?>" />
                       <span class='help-inline'><?php echo form_error('neibor'); ?></span>
               </div>
 
               <div class="form-group<?php echo form_error('adress') ? ' error' : ''; ?>">
-                  <?php echo form_label(lang('contact_field_adress') . lang('bf_form_label_required'), 'adress', array('class' => 'control-label')); ?>
-                      <input id='adress' type='text' data-geo="name" class="form-control form-control-sm "  name='adress' maxlength='80' value="<?php echo set_value('adress', isset($contact->adress) ? $contact->adress : ''); ?>" />
+                      <input id='adress' type='text' data-geo="name" class="form-control form-control-sm "  name='adress' maxlength='80' placeholder="<?php echo lang('contact_field_adress'); ?>" value="<?php echo set_value('adress', isset($contact->adress) ? $contact->adress : ''); ?>" />
                       <span class='help-inline'><?php echo form_error('adress'); ?></span>
               </div>
 
               <div class="form-group<?php echo form_error('num_adress') ? ' error' : ''; ?>">
-                  <?php echo form_label(lang('contact_field_num_adress') . lang('bf_form_label_required'), 'num_adress', array('class' => 'control-label')); ?>
-                      <input id='num_adress' type='text' class="form-control form-control-sm "  data-geo="street_number"  name='num_adress' maxlength='20' value="<?php echo set_value('num_adress', isset($contact->num_adress) ? $contact->num_adress : ''); ?>" />
+                      <input id='num_adress' type='text' class="form-control form-control-sm "  data-geo="street_number"  name='num_adress' placeholder="<?php echo lang('contact_field_num_adress'); ?>" maxlength='20' value="<?php echo set_value('num_adress', isset($contact->num_adress) ? $contact->num_adress : ''); ?>" />
                       <span class='help-inline'><?php echo form_error('num_adress'); ?></span>
               </div>
 
 
-
-<?php echo form_input(array('name'=>'lat','type'=>'hidden','data-geo'=>'lat','id'=>'lat','value'=>(isset($contact->lat)) ? $contact->lat : '')); ?>
-<?php echo form_input(array('name'=>'lng','type'=>'hidden','data-geo'=>'lng','id'=>'lng','value'=>(isset($contact->lng)) ? $contact->lng : '')); ?>
 <?php echo form_input(array('name'=>'save','type'=>'hidden','value'=>lang('contact_action_create'))); ?>
+<input type="hidden"  name="lat" data-geo="lat" id='lat' value="<?php echo (isset($contact->lat)) ? $contact->lat : ''; ?>" />
+<input type="hidden"  name="lng" data-geo="lng" id='lng' value="<?php echo (isset($contact->lng)) ? $contact->lng : ''; ?>" />
+
 
             </div>
 
@@ -128,6 +123,9 @@ $id = isset($contact->id_contact) ? $contact->id_contact : '';
 
             </div>
 
+
+
+            </div>
             </div>
 
 <hr>

@@ -76,7 +76,7 @@ class Contact_model extends BF_Model{
 
       $like = array('display_name' => $term);
       $this->db->select($fields);
-      $this->db->from('co_contacts');
+      $this->db->from('contacts');
       $this->db->where('deleted', 0);
       $this->db->like($like);
       $this->db->limit($limit, $offset);
@@ -96,10 +96,10 @@ class Contact_model extends BF_Model{
     }
 
     function search_list_json($term){
-
+			
       $like = array('display_name' => $term);
-      $this->db->select("co_contacts.id_contact as value,co_contacts.display_name as text");
-      $this->db->from('co_contacts');
+      $this->db->select("contacts.id_contact as value,contacts.display_name as text");
+      $this->db->from('contacts');
       $this->db->where('deleted', 0);
       $this->db->like($like);
       $this->db->limit(5);
@@ -114,8 +114,8 @@ class Contact_model extends BF_Model{
      $coordinates = $this->db->query("
          SELECT
          c.id_contact as idc,c.display_name as name, c.contact_type, MAX(CASE WHEN m.meta_key = 'lat' THEN m.meta_value END) AS 'lat',
-         MAX(CASE WHEN m.meta_key = 'lng' THEN m.meta_value END) AS 'lng' FROM co_contacts c
-         INNER JOIN co_contact_meta m ON c.id_contact = m.contact_id
+         MAX(CASE WHEN m.meta_key = 'lng' THEN m.meta_value END) AS 'lng' FROM contacts c
+         INNER JOIN contact_meta m ON c.id_contact = m.contact_id
          GROUP BY c.id_contact
          HAVING lat <= $north and lat >= $south and lng <= $east and lng >= $west
      ");
@@ -140,6 +140,8 @@ class Contact_model extends BF_Model{
      */
     public function find_meta_for($user_id = null, $fields = null){
 
+			$this->db->cache_on();
+
         // Is $user_id the right data type?
         if (! is_numeric($user_id)) {
             $this->error = lang('us_invalid_user_id');
@@ -160,6 +162,9 @@ class Contact_model extends BF_Model{
             $key = $row->meta_key;
             $result->{$key} = $row->meta_value;
         }
+
+
+				$this->db->cache_off();
 
         return $result;
     }

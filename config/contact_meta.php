@@ -41,7 +41,7 @@ $config['person_meta_fields'] =  array(
 	array(
 		'name'   => 'state',
 		'label'   => lang('user_meta_state'),
-        'rules'         => 'trim|max_length[3]',
+        'rules'         => 'trim|max_length[100]',
 		'form_detail' => array(
 			'type' => 'state_select',
 			'settings' => array(

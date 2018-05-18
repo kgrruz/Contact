@@ -31,7 +31,7 @@ class Group extends Front_Controller{
 
         $this->load->library('contact/Nested_set');
 
-        $this->nested_set->setControlParams('co_groups','lft','rgt','id_group','parent_group','group_name');
+        $this->nested_set->setControlParams('groups','lft','rgt','id_group','parent_group','group_name');
 
         //$this->nested_set->initialiseRoot(array('group_name'=>'groups','description'=>'contact groups','created_by'=>1,'slug_group'=>'groups'));
 
@@ -199,14 +199,14 @@ class Group extends Front_Controller{
         if ($type == 'update') {
             $_POST['id_group'] = $id;
 
-              $extraUniqueRule = ',co_groups.id_group';
+              $extraUniqueRule = ',groups.id_group';
         }
 
 
         // Validate the data
         $this->form_validation->set_rules($this->group_model->get_validation_rules());
 
-        $this->form_validation->set_rules('group_name', 'lang:group_field_group_name', "unique[co_groups.group_name{$extraUniqueRule}]|trim|max_length[255]");
+        $this->form_validation->set_rules('group_name', 'lang:group_field_group_name', "unique[groups.group_name{$extraUniqueRule}]|trim|max_length[255]");
 
 
         if ($this->form_validation->run() === false) {
@@ -222,7 +222,7 @@ class Group extends Front_Controller{
         $config = array(
             'field' => 'slug_group',
             'title' => 'group_name',
-            'table' => 'co_groups',
+            'table' => 'groups',
             'id' => 'id_group',
         );
 
@@ -283,7 +283,7 @@ class Group extends Front_Controller{
 
           foreach($groups as $group){
 
-            $this->db->insert('co_contacts_groups',array('id_contact_join'=>$data['contact_id'],'id_group_join'=>$group));
+            $this->db->insert('contacts_groups',array('id_contact_join'=>$data['contact_id'],'id_group_join'=>$group));
 
             }
           }

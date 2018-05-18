@@ -74,7 +74,12 @@
     </div><?php } ?>
     <div class="card-body">
 
-  <?php if(isset($view_page)){ $this->load->view($view_page); } else{ ?>
+  <?php if(isset($view_page)){
+
+    $this->load->view($view_page);
+
+  } else{ ?>
+    
 <div class="text-center">
     <h4 class="card-title"><?php echo lang('contact_nothing_show_title'); ?></h4>
       <p class="card-text"><?php echo lang('contact_nothing_show_desc'); ?></p>

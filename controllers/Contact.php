@@ -32,7 +32,10 @@ class Contact extends Front_Controller{
         $this->load->library('users/Online_Users');
 
         $this->load->library('contact/Nested_set');
-        $this->nested_set->setControlParams('co_groups','lft','rgt','id_group','parent_group','group_name');
+
+        $this->load->library('contact/Gmaps',array('mapsKey'=>$this->settings_lib->item('contact.api_key_maps')));
+
+        $this->nested_set->setControlParams('groups','lft','rgt','id_group','parent_group','group_name');
 
 
         Assets::add_module_css('contact', 'contact.css');
@@ -152,6 +155,44 @@ class Contact extends Front_Controller{
         Template::set_block('sub_nav_menu', '_menu_module');
         Template::render('mod_index');
     }
+
+    public function ajax_create(){
+
+      if (!$this->input->is_ajax_request()) {  exit('No direct script access allowed'); }
+
+      $this->auth->restrict($this->permissionCreate);
+
+      $this->load->config('contact_meta');
+      $meta_fields = config_item('person_meta_fields');
+
+      $this->load->model('contact/group_model');
+
+      $sell_redirect = $this->uri->segment(3,0);
+
+      if (isset($_POST['display_name'])) {
+
+          if ($insert_id = $this->save_contact('insert',0,$meta_fields)) {
+
+            $data_insert = array('contact_id'=>$insert_id,'post_data'=>$_POST);
+
+            Events::trigger('insert_contact',$data_insert);
+
+            $contact = $this->contact_model->find($insert_id);
+
+            $id_act = log_activity($this->auth->user_id(), lang('contact_act_create_record') . ': ' . $contact->display_name , 'contact');
+
+            log_notify($this->user_model->get_id_users_role('id',array(4,1)), $id_act);
+
+            $this->output->set_output(json_encode(array('status'=>'success','idc'=>$insert_id,'image'=>gravatar_link($contact->email, 50, $contact->email, $contact->email), 'name'=>$contact->display_name,'message'=>lang('contact_create_success'))));
+
+          }else{
+
+              $this->output->set_output(json_encode(array('status'=>'danger','message'=>validation_errors())));
+
+          }
+      }
+    }
+
     /**
      * Allows editing of Contact data man.
      *
@@ -277,8 +318,8 @@ class Contact extends Front_Controller{
         // Validate the data
         $this->form_validation->set_rules($this->contact_model->get_validation_rules());
 
-          $this->form_validation->set_rules('email', 'lang:contact_field_email', "unique[co_contacts.email{$extraUniqueRule}]|trim|valid_email|max_length[255]");
-          $this->form_validation->set_rules('phone', 'lang:contact_field_phone', "unique[co_contacts.phone{$extraUniqueRule}]|trim|max_length[20]");
+          $this->form_validation->set_rules('email', 'lang:contact_field_email', "unique[contacts.email{$extraUniqueRule}]|trim|valid_email|max_length[255]");
+          $this->form_validation->set_rules('phone', 'lang:contact_field_phone', "unique[contacts.phone{$extraUniqueRule}]|trim|max_length[20]");
 
         if ($this->form_validation->run() === false) {
             return false;
@@ -291,13 +332,18 @@ class Contact extends Front_Controller{
         $config = array(
             'field' => 'slug_contact',
             'title' => 'display_name',
-            'table' => 'co_contacts',
+            'table' => 'contacts',
             'id' => 'id_contact',
         );
 
         $this->load->library('slug', $config);
         $data['slug_contact'] = $this->slug->create_uri($this->input->post('display_name'));
 
+
+      //  $data_coord = $this->gmaps->geoLocal($metaData['city'].' '.$metaData['neibor'].' '.$metaData['adress'].' '.$metaData['num_adress']);
+
+      //  $metaData['lat'] = $data_coord->lat;
+      //  $metaData['lng'] = $data_coord->lng;
         // Additional handling for default values should be added below,
         // or in the model's prep_data() method
 
@@ -412,7 +458,7 @@ class Contact extends Front_Controller{
 
    public function ajax_search(&$records){
 
-    $this->db->select("id_contact,email,display_name");
+    $this->db->select("id_contact,email,display_name,phone");
     $this->db->from('contacts');
     $this->db->like('display_name',$this->input->get('query'));
     $contacts = $this->db->get();
@@ -425,7 +471,11 @@ class Contact extends Front_Controller{
 
       $coord = (isset($meta->lat) and !empty($meta->lat))? $meta->lat.', '.$meta->lng:0;
 
-      $adress = (isset($meta->adress) and !empty($meta->adress) and !empty($meta->num_adress))? $meta->city.', '.$meta->neibor.' <br/> '.$meta->adress.' - '.$meta->num_adress: 'Endereço incompleto.';
+      $address = (isset($meta->adress) and !empty($meta->adress))? $meta->adress: 'Endereço incompleto.';
+      $city = (isset($meta->city) and !empty($meta->city))? $meta->city: 'Endereço incompleto.';
+      $neibor = (isset($meta->neibor) and !empty($meta->neibor))? $meta->neibor: 'Endereço incompleto.';
+      $num_address = (isset($meta->num_adress) and !empty($meta->num_adress))? $meta->num_adress: 'Endereço incompleto.';
+
 
     array_push($result,array(
     'url'=>'',
@@ -433,8 +483,16 @@ class Contact extends Front_Controller{
     'idc'=> $contact->id_contact,
     'email'=> $contact->email,
     'name'=> ucfirst($contact->display_name),
-    'descc'=> $adress,
-    'coord'=> $coord
+    'phone'=> $contact->phone,
+    'address'=> $address,
+    'city'=> $city,
+    'neibor'=> $neibor,
+    'num_address'=> $num_address,
+    'lat'=> $num_address,
+    'num_address'=> $num_address,
+    'coord'=> $coord,
+    'lat'=>$meta->lat,
+    'lng'=>$meta->lng
     ));
 
 
@@ -521,7 +579,7 @@ class Contact extends Front_Controller{
 			 $config = array(
 					 'field' => 'slug_contact',
 					 'title' => 'display_name',
-					 'table' => 'co_contacts',
+					 'table' => 'contacts',
 					 'id' => 'id_contact',
 			 );
 
