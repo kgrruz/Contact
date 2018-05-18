@@ -19,9 +19,6 @@ class Group extends Front_Controller{
     {
         parent::__construct();
 
-        $this->load->library('users/auth');
-        $this->auth->restrict();
-        $this->set_current_user();
 
         $this->load->model('group_model');
         $this->lang->load('group');
@@ -46,8 +43,8 @@ class Group extends Front_Controller{
      */
     public function index(){
 
-      $this->auth->restrict($this->permissionView,'desktop');
-      $this->online_users->run_online();
+      $this->authenticate($this->permissionView);
+
 
       if (isset($_POST['delete'])) {
           $checked = $this->input->post('checked');
@@ -81,13 +78,17 @@ class Group extends Front_Controller{
      */
     public function create(){
 
-        $this->auth->restrict($this->permissionCreate,'desktop');
+        $this->authenticate($this->permissionCreate);
 
         if (isset($_POST['save'])) {
 
             if ($insert_id = $this->save_group('insert')) {
 
                 log_activity($this->auth->user_id(), lang('group_act_create_record') . ': ' . $insert_id . ' : ' . $this->input->ip_address(), 'group');
+
+                $payload = array('group_name'=>$this->input->post('group_name'),'group_description'=>$this->input->post('description'));
+                Events::trigger('after_group_create',$payload);
+
                 Template::set_message(lang('group_create_success'), 'success');
                 Template::redirect('contact/group');
             }
@@ -123,7 +124,7 @@ class Group extends Front_Controller{
 
         if (isset($_POST['save'])) {
 
-           $this->auth->restrict($this->permissionEdit);
+           $this->authenticate($this->permissionEdit);
 
             if ($this->save_group('update', $id)) {
                 log_activity($this->auth->user_id(), lang('group_act_edit_record') . ': ' . $id . ' : ' . $this->input->ip_address(), 'group');
@@ -198,14 +199,14 @@ class Group extends Front_Controller{
         if ($type == 'update') {
             $_POST['id_group'] = $id;
 
-              $extraUniqueRule = ',co_groups.id_group';
+              $extraUniqueRule = ',groups.id_group';
         }
 
 
         // Validate the data
         $this->form_validation->set_rules($this->group_model->get_validation_rules());
 
-        $this->form_validation->set_rules('group_name', 'lang:group_field_group_name', "unique[co_groups.group_name{$extraUniqueRule}]|trim|max_length[255]");
+        $this->form_validation->set_rules('group_name', 'lang:group_field_group_name', "unique[groups.group_name{$extraUniqueRule}]|trim|max_length[255]");
 
 
         if ($this->form_validation->run() === false) {
@@ -221,7 +222,7 @@ class Group extends Front_Controller{
         $config = array(
             'field' => 'slug_group',
             'title' => 'group_name',
-            'table' => 'co_groups',
+            'table' => 'groups',
             'id' => 'id_group',
         );
 
@@ -274,7 +275,8 @@ class Group extends Front_Controller{
 
         }
 
-        public function add_to_group(&$data){
+
+        public function _add_to_group(&$data){
 
           $groups = (isset($data['post_data']['group']))? $data['post_data']['group']:array();
 
@@ -282,7 +284,7 @@ class Group extends Front_Controller{
 
           foreach($groups as $group){
 
-            $this->db->insert('co_contacts_groups',array('id_contact_join'=>$data['contact_id'],'id_group_join'=>$group));
+            $this->db->insert('contacts_groups',array('id_contact_join'=>$data['contact_id'],'id_group_join'=>$group));
 
             }
           }
