@@ -59,7 +59,7 @@ $id = isset($contact->id_contact) ? $contact->id_contact : '';
             <div class="form-group<?php echo form_error('group') ? ' error' : ''; ?>">
                 <?php echo form_label(lang('contact_field_groups') . lang('bf_form_label_required'), 'group', array('class' => 'control-label')); ?>
 
-                    <select id='group' class="form-control form-control-sm form-control form-control-sm-sm"  name='group[]' >
+                    <select id='group' class="form-control form-control-sm form-control form-control-sm-sm" multiple name='group[]' >
                       <?php foreach($tree['items'] as $group){ ?>
                       <option <?php if(isset($my_groups)){ if(array_search($group['id_group'],$my_groups)){ echo 'selected'; }} ?> value="<?php echo $group['id_group']; ?>"><?php echo str_repeat('-', $this->nested_set->getNodeLevel($group)*4); ?> <?php echo ucfirst($group['group_name']); ?></option>
                     <?php } ?>
