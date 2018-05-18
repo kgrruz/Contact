@@ -10,4 +10,8 @@ $config['module_config'] = array(
 	'visible_module' => true,
 	'version'		=> '1.0.0',
 	'author'		=> 'admin',
+	'tab_company'=>array(
+		'label'=> array('english'=>'contacts','portuguese_br'=>'contatos'),
+		'url'=>'company_contacts'
+	)
 );
