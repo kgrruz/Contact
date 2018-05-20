@@ -19,9 +19,6 @@ class Contact extends Front_Controller{
 
         parent::__construct();
 
-        $this->load->library('users/auth');
-        $this->set_current_user();
-
         $this->load->model('contact/contact_model');
 
         $this->lang->load('contact/contact');
@@ -29,14 +26,10 @@ class Contact extends Front_Controller{
 
         $this->load->helper('contact/contact');
 
-        $this->load->library('users/Online_Users');
 
         $this->load->library('contact/Nested_set');
 
-        $this->load->library('contact/Gmaps',array('mapsKey'=>$this->settings_lib->item('contact.api_key_maps')));
-
         $this->nested_set->setControlParams('groups','lft','rgt','id_group','parent_group','group_name');
-
 
         Assets::add_module_css('contact', 'contact.css');
         Assets::add_module_js('contact','jquery.geocomplete.min.js');
@@ -44,7 +37,7 @@ class Contact extends Front_Controller{
         Assets::add_module_js('contact', 'group.js');
         Assets::add_module_js('contact', 'group_contact.js');
 
-        $this->form_validation->set_error_delimiters("<span class='error'>", "</span>");
+        $this->form_validation->set_error_delimiters("<span class='danger'>", "</span>");
 
     }
 
@@ -58,21 +51,22 @@ class Contact extends Front_Controller{
      */
     public function index(){
 
-      $this->auth->restrict($this->permissionView,'desktop');
-      $this->online_users->run_online();
+      $this->authenticate($this->permissionView,'desktop');
 
 
       if (isset($_POST['delete'])) {
           $checked = $this->input->post('checked');
           if (empty($checked)) {
               // No users checked.
-              Template::set_message(lang('us_empty_id'), 'error');
+              Template::set_message(lang('us_empty_id'), 'danger');
           } else {
               foreach ($checked as $userId) {
                   $this->delete($userId);
               }
           }
       }
+
+      $this->db->cache_on();
 
       $offset = $this->uri->segment(3);
       $where = array('contacts.deleted'=>0);
@@ -87,6 +81,8 @@ class Contact extends Front_Controller{
       $this->pager['per_page']    = $this->limit;
       $this->pager['total_rows']  = $this->contact_model->where($where)->count_all();
       $this->pager['uri_segment'] = 3;
+
+      $this->db->cache_off();
 
       $this->pagination->initialize($this->pager);
 
@@ -106,7 +102,7 @@ class Contact extends Front_Controller{
      */
     public function create(){
 
-        $this->auth->restrict($this->permissionCreate);
+        $this->authenticate($this->permissionCreate);
 
         $this->load->config('contact_meta');
         $meta_fields = config_item('person_meta_fields');
@@ -131,12 +127,15 @@ class Contact extends Front_Controller{
 
               Template::set_message(lang('contact_create_success'), 'success');
 
+              $this->db->cache_delete('sells', 'search_customer_sell');
+              $this->db->cache_delete('contacts', 'index');
+
                if($sell_redirect){ Template::redirect('sells/create/'.$insert_id); } else { Template::redirect('contacts');  }
             }
 
             // Not validation error
             if ( ! empty($this->contact_model->error)) {
-                Template::set_message(lang('contact_create_failure') . $this->contact_model->error, 'error');
+                Template::set_message(lang('contact_create_failure') . $this->contact_model->error, 'danger');
             }
         }
 
@@ -160,7 +159,7 @@ class Contact extends Front_Controller{
 
       if (!$this->input->is_ajax_request()) {  exit('No direct script access allowed'); }
 
-      $this->auth->restrict($this->permissionCreate);
+      $this->authenticate($this->permissionCreate);
 
       $this->load->config('contact_meta');
       $meta_fields = config_item('person_meta_fields');
@@ -183,6 +182,9 @@ class Contact extends Front_Controller{
 
             log_notify($this->user_model->get_id_users_role('id',array(4,1)), $id_act);
 
+            $this->db->cache_delete('sells', 'search_customer_sell');
+            $this->db->cache_delete('contacts', 'index');
+
             $this->output->set_output(json_encode(array('status'=>'success','idc'=>$insert_id,'image'=>gravatar_link($contact->email, 50, $contact->email, $contact->email), 'name'=>$contact->display_name,'message'=>lang('contact_create_success'))));
 
           }else{
@@ -200,12 +202,11 @@ class Contact extends Front_Controller{
      */
     public function edit(){
 
-
-        $this->auth->restrict($this->permissionEdit,'desktop');
+        $this->authenticate($this->permissionEdit);
 
         $id = $this->uri->segment(3);
         if (empty($id)) {
-            Template::set_message(lang('contact_invalid_id'), 'error');
+            Template::set_message(lang('contact_invalid_id'), 'danger');
             redirect('contacts');
         }
 
@@ -218,7 +219,7 @@ class Contact extends Front_Controller{
 
         if (isset($_POST['save'])) {
 
-          $this->auth->restrict($this->permissionEdit);
+          $this->authenticate($this->permissionEdit);
 
           $this->load->config('contact_meta');
           $type = $this->input->post('contact_type');
@@ -228,13 +229,17 @@ class Contact extends Front_Controller{
 
             if ($this->save_contact('update', $id, $meta_fields)) {
                 log_activity($this->auth->user_id(), lang('contact_act_edit_record') . ': ' . $id . ' : ' . $this->input->ip_address(), 'contact');
+
+                $this->db->cache_delete('sells', 'search_customer_sell');
+                $this->db->cache_delete('contacts', 'index');
+
                 Template::set_message(lang('contact_edit_success'), 'success');
-                redirect('contacts');
+                Template::redirect('contacts');
             }
 
             // Not validation error
             if ( ! empty($this->contact_model->error)) {
-                Template::set_message(lang('contact_edit_failure') . $this->contact_model->error, 'error');
+                Template::set_message(lang('contact_edit_failure') . $this->contact_model->error, 'danger');
             }
         }
 
@@ -266,13 +271,18 @@ class Contact extends Front_Controller{
 
     private function delete($id){
 
-      $contact = $this->contact_model->find($id);
+      $contact = $this->contact_model->find_user_and_meta($id);
       if (! isset($contact)) {
-          Template::set_message(lang('us_invalid_contact_id'), 'error');
+          Template::set_message(lang('us_invalid_contact_id'), 'danger');
           Template::redirect('contacts');
       }
 
-          $this->auth->restrict($this->permissionDelete);
+          $this->authenticate($this->permissionDelete);
+
+          if (!empty($contact->is_user)) {
+              Template::set_message(lang('contact_has_user'), 'danger');
+              Template::redirect('contacts');
+          }
 
           if ($this->contact_model->delete($id)) {
 
@@ -280,10 +290,10 @@ class Contact extends Front_Controller{
               log_notify($this->user_model->get_id_users_role('id',array(4,1)), $id_act);
 
               Template::set_message(lang('contact_delete_success'), 'success');
-              return;
+              Template::redirect('contacts');
           }
 
-          Template::set_message(lang('contact_delete_failure') . $this->contact_model->error, 'error');
+          Template::set_message(lang('contact_delete_failure') . $this->contact_model->error, 'danger');
 
     }
 
@@ -369,14 +379,14 @@ class Contact extends Front_Controller{
 
      public function profile(){
 
-       $this->auth->restrict($this->permissionView,'/desktop');
+       $this->authenticate($this->permissionView,'/desktop');
 
-       $this->online_users->run_online();
+       $this->output->cache(5);
 
            $id = $this->uri->segment(2);
 
            if (empty($id)) {
-               Template::set_message(lang('contact_invalid_id'), 'error');
+               Template::set_message(lang('contact_invalid_id'), 'danger');
                redirect('contact');
            }
 
@@ -403,11 +413,8 @@ class Contact extends Front_Controller{
            $data = array('function'=>$function,'view_page'=>'','id_contact'=>$id,'data_table'=>'');
 
            Events::trigger('show_profile_contact',$data);
-
            Template::set('function_tab',$function);
-
            Template::set('data',$data['data_table']);
-
            Template::set('view_page', $data['view_page']);
 
            }
@@ -419,88 +426,12 @@ class Contact extends Front_Controller{
 
          }else{
 
-           Template::set_message(lang('contact_invalid_id'), 'error');
+           Template::set_message(lang('contact_invalid_id'), 'danger');
            redirect('contact');
          }
 
      }
 
-
-
-    public function geral_search(&$data){
-
-       if (has_permission($this->permissionView)) {
-
-         $results = $this->contact_model->search_general($data['term'],array('id_contact','email','slug_contact','display_name','phone'),$this->limit,$data['offset']);
-
-         $html = array();
-
-       foreach($results->result() as $result){
-
-         array_push($html,array('<hr><div class="media">
-  <img class="mr-3" src="'.gravatar_link($result->email, 64, $result->email, $result->email).'" alt="contact_photo">
-  <div class="media-body">
-    <h5 class="mt-0">'.anchor('contato/'.$result->slug_contact,$result->display_name).'</h5>'.
-    $result->phone.'</br>'.anchor('contact/edit/'.$result->slug_contact,'edit').'
-  </div>
-</div>'));
-
-       }
-
-       $this->db->like('display_name',$data['term']);
-       $this->db->where('deleted',0);
-       $total = $this->contact_model->count_all();
-
-       array_push($data['data'],array('module'=>'contacts','result'=>$html,'total'=>$total));
-
-     }
-   }
-
-   public function ajax_search(&$records){
-
-    $this->db->select("id_contact,email,display_name,phone");
-    $this->db->from('contacts');
-    $this->db->like('display_name',$this->input->get('query'));
-    $contacts = $this->db->get();
-
-    $result = array();
-
-    foreach($contacts->result() as $contact){
-
-      $meta = $this->contact_model->find_meta_for($contact->id_contact,array('city','neibor','adress','num_adress','lat','lng'));
-
-      $coord = (isset($meta->lat) and !empty($meta->lat))? $meta->lat.', '.$meta->lng:0;
-
-      $address = (isset($meta->adress) and !empty($meta->adress))? $meta->adress: 'Endereço incompleto.';
-      $city = (isset($meta->city) and !empty($meta->city))? $meta->city: 'Endereço incompleto.';
-      $neibor = (isset($meta->neibor) and !empty($meta->neibor))? $meta->neibor: 'Endereço incompleto.';
-      $num_address = (isset($meta->num_adress) and !empty($meta->num_adress))? $meta->num_adress: 'Endereço incompleto.';
-
-
-    array_push($result,array(
-    'url'=>'',
-    'id' => $contact->id_contact,
-    'idc'=> $contact->id_contact,
-    'email'=> $contact->email,
-    'name'=> ucfirst($contact->display_name),
-    'phone'=> $contact->phone,
-    'address'=> $address,
-    'city'=> $city,
-    'neibor'=> $neibor,
-    'num_address'=> $num_address,
-    'lat'=> $num_address,
-    'num_address'=> $num_address,
-    'coord'=> $coord,
-    'lat'=>$meta->lat,
-    'lng'=>$meta->lng
-    ));
-
-
-    }
-
-    array_push($records,$result);
-
-   }
 
 
      function get_markers(&$data_json){
@@ -543,7 +474,7 @@ class Contact extends Front_Controller{
            $id = $this->uri->segment(3);
 
            if (empty($id)) {
-               Template::set_message(lang('contact_invalid_id'), 'error');
+               Template::set_message(lang('contact_invalid_id'), 'danger');
                redirect('contacts');
            }
 
@@ -567,7 +498,7 @@ class Contact extends Front_Controller{
 
      }else{
 
-       Template::set_message(lang('contact_invalid_id'), 'error');
+       Template::set_message(lang('contact_invalid_id'), 'danger');
        redirect('contacts');
      }
     }
@@ -620,4 +551,8 @@ class Contact extends Front_Controller{
 			 $this->db->insert('contact_meta',$contact_data_meta_state);
 
 		 }
+
+
+
+
 }

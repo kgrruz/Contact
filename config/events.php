@@ -28,17 +28,17 @@
     $config['search_geral'][] = array(
             'module'     => 'contact',
             'filepath'   => 'controllers',
-            'filename'   => 'Contact.php',
-            'class'  => 'Contact',
-            'method'     => 'geral_search'
+            'filename'   => 'Events_contact.php',
+            'class'  => 'Events_contact',
+            'method'     => '_geral_search'
         );
 
-    $config['search_customer'][] = array(
+    $config['search_contact'][] = array(
             'module'     => 'contact',
             'filepath'   => 'controllers',
-            'filename'   => 'Contact.php',
-            'class'  => 'Contact',
-            'method'     => 'ajax_search'
+            'filename'   => 'Events_contact.php',
+            'class'  => 'Events_contact',
+            'method'     => '_ajax_search'
         );
 
     $config['search_groups'][] = array(
@@ -54,7 +54,7 @@
             'filepath'   => 'controllers',
             'filename'   => 'Group.php',
             'class'  => 'Group',
-            'method'     => 'add_to_group'
+            'method'     => '_add_to_group'
         );
 
 
@@ -64,4 +64,12 @@
             'filename'   => 'Contact.php',
             'class'  => 'Contact',
             'method'     => 'Create_user_contact'
+        );
+
+    $config['show_profile_company'][] = array(
+            'module'     => 'contact',
+            'filepath'   => 'controllers',
+            'filename'   => 'Events_contact.php',
+            'class'  => 'Events_contact',
+            'method'     => 'company_contacts'
         );

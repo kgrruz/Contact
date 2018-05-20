@@ -80,14 +80,14 @@ class Contact_model extends BF_Model{
       $this->db->where('deleted', 0);
       $this->db->like($like);
       $this->db->limit($limit, $offset);
-      $result = $this->db->get();
+      $result = $this->db->get()->result();
 
-			foreach($result->result() as $contact){
+			foreach($result as $contact){
 			$this->where('contact_id', $contact->id_contact);
 			$query = $this->db->get($this->meta_table);
 			foreach ($query->result() as $row) {
 					$key = $row->meta_key;
-					$result->{$key} = $row->meta_value;
+					$contact->{$key} = $row->meta_value;
 			}
 		}
 			return $result;
@@ -264,27 +264,6 @@ class Contact_model extends BF_Model{
     }
 
 
-	/* public function find_all(){
 
-    $result = parent::as_object()->find_all();
 
-    if($result){
-
-					foreach($result as $contact){
-
-							$this->where('contact_id', $contact->id_contact);
-							$query = $this->db->get($this->meta_table);
-
-							foreach ($query->result() as $row) {
-
-										$key = $row->meta_key;
-										$result->{$key} = $row->meta_value;
-
-							}
-						}
-					}
-
-    return $result;
-
-	} */
 	}

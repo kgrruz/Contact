@@ -1,4 +1,4 @@
-<?php $user_idd = $this->contact_model->find_meta_for($contact->id_contact,array('is_user')); ?>
+
 
 <div class="row p-3">
 
@@ -6,9 +6,9 @@
 
     <div class="card">
 
-        <?php if(!empty($user_idd->is_user)){
+        <?php if(!empty($contact->is_user)){
 
-            $user = $this->user_model->find_by('id',$user_idd->is_user);
+            $user = $this->user_model->find_by('id',$contact->is_user);
 
             echo user_avatar($user->photo_avatar,$user->email, 224,'card-img-top img-fluid w-100', true,'med','profile_photo');
 
@@ -43,7 +43,7 @@
 <div class="col-md-9">
 
 
-  <?php if(!empty($user_idd->is_user)){ ?>
+  <?php if(!empty($contact->is_user)){ ?>
 
   <div class="card mb-3">
 
@@ -72,7 +72,7 @@
   <?php }  ?>
       </ul>
     </div><?php } ?>
-    <div class="card-body">
+
 
   <?php if(isset($view_page)){
 
@@ -88,7 +88,7 @@
 
   <?php } ?>
 
-    </div>
+
   </div>
 
 

@@ -1,4 +1,4 @@
-<ul class="nav nav-tabs card-header-tabs">
+<ul class="nav nav-tabs flex-column flex-sm-row card-header-tabs">
   <li class="nav-item">
    <?php echo anchor('contacts',lang('contact_list'),'class="nav-link '.check_segment(1,'contacts',true).'"'); ?>
   </li>

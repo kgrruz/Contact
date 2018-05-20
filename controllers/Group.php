@@ -19,21 +19,17 @@ class Group extends Front_Controller{
     {
         parent::__construct();
 
-        $this->load->library('users/auth');
-        $this->auth->restrict();
-        $this->set_current_user();
 
         $this->load->model('group_model');
         $this->lang->load('group');
         $this->lang->load('contact');
 
         $this->load->library('users/Online_Users');
-
         $this->load->library('contact/Nested_set');
 
         $this->nested_set->setControlParams('groups','lft','rgt','id_group','parent_group','group_name');
 
-        //$this->nested_set->initialiseRoot(array('group_name'=>'groups','description'=>'contact groups','created_by'=>1,'slug_group'=>'groups'));
+        //$this->nested_set->initialiseRoot(array('group_name'=>'grupo geral','description'=>'grupo geral','created_by'=>1,'slug_group'=>'groups'));
 
         $this->form_validation->set_error_delimiters("<span class='error'>", "</span>");
 
@@ -47,8 +43,8 @@ class Group extends Front_Controller{
      */
     public function index(){
 
-      $this->auth->restrict($this->permissionView,'desktop');
-      $this->online_users->run_online();
+      $this->authenticate($this->permissionView);
+
 
       if (isset($_POST['delete'])) {
           $checked = $this->input->post('checked');
@@ -82,13 +78,17 @@ class Group extends Front_Controller{
      */
     public function create(){
 
-        $this->auth->restrict($this->permissionCreate,'desktop');
+        $this->authenticate($this->permissionCreate);
 
         if (isset($_POST['save'])) {
 
             if ($insert_id = $this->save_group('insert')) {
 
                 log_activity($this->auth->user_id(), lang('group_act_create_record') . ': ' . $insert_id . ' : ' . $this->input->ip_address(), 'group');
+
+                $payload = array('group_name'=>$this->input->post('group_name'),'group_description'=>$this->input->post('description'));
+                Events::trigger('after_group_create',$payload);
+
                 Template::set_message(lang('group_create_success'), 'success');
                 Template::redirect('contact/group');
             }
@@ -124,7 +124,7 @@ class Group extends Front_Controller{
 
         if (isset($_POST['save'])) {
 
-           $this->auth->restrict($this->permissionEdit);
+           $this->authenticate($this->permissionEdit);
 
             if ($this->save_group('update', $id)) {
                 log_activity($this->auth->user_id(), lang('group_act_edit_record') . ': ' . $id . ' : ' . $this->input->ip_address(), 'group');
@@ -275,7 +275,8 @@ class Group extends Front_Controller{
 
         }
 
-        public function add_to_group(&$data){
+
+        public function _add_to_group(&$data){
 
           $groups = (isset($data['post_data']['group']))? $data['post_data']['group']:array();
 
