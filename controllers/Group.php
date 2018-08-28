@@ -29,8 +29,6 @@ class Group extends Front_Controller{
 
         $this->nested_set->setControlParams('groups','lft','rgt','id_group','parent_group','group_name');
 
-        //$this->nested_set->initialiseRoot(array('group_name'=>'grupo geral','description'=>'grupo geral','created_by'=>1,'slug_group'=>'groups'));
-
         $this->form_validation->set_error_delimiters("<span class='error'>", "</span>");
 
     }
@@ -196,6 +194,8 @@ class Group extends Front_Controller{
      */
     private function save_group($type = 'insert', $id = 0){
 
+        $extraUniqueRule = '';
+        
         if ($type == 'update') {
             $_POST['id_group'] = $id;
 
