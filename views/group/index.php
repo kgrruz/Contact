@@ -3,7 +3,7 @@
 
   <div class="card">
     <div class="card-header"><?php echo $toolbar_title; ?></div>
-
+<?php if(count($tree['items'])){ ?>
       <div class="table-responsive ">
           <?php echo form_open(); ?>
       <table id="table_groups" class="table table-sm nowrap" cellspacing="0" width="100%">
@@ -20,7 +20,7 @@
         </tr>
     </thead>
     <tbody>
-<?php foreach($tree['items'] as $group){ ?>
+<?php  foreach($tree['items'] as $group){ ?>
 <tr>
     <td class="pl-3"><?php if($group['id_group'] != 1){ ?>
     <input type="checkbox" name="checked[]" value="<?php echo $group['id_group']; ?>" />
@@ -52,4 +52,11 @@
 
 </div>
 <?php echo form_close(); ?>
+<?php } else{ ?>
+  <div class="card-body">
+  <div class="card-text">
+<?php echo lang('group_no_records'); ?>
+</div>
+</div>
+<?php } ?>
 </div>

@@ -46,13 +46,13 @@ $id = isset($group->id_group) ? $group->id_group : '';
                 <?php echo form_label(lang('group_field_parent_group') . lang('bf_form_label_required'), 'parent_group', array('class' => 'control-label')); ?>
 
 <select name="parent_group" class="form-control form-control-sm" >
-  <?php foreach($tree['items'] as $groupp){ ?>
+  <?php if(count($tree['items'])){ foreach($tree['items'] as $groupp){ ?>
   <option <?php echo (isset($group) and $group->parent_group == $groupp['id_group'])? 'selected':''; ?>
      value="<?php echo $groupp['id_group']; ?>" >
   <?php echo str_repeat('-', $this->nested_set->getNodeLevel($groupp)*4); ?>
   <?php echo ucfirst($groupp['group_name']); ?>
   </option>
-<?php } ?>
+<?php } }else{ ?><option value="0"><?php echo lang('group_no_records'); ?></option><?php } ?>
 </select>
                     <span class='help-inline'><?php echo form_error('parent_group'); ?></span>
 
