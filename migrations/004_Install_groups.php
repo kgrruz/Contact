@@ -8,7 +8,7 @@ class Migration_Install_groups extends Migration
 	private $table_name = 'groups';
 
 	/**
-	 * @var array The table's fields 
+	 * @var array The table's fields
 	 */
 	private $fields = array(
 		'id_group' => array(
@@ -21,10 +21,30 @@ class Migration_Install_groups extends Migration
             'constraint' => 255,
             'null'       => false,
         ),
-        'description' => array(
-            'type'       => 'TEXT',
+        'slug_group' => array(
+            'type'       => 'VARCHAR',
+            'constraint' => 255,
             'null'       => false,
         ),
+        'parent_group' => array(
+            'type'       => 'INT',
+            'constraint' => 11,
+            'null'       => true,
+        ),
+        'lft' => array(
+            'type'       => 'INT',
+            'constraint' => 11,
+            'null'       => false,
+        ),
+        'rgt' => array(
+            'type'       => 'INT',
+						'constraint' => 11,
+            'null'       => false,
+        ),
+				'description' => array(
+						'type'       => 'TEXT',
+						'null'       => false,
+				),
          'deleted' => array(
             'type'       => 'TINYINT',
             'constraint' => 1,
