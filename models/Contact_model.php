@@ -96,7 +96,7 @@ class Contact_model extends BF_Model{
     }
 
     function search_list_json($term){
-			
+
       $like = array('display_name' => $term);
       $this->db->select("contacts.id_contact as value,contacts.display_name as text");
       $this->db->from('contacts');
@@ -111,16 +111,19 @@ class Contact_model extends BF_Model{
 
     public function get_markersbound($north,$south,$east,$west){
 
-     $coordinates = $this->db->query("
-         SELECT
-         c.id_contact as idc,c.display_name as name, c.contact_type, MAX(CASE WHEN m.meta_key = 'lat' THEN m.meta_value END) AS 'lat',
-         MAX(CASE WHEN m.meta_key = 'lng' THEN m.meta_value END) AS 'lng' FROM contacts c
-         INNER JOIN contact_meta m ON c.id_contact = m.contact_id
-         GROUP BY c.id_contact
-         HAVING lat <= $north and lat >= $south and lng <= $east and lng >= $west
-     ");
+     $this->db->select("
+         contacts.id_contact as idc,contacts.display_name as name, MAX(CASE WHEN {$this->db->dbprefix}contact_meta.meta_key = 'lat' THEN {$this->db->dbprefix}contact_meta.meta_value END) AS 'lat',
+         MAX(CASE WHEN {$this->db->dbprefix}contact_meta.meta_key = 'lng' THEN {$this->db->dbprefix}contact_meta.meta_value END) AS 'lng'");
+				 $this->db->from("contacts");
+         $this->db->join("contact_meta","contacts.id_contact = contact_meta.contact_id");
+         $this->db->group_by("id_contact");
+         //$this->db->having("lat <= '{$north}'");
+				 //$this->db->having("lat >= '{$south}'");
+				 //$this->db->having("lng <= '{$east}'");
+				 //$this->db->having("lng >= '{$west}'");
 
-     return $coordinates->result_array();
+				 $coordinates = $this->db->get();
+		     return $coordinates->result_array();
 
 
     }
@@ -139,8 +142,6 @@ class Contact_model extends BF_Model{
      * @return stdClass An object with the key/value pairs, or an empty object.
      */
     public function find_meta_for($user_id = null, $fields = null){
-
-			$this->db->cache_on();
 
         // Is $user_id the right data type?
         if (! is_numeric($user_id)) {
@@ -163,8 +164,6 @@ class Contact_model extends BF_Model{
             $result->{$key} = $row->meta_value;
         }
 
-
-				$this->db->cache_off();
 
         return $result;
     }

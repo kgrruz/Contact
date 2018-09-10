@@ -1,6 +1,6 @@
 <div class="card">
 <div class="card-header"><?php echo $toolbar_title; ?></div>
-<?php  if($contatos){ ?>
+<?php if($contatos){ ?>
 <div class="table-responsive ">
 
   <?php echo form_open(); ?>
@@ -21,10 +21,11 @@
 
       <tr>
             <td class="pl-3"><input type="checkbox" name="checked[]" value="<?php echo $contato->id_contact; ?>" /></td>
-            <td><i class="fa fa-user-circle-o" aria-hidden="true"></i></td>
+            <td><?php echo ($contato->contact_type == 1)? '<i class="fa fa-user-circle-o" aria-hidden="true"></i>':'<i class="fa fa-building" aria-hidden="true"></i>'; ?> <?php echo ($contato->is_user)? '<i class="fa fa-key"></i>':''; ?></td>
             <td><?php echo anchor('contato/'.$contato->slug_contact,$contato->display_name); ?></td>
             <td><?php echo mailto($contato->email); ?></td>
             <td><?php echo $contato->phone; ?></td>
+            <td><?php echo $contato->city; ?></td>
             <td><?php echo date('d/m/Y H:i',strtotime($contato->created_on)); ?></td>
 
             <td>

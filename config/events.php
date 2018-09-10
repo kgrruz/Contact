@@ -22,9 +22,6 @@
 */
 
 
-
-
-
     $config['search_geral'][] = array(
             'module'     => 'contact',
             'filepath'   => 'controllers',
@@ -73,3 +70,28 @@
             'class'  => 'Events_contact',
             'method'     => 'company_contacts'
         );
+
+        $config['get_notifications_user'][] = array(
+                'module'     => 'contact',
+                'filepath'   => 'controllers',
+                'filename'   => 'Events_contact.php',
+                'class'  => 'Events_contact',
+                'method'     => 'get_user_notif'
+            );
+
+
+            $config['show_create_contact_field'][] = array(
+                    'module'     => 'contact',
+                    'filepath'   => 'controllers',
+                    'filename'   => 'Events_contact.php',
+                    'class'  => 'Events_contact',
+                    'method'     => '_form_widget'
+                );
+
+            $config['get_markers'][] = array(
+                    'module'     => 'contact',
+                    'filepath'   => 'controllers',
+                    'filename'   => 'Events_contact.php',
+                    'class'  => 'Events_contact',
+                    'method'     => '_get_markersbound'
+                );

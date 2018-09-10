@@ -32,8 +32,7 @@ class Contact extends Front_Controller{
         $this->nested_set->setControlParams('groups','lft','rgt','id_group','parent_group','group_name');
 
         Assets::add_module_css('contact', 'contact.css');
-        Assets::add_module_js('contact','jquery.geocomplete.min.js');
-        Assets::add_module_js('contact', 'contact.js');
+        //Assets::add_module_js('contact', 'contact.js');
         Assets::add_module_js('contact', 'group.js');
         Assets::add_module_js('contact', 'group_contact.js');
 
@@ -66,13 +65,21 @@ class Contact extends Front_Controller{
           }
       }
 
-      $this->db->cache_on();
+
 
       $offset = $this->uri->segment(3);
       $where = array('contacts.deleted'=>0);
 
       $this->contact_model->limit($this->limit, $offset)->where($where);
       $this->db->order_by('display_name','asc');
+      $this->db->group_by('id_contact');
+      $this->contact_model->select("
+      MAX(CASE WHEN meta_key = 'is_user' THEN meta_value END) AS 'is_user',
+      MAX(CASE WHEN meta_key = 'city' THEN meta_value END) AS 'city',
+      MAX(CASE WHEN meta_key = 'contact_type' THEN meta_value END) AS 'contact_type',
+      id_contact,display_name,slug_contact,phone,email,contacts.created_on as created_on
+      ");
+      $this->contact_model->join('contact_meta','contact_meta.contact_id = contacts.id_contact','left');
       $contacts = $this->contact_model->find_all();
 
       $this->load->library('pagination');
@@ -82,15 +89,13 @@ class Contact extends Front_Controller{
       $this->pager['total_rows']  = $this->contact_model->where($where)->count_all();
       $this->pager['uri_segment'] = 3;
 
-      $this->db->cache_off();
-
       $this->pagination->initialize($this->pager);
 
       Template::set('toolbar_title', lang('contact_list'));
       Template::set('contatos', $contacts);
 
       Template::set_block('sub_nav_menu', '_menu_module');
-      Template::render('mod_index');
+      Template::render('full_mod_index');
 
     }
 
@@ -244,12 +249,11 @@ class Contact extends Front_Controller{
         }
 
 
+        $contact = $this->contact_model->find_user_and_meta($id);
 
-        $data_html = array('html'=>'');
+        $data_html = array('html'=>'','contact'=>$contact);
         Events::trigger('show_create_contact',$data_html);
         Template::set('data_html',$data_html['html']);
-
-        $contact = $this->contact_model->find_user_and_meta($id);
 
         Template::set('contact', $contact);
         Template::set('my_groups', $this->group_model->get_contact_groups_array($id));
@@ -381,7 +385,7 @@ class Contact extends Front_Controller{
 
        $this->authenticate($this->permissionView,'/desktop');
 
-       $this->output->cache(5);
+       //$this->output->cache(5);
 
            $id = $this->uri->segment(2);
 
@@ -414,6 +418,7 @@ class Contact extends Front_Controller{
 
            Events::trigger('show_profile_contact',$data);
            Template::set('function_tab',$function);
+
            Template::set('data',$data['data_table']);
            Template::set('view_page', $data['view_page']);
 
@@ -429,14 +434,6 @@ class Contact extends Front_Controller{
            Template::set_message(lang('contact_invalid_id'), 'danger');
            redirect('contact');
          }
-
-     }
-
-
-
-     function get_markers(&$data_json){
-
-       array_push($data_json['markers'],$this->contact_model->get_markersbound($data_json['north'],$data_json['south'],$data_json['east'],$data_json['west']));
 
      }
 
@@ -551,8 +548,5 @@ class Contact extends Front_Controller{
 			 $this->db->insert('contact_meta',$contact_data_meta_state);
 
 		 }
-
-
-
 
 }

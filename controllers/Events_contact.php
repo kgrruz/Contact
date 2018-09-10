@@ -30,8 +30,8 @@ class Events_contact{
             array_push($html,array('<hr><div class="media">
      <img class="mr-3" style="width:64px" src="'.contact_avatar($result->email, 64, null,false,null).'" alt="contact_photo">
      <div class="media-body">
-       <h5 class="mt-0">'.anchor('contato/'.$result->slug_contact,$result->display_name).'</h5>'.
-       $result->country.'</br>'.anchor('contact/edit/'.$result->slug_contact,'edit').'
+       <h5 class="my-0">'.anchor('contato/'.$result->slug_contact,$result->display_name).'</h5>'.
+       $result->country.anchor('contact/edit/'.$result->slug_contact,lang('contact_edit')).'
      </div>
    </div>'));
 
@@ -44,6 +44,14 @@ class Events_contact{
           array_push($data['data'],array('module_real'=>'contact','module'=>lang('contact_module_name'),'result'=>$html,'total'=>$total));
 
         }
+      }
+
+      public function _kanban(&$data){
+
+
+
+
+
       }
 
       function company_contacts(&$data){
@@ -63,8 +71,13 @@ class Events_contact{
 
             $this->CI->load->library('pagination');
 
-            $this->CI->pager['base_url']    = base_url()."sells/contact_purchase/";
+            $this->CI->pager['base_url']    = base_url()."comp/contact_purchase/";
             $this->CI->pager['per_page']    = 12;
+
+            $this->CI->db->select("*");
+            $this->CI->db->from("contact_meta");
+            $this->CI->db->join('contacts','contacts.id_contact = contact_meta.contact_id');
+            $this->CI->db->group_by('contacts.id_contact');
             $this->CI->pager['total_rows']  = $this->CI->db->where($where)->count_all();
             $this->CI->pager['uri_segment'] = 3;
 
@@ -74,7 +87,8 @@ class Events_contact{
 
             $data['view_page'] = 'contact/company/index';
 
-                }
+
+          }
       }
 
 
@@ -132,4 +146,43 @@ class Events_contact{
        array_push($records,$result);
 
       }
+
+      public function _form_widget(&$html){
+
+        $this->CI->load->model('contact/contact_model');
+        $this->CI->contact_model->where('deleted',0);
+        $data['contacts'] = $this->CI->contact_model->find_all();
+        $html['html'] =  $this->CI->load->view('contact/form_widget',$data,true);
+
+      }
+
+      public function get_user_notif(&$payload){
+
+          $this->CI->lang->load('contact/contact');
+
+          $notifications = $this->CI->notification_model->get_user_notifications('contact');
+
+          foreach($notifications->result() as $not){
+
+            array_push($payload['data'],
+            array(
+            'photo_avatar'=>$not->photo_avatar,
+            'activity'=>$not->activity,
+            'display_name'=>$not->display_name,
+            'email'=>$not->email,
+            'created_on'=>$not->created_on,
+            'username'=>$not->username
+          ));
+
+          }
+
+        }
+
+        function _get_markersbound(&$data_json){
+
+          $this->CI->load->model('contact/contact_model');
+
+          array_push($data_json['markers'],$this->CI->contact_model->get_markersbound($data_json['north'],$data_json['south'],$data_json['east'],$data_json['west']));
+
+        }
   }

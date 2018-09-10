@@ -9,16 +9,11 @@
         <?php if(!empty($contact->is_user)){
 
             $user = $this->user_model->find_by('id',$contact->is_user);
-
             echo user_avatar($user->photo_avatar,$user->email, 224,'card-img-top img-fluid w-100', true,'med','profile_photo');
 
             }else{
-
             echo contact_avatar($contact->email, 224,'card-img-top img-fluid w-100',true,'profile_photo');
-
-          }
-
-          ?>
+          }?>
 
   <div class="card-body">
     <h4 class="card-title"><?php echo $contact->display_name; ?></h4>
@@ -47,7 +42,7 @@
 
   <div class="card mb-3">
 
-    <div class="card-header"><?php echo lang('parent_user_account'); ?></div>
+    <div class="card-header"><i class="fa fa-key"></i> <?php echo lang('parent_user_account'); ?></div>
       <div class="card-body">
   <div class="media">
     <?php echo user_avatar($user->photo_avatar,$user->email, 50,'rounded d-flex mr-3', true,'thumbs'); ?>
@@ -79,7 +74,7 @@
     $this->load->view($view_page);
 
   } else{ ?>
-    
+
 <div class="text-center">
     <h4 class="card-title"><?php echo lang('contact_nothing_show_title'); ?></h4>
       <p class="card-text"><?php echo lang('contact_nothing_show_desc'); ?></p>
