@@ -8,7 +8,7 @@ $config['module_config'] = array(
 	'label'       => array('english'=>'contacts','portuguese_br'=>'contatos'),
 	'route'       => 'contact',
 	'visible_module' => true,
-	'version'		=> '1.1.1',
+	'version'		=> '1.2.0',
 	'author'		=> 'admin',
 	'tab_company'=>array(
 		'label'=> array('english'=>'contacts','portuguese_br'=>'contatos'),
