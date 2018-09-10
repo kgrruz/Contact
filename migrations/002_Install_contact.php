@@ -20,7 +20,7 @@ class Migration_Install_contact extends Migration
             'type'       => 'VARCHAR',
             'constraint' => 255,
             'null'       => false,
-        ), 
+        ),
            'slug_contact' => array(
             'type'       => 'VARCHAR',
             'constraint' => 255,
@@ -34,7 +34,7 @@ class Migration_Install_contact extends Migration
         'phone' => array(
             'type'       => 'VARCHAR',
             'constraint' => 30,
-            'null'       => false
+            'null'       => true
         ),
         'timezone' => array(
             'type'       => 'VARCHAR',

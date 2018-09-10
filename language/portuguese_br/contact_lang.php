@@ -26,7 +26,7 @@ $lang['contact_delete_record']   = 'Excluir este(a) contato';
 $lang['contact_delete_confirm']  = 'Você tem certeza que deseja excluir este(a) contact?';
 $lang['contact_edit_heading']    = 'Editar contato';
 $lang['parent_user_account']    = 'Conta associada';
-$lang['contact_settings']    = 'Configurações dos contatos';
+$lang['contact_settings']       = 'Configurações dos contatos';
 $lang['contact_general_settings']    = 'Geral';
 
 // Create/Edit Buttons
@@ -82,6 +82,7 @@ $lang['contact_card_locale'] = 'Local';
 $lang['contact_key_map'] = 'API maps key';
 $lang['contact_email_require'] = 'Email obrigatório';
 $lang['contact_save_settings'] = 'Guardar configurações';
-
+$lang['contact_select_contact'] = 'Selecione o contato';
+$lang['contact_field_display_name_widget'] = 'Contato';
 
 $lang['contact_desc_form_create'] = 'Adicione e/ou edite as informações dos seus contatos.';

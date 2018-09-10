@@ -8,7 +8,7 @@ class Migration_Install_group_contact extends Migration
 	private $table_name = 'contacts_groups';
 
 	/**
-	 * @var array The table's fields 
+	 * @var array The table's fields
 	 */
 	private $fields = array(
 		'id_join_group' => array(
@@ -28,7 +28,7 @@ class Migration_Install_group_contact extends Migration
         ),
     	'created_on' => array(
             'type'       => 'datetime',
-            'default'    => '0000-00-00 00:00:00',
+            'default'    => date('Y-m-d H:i:s'),
         )
 	);
 
