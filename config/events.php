@@ -63,7 +63,7 @@
             'method'     => 'Create_user_contact'
         );
 
-    $config['show_profile_company'][] = array(
+    $config['show_profile_contact'][] = array(
             'module'     => 'contact',
             'filepath'   => 'controllers',
             'filename'   => 'Events_contact.php',
@@ -94,4 +94,12 @@
                     'filename'   => 'Events_contact.php',
                     'class'  => 'Events_contact',
                     'method'     => '_get_markersbound'
+                );
+
+            $config['after_login'][] = array(
+                    'module'     => 'contact',
+                    'filepath'   => 'controllers',
+                    'filename'   => 'Customer.php',
+                    'class'  => 'Customer',
+                    'method'     => '_redirect_complete_geo'
                 );
