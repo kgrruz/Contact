@@ -10,8 +10,11 @@ $config['module_config'] = array(
 	'visible_module' => true,
 	'version'		=> '1.2.0',
 	'author'		=> 'admin',
-	'tab_company'=>array(
-		'label'=> array('english'=>'contacts','portuguese_br'=>'contatos'),
-		'url'=>'company_contacts'
+	'tab_contact'=>array(
+		'label'=> array('english'=>'Employees','portuguese_br'=>'Funcionários'),
+		'url'=>'company_contacts',
+		'contact_type'=>array(2)
 	)
 );
+
+$config['load_gravatar'] = false;

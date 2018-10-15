@@ -31,7 +31,7 @@ class Events_contact{
      <img class="mr-3" style="width:64px" src="'.contact_avatar($result->email, 64, null,false,null).'" alt="contact_photo">
      <div class="media-body">
        <h5 class="my-0">'.anchor('contato/'.$result->slug_contact,$result->display_name).'</h5>'.
-       $result->country.anchor('contact/edit/'.$result->slug_contact,lang('contact_edit')).'
+       $result->country.' '.anchor('contact/edit/'.$result->slug_contact,lang('contact_edit')).'
      </div>
    </div>'));
 
@@ -50,36 +50,37 @@ class Events_contact{
 
 
 
-
-
       }
 
       function company_contacts(&$data){
 
       if($data['function'] == __FUNCTION__){
 
-            $offset = $this->CI->uri->segment(3);
+            $offset = $this->CI->uri->segment(4);
 
-            $where = array('contact_meta.meta_key'=>'company','contact_meta.meta_value'=>$data['id_company']);
+            $where = array('company'=>$data['id_contact']);
 
-            $this->CI->db->select("*");
-            $this->CI->db->from("contact_meta");
-            $this->CI->db->join('contacts','contacts.id_contact = contact_meta.contact_id');
-            $this->CI->db->group_by('contacts.id_contact');
-            $this->CI->db->limit(12, $offset)->where($where);
-            $contacts = $this->CI->db->get();
+            $this->CI->contact_model->select("
+              MAX(CASE WHEN meta_key = 'company' THEN meta_value END) AS 'company',
+              MAX(CASE WHEN meta_key = 'job_role' THEN meta_value END) AS 'cargo',
+              MAX(CASE WHEN meta_key = 'resp_equip' THEN meta_value END) AS 'resp_equip',
+              id_contact,display_name,contact_type,slug_contact,phone,email,contacts.created_on as created_on");
+            $this->CI->contact_model->join('contact_meta','contact_meta.contact_id = contacts.id_contact','left');
+            $this->CI->contact_model->group_by('contacts.id_contact');
+            $this->CI->contact_model->having($where);
+            $this->CI->contact_model->limit(12, $offset);
+            $contacts = $this->CI->contact_model->find_all();
+
 
             $this->CI->load->library('pagination');
 
-            $this->CI->pager['base_url']    = base_url()."comp/contact_purchase/";
+            $this->CI->pager['base_url']    = base_url()."contato/".$data['slug']."/company_contacts/";
             $this->CI->pager['per_page']    = 12;
-
-            $this->CI->db->select("*");
-            $this->CI->db->from("contact_meta");
-            $this->CI->db->join('contacts','contacts.id_contact = contact_meta.contact_id');
-            $this->CI->db->group_by('contacts.id_contact');
-            $this->CI->pager['total_rows']  = $this->CI->db->where($where)->count_all();
-            $this->CI->pager['uri_segment'] = 3;
+            $this->CI->contact_model->select("MAX(CASE WHEN meta_key = 'company' THEN meta_value END) AS 'company'");
+            $this->CI->contact_model->join('contact_meta','contact_meta.contact_id = contacts.id_contact','left');
+            $this->CI->contact_model->group_by('contacts.id_contact');
+            $this->CI->pager['total_rows']  = $this->CI->contact_model->having($where)->count_all();
+            $this->CI->pager['uri_segment'] = 4;
 
             $this->CI->pagination->initialize($this->CI->pager);
 
@@ -94,8 +95,6 @@ class Events_contact{
 
       public function _ajax_search(&$records){
 
-       $this->CI->db->cache_on();
-
        $this->CI->db->select("
        MAX(IF({$this->CI->db->dbprefix}contact_meta.meta_key='lat',{$this->CI->db->dbprefix}contact_meta.meta_value,0)) AS lat,
        MAX(IF({$this->CI->db->dbprefix}contact_meta.meta_key='lng',{$this->CI->db->dbprefix}contact_meta.meta_value,0)) AS lng,
@@ -107,9 +106,10 @@ class Events_contact{
        $this->CI->db->from('contacts');
        $this->CI->db->join('contact_meta','contact_meta.contact_id = contacts.id_contact','left');
        $this->CI->db->like('display_name',$this->CI->input->get('query'));
+       $this->CI->db->group_by("id_contact");
+       $this->CI->db->limit(5);
        $contacts = $this->CI->db->get();
 
-       $this->CI->db->cache_off();
 
        $result = array();
 
@@ -151,9 +151,18 @@ class Events_contact{
 
         $this->CI->load->model('contact/contact_model');
         $this->CI->contact_model->where('deleted',0);
+        if(isset($html['contact_id'])){ $data['contact_id'] = $html['contact_id']; };
         $data['contacts'] = $this->CI->contact_model->find_all();
         $html['html'] =  $this->CI->load->view('contact/form_widget',$data,true);
 
+      }
+
+      function _show_widget_button(){
+
+      if (has_permission($this->permissionView)) {
+            return anchor('contact/create/2',lang('contact_action_create'),'class="btn btn-success"');
+
+          }
       }
 
       public function get_user_notif(&$payload){
@@ -183,6 +192,7 @@ class Events_contact{
           $this->CI->load->model('contact/contact_model');
 
           array_push($data_json['markers'],$this->CI->contact_model->get_markersbound($data_json['north'],$data_json['south'],$data_json['east'],$data_json['west']));
+
 
         }
   }
