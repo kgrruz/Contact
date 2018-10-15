@@ -13,12 +13,12 @@ class Contact_model extends BF_Model{
 	protected $set_modified = true;
 	protected $soft_deletes	= true;
 
-		protected $created_field     = 'created_on';
-		protected $created_by_field  = 'created_by';
-		protected $modified_field    = 'modified_on';
-		protected $modified_by_field = 'modified_by';
-		protected $deleted_field     = 'deleted';
-		protected $deleted_by_field  = 'deleted_by';
+	protected $created_field     = 'created_on';
+	protected $created_by_field  = 'created_by';
+	protected $modified_field    = 'modified_on';
+	protected $modified_by_field = 'modified_by';
+	protected $deleted_field     = 'deleted';
+	protected $deleted_by_field  = 'deleted_by';
 
 	// Customize the operations of the model without recreating the insert,
     // update, etc. methods by adding the method names to act as callbacks here.
@@ -57,6 +57,11 @@ class Contact_model extends BF_Model{
 			'label' => 'lang:contact_field_timezone',
 			'rules' => 'trim|alpha_numeric|max_length[10]',
 		),
+		array(
+			'field' => 'city',
+			'label' => 'lang:contact_field_city',
+			'rules' => 'required',
+		)
 	);
 	protected $insert_validation_rules  = array();
 	protected $skip_validation 			= false;
@@ -112,15 +117,22 @@ class Contact_model extends BF_Model{
     public function get_markersbound($north,$south,$east,$west){
 
      $this->db->select("
-         contacts.id_contact as idc,contacts.display_name as name, MAX(CASE WHEN {$this->db->dbprefix}contact_meta.meta_key = 'lat' THEN {$this->db->dbprefix}contact_meta.meta_value END) AS 'lat',
-         MAX(CASE WHEN {$this->db->dbprefix}contact_meta.meta_key = 'lng' THEN {$this->db->dbprefix}contact_meta.meta_value END) AS 'lng'");
+         'contact' as module,
+				 'bigcity.png' as icon,contacts.id_contact as idc,
+				 contacts.display_name as name,
+				 MAX(CASE WHEN {$this->db->dbprefix}contact_meta.meta_key = 'city' THEN {$this->db->dbprefix}contact_meta.meta_value END) AS 'city',
+				 MAX(CASE WHEN {$this->db->dbprefix}contact_meta.meta_key = 'adress' THEN {$this->db->dbprefix}contact_meta.meta_value END) AS 'adress',
+				 MAX(CASE WHEN {$this->db->dbprefix}contact_meta.meta_key = 'num_adress' THEN {$this->db->dbprefix}contact_meta.meta_value END) AS 'num_adress',
+				 MAX(CASE WHEN {$this->db->dbprefix}contact_meta.meta_key = 'lat' THEN {$this->db->dbprefix}contact_meta.meta_value END) AS 'lat',
+         MAX(CASE WHEN {$this->db->dbprefix}contact_meta.meta_key = 'lng' THEN {$this->db->dbprefix}contact_meta.meta_value END) AS 'lng'
+				 ");
 				 $this->db->from("contacts");
-         $this->db->join("contact_meta","contacts.id_contact = contact_meta.contact_id");
+         $this->db->join("contact_meta","contacts.id_contact = contact_meta.contact_id","left");
          $this->db->group_by("id_contact");
-         //$this->db->having("lat <= '{$north}'");
-				 //$this->db->having("lat >= '{$south}'");
-				 //$this->db->having("lng <= '{$east}'");
-				 //$this->db->having("lng >= '{$west}'");
+         $this->db->having("cast(lat as DECIMAL(10,2)) <= '{$north}'");
+				 $this->db->having("cast(lat as DECIMAL(10,2)) >= '{$south}'");
+				 $this->db->having("cast(lng as DECIMAL(10,2)) <= '{$east}'");
+				 $this->db->having("cast(lng as DECIMAL(10,2)) >= '{$west}'");
 
 				 $coordinates = $this->db->get();
 		     return $coordinates->result_array();
