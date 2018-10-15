@@ -25,23 +25,21 @@ class Contact extends Front_Controller{
         $this->lang->load('contact/group');
 
         $this->load->helper('contact/contact');
-
-
         $this->load->library('contact/Nested_set');
 
         $this->nested_set->setControlParams('groups','lft','rgt','id_group','parent_group','group_name');
 
+        Assets::add_module_js('contact', 'tour.js');
+
         Assets::add_module_css('contact', 'contact.css');
-        //Assets::add_module_js('contact', 'contact.js');
+
+        Assets::add_module_js('contact', 'contact.js');
         Assets::add_module_js('contact', 'group.js');
         Assets::add_module_js('contact', 'group_contact.js');
 
         $this->form_validation->set_error_delimiters("<span class='danger'>", "</span>");
 
     }
-
-
-
 
     /**
      * Display a list of Contact data.
@@ -51,7 +49,6 @@ class Contact extends Front_Controller{
     public function index(){
 
       $this->authenticate($this->permissionView,'desktop');
-
 
       if (isset($_POST['delete'])) {
           $checked = $this->input->post('checked');
@@ -65,20 +62,35 @@ class Contact extends Front_Controller{
           }
       }
 
-
+      if($_GET){
+      $url_parameters =  http_build_query($_GET);
+      $this->pager['suffix'] = '?' . http_build_query($_GET, '', "&");
+      }
 
       $offset = $this->uri->segment(3);
       $where = array('contacts.deleted'=>0);
+
+
+      if(isset($_GET['term'])){
+
+        $this->contact_model->like("contacts.display_name",$_GET['term']);
+
+      }
+
+      if(isset($_GET['contact_type']) and $_GET['contact_type'] != 0){
+
+        $this->contact_model->where("contacts.contact_type",$_GET['contact_type']);
+
+      }
 
       $this->contact_model->limit($this->limit, $offset)->where($where);
       $this->db->order_by('display_name','asc');
       $this->db->group_by('id_contact');
       $this->contact_model->select("
-      MAX(CASE WHEN meta_key = 'is_user' THEN meta_value END) AS 'is_user',
-      MAX(CASE WHEN meta_key = 'city' THEN meta_value END) AS 'city',
-      MAX(CASE WHEN meta_key = 'contact_type' THEN meta_value END) AS 'contact_type',
-      id_contact,display_name,slug_contact,phone,email,contacts.created_on as created_on
-      ");
+        MAX(CASE WHEN meta_key = 'is_user' THEN meta_value END) AS 'is_user',
+        MAX(CASE WHEN meta_key = 'city' THEN meta_value END) AS 'city',
+        id_contact,display_name,contact_type,slug_contact,phone,email,contacts.created_on as created_on
+        ");
       $this->contact_model->join('contact_meta','contact_meta.contact_id = contacts.id_contact','left');
       $contacts = $this->contact_model->find_all();
 
@@ -86,6 +98,19 @@ class Contact extends Front_Controller{
 
       $this->pager['base_url']    = base_url()."contact/index/";
       $this->pager['per_page']    = $this->limit;
+
+      if(isset($_GET['term'])){
+
+        $this->contact_model->like("contacts.display_name",$_GET['term']);
+
+      }
+
+      if(isset($_GET['contact_type']) and $_GET['contact_type'] != 0){
+
+        $this->contact_model->where("contacts.contact_type",$_GET['contact_type']);
+
+      }
+
       $this->pager['total_rows']  = $this->contact_model->where($where)->count_all();
       $this->pager['uri_segment'] = 3;
 
@@ -95,7 +120,7 @@ class Contact extends Front_Controller{
       Template::set('contatos', $contacts);
 
       Template::set_block('sub_nav_menu', '_menu_module');
-      Template::render('full_mod_index');
+      Template::render('mod_index');
 
     }
 
@@ -110,7 +135,7 @@ class Contact extends Front_Controller{
         $this->authenticate($this->permissionCreate);
 
         $this->load->config('contact_meta');
-        $meta_fields = config_item('person_meta_fields');
+
         $this->load->config('address');
         $this->load->helper('address');
 
@@ -120,22 +145,33 @@ class Contact extends Front_Controller{
 
         if (isset($_POST['save'])) {
 
+            if($_POST['contact_type'] == 1){ $meta_fields = config_item('person_meta_fields'); }else{ $meta_fields = config_item('company_meta_fields'); }
+
             if ($insert_id = $this->save_contact('insert',0,$meta_fields)) {
 
               $data_insert = array('contact_id'=>$insert_id,'post_data'=>$_POST);
 
               Events::trigger('insert_contact',$data_insert);
 
-              $id_act = log_activity($this->auth->user_id(), lang('contact_act_create_record') . ': ' . $this->contact_model->find($insert_id)->display_name , 'contact');
+              $inserted_contact = $this->contact_model->find($insert_id);
 
-              log_notify($this->user_model->get_id_users_role('id',array(4,1)), $id_act);
+              $msg_event = lang('contact_act_create_record') . ': ' . $inserted_contact->display_name;
 
-              Template::set_message(lang('contact_create_success'), 'success');
+              $data_sse = array('event'=>'refresh_not','msg'=>$msg_event,'to'=>array(4,1),'timestamp'=>now());
+
+              Events::trigger('sse_event',$data_sse);
+
+              $id_act = log_activity($this->auth->user_id(), $msg_event , 'contact');
+
+              log_notify($this->auth->users_has_permission($this->permissionView), $id_act);
+
+              Template::set_message(lang('contact_create_success').$_POST['equip_rad_resp'], 'success');
 
               $this->db->cache_delete('sells', 'search_customer_sell');
               $this->db->cache_delete('contacts', 'index');
 
-               if($sell_redirect){ Template::redirect('sells/create/'.$insert_id); } else { Template::redirect('contacts');  }
+             Template::redirect('contato/'.$inserted_contact->slug_contact);
+
             }
 
             // Not validation error
@@ -144,18 +180,35 @@ class Contact extends Front_Controller{
             }
         }
 
-        $data_html = array('html'=>'');
+        $type = $this->uri->segment(3,1);
+
+        $data_html = array('html'=>'','type'=>$type);
         Events::trigger('show_create_contact',$data_html);
         Template::set('data_html',$data_html['html']);
         Template::set('groups',$this->group_model->find_all());
-        Template::set('meta_fields',$meta_fields);
-        Template::set('toolbar_title', lang('contact_action_create'));
+
 
         $parent_node = $this->nested_set->getNodeWhere(array('id_group'=>1));
         $tree = $this->nested_set->getSubTree($parent_node);
 
         Template::set('tree', $tree);
 
+        if($type == 1){
+        $ext = " - ".lang('contact_contact');
+        Template::set('selected_company',$this->uri->segment(4));
+        $this->contact_model->where('contact_type',2);
+        Template::set('companies', $this->contact_model->find_all());
+
+      }else{
+
+        $ext = " - ".lang('contact_company');
+
+      }
+
+
+        Template::set('toolbar_title', lang('contact_action_create').$ext);
+
+        Template::set('contact_type', $type);
         Template::set_block('sub_nav_menu', '_menu_module');
         Template::render('mod_index');
     }
@@ -251,7 +304,7 @@ class Contact extends Front_Controller{
 
         $contact = $this->contact_model->find_user_and_meta($id);
 
-        $data_html = array('html'=>'','contact'=>$contact);
+        $data_html = array('html'=>'','contact'=>$contact,'type'=>$contact->contact_type);
         Events::trigger('show_create_contact',$data_html);
         Template::set('data_html',$data_html['html']);
 
@@ -262,6 +315,7 @@ class Contact extends Front_Controller{
         $tree = $this->nested_set->getSubTree($parent_node);
 
         Template::set('tree', $tree);
+        Template::set('contact_type', $contact->contact_type);
 
         Template::set('toolbar_title', lang('contact_edit_heading'));
         Template::set_view('create');
@@ -353,16 +407,9 @@ class Contact extends Front_Controller{
         $this->load->library('slug', $config);
         $data['slug_contact'] = $this->slug->create_uri($this->input->post('display_name'));
 
-
-      //  $data_coord = $this->gmaps->geoLocal($metaData['city'].' '.$metaData['neibor'].' '.$metaData['adress'].' '.$metaData['num_adress']);
-
-      //  $metaData['lat'] = $data_coord->lat;
-      //  $metaData['lng'] = $data_coord->lng;
-        // Additional handling for default values should be added below,
-        // or in the model's prep_data() method
-
         $return = false;
         if ($type == 'insert') {
+
             $id = $this->contact_model->insert($data);
 
             if (is_numeric($id)) {
@@ -370,6 +417,16 @@ class Contact extends Front_Controller{
             }
         } elseif ($type == 'update') {
             $return = $this->contact_model->update($id, $data);
+
+            if(isset($_POST['company']) and $_POST['company'] != 0){
+
+               $this->db->where('id_company_join',$_POST['company']);
+               $this->db->where('id_contact_join',$id);
+               $this->db->delete('companies_contacts');
+               $this->db->insert('companies_contacts',array('id_company_join'=>$_POST['company'],'id_contact_join'=>$id));
+
+            }
+
         }
 
 
@@ -384,8 +441,6 @@ class Contact extends Front_Controller{
      public function profile(){
 
        $this->authenticate($this->permissionView,'/desktop');
-
-       //$this->output->cache(5);
 
            $id = $this->uri->segment(2);
 
@@ -414,12 +469,13 @@ class Contact extends Front_Controller{
 
            $function = $this->uri->segment(3,$tabs[0]['url']);
 
-           $data = array('function'=>$function,'view_page'=>'','id_contact'=>$id,'data_table'=>'');
+           $data = array('function'=>$function,'view_page'=>'','id_contact'=>$id,'data_table'=>'','slug'=>$contact->slug_contact);
 
            Events::trigger('show_profile_contact',$data);
            Template::set('function_tab',$function);
 
            Template::set('data',$data['data_table']);
+           Template::set('id_contact',$data['id_contact']);
            Template::set('view_page', $data['view_page']);
 
            }
@@ -529,24 +585,27 @@ class Contact extends Front_Controller{
 				 'contact_id'=> $id
 			 );
 
-			 $this->db->insert('contact_meta',$contact_data_meta);
-
-			 $contact_data_meta_country = array(
-				 'meta_key'=> 'country',
-				 'meta_value'=> $user->country,
-				 'contact_id'=> $id
-			 );
-
-			 $this->db->insert('contact_meta',$contact_data_meta_country);
-
-			 $contact_data_meta_state = array(
-				 'meta_key'=> 'state',
-				 'meta_value'=> $user->state,
-				 'contact_id'=> $id
-			 );
-
-			 $this->db->insert('contact_meta',$contact_data_meta_state);
 
 		 }
+
+     public function info_popover($id){
+
+       if (!$this->input->is_ajax_request()) {  exit('No direct script access allowed'); }
+
+       $this->authenticate($this->permissionCreate);
+
+       $contact = $this->contact_model->find($id);
+
+       $this->output->set_output('
+  <img class="card-img-top" src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a8/JackMcCauley.jpg/300px-JackMcCauley.jpg" alt="Card image cap">
+  <div class="card-body">
+    <h5 class="card-title">'.$contact->display_name.'</h5>
+    <p class="card-text">'.$contact->phone.'</p>
+    </div>');
+
+     }
+
+
+
 
 }

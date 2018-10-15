@@ -1,10 +1,32 @@
-<div class="card">
-<div class="card-header"><?php echo $toolbar_title; ?></div>
+
 <?php if($contatos){ ?>
+
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+
+  <form action="<?php echo uri_string(); ?>" method="get" class="form-inline my-2 my-lg-0">
+
+      <select class="form-control mr-sm-2" name="city">
+        <option value="0">cidade...</option>
+      </select>
+
+      <select class="form-control mr-sm-2" name="contact_type">
+        <option value="0">todos...</option>
+        <option value="1">pessoas...</option>
+        <option value="2">empresas...</option>
+      </select>
+
+      <input class="form-control mr-sm-2" type="search" value="<?php echo set_value('term'); ?>" name="term" placeholder="<?php echo lang('bf_search'); ?>" aria-label="<?php echo lang('bf_search'); ?>">
+      <button class="btn btn-outline-success my-2 my-sm-0" type="submit"><?php echo lang('bf_search'); ?></button>
+    </form>
+  </div>
+</nav>
+
 <div class="table-responsive ">
 
   <?php echo form_open(); ?>
-<table id="table_contacts" class="table table-sm nowrap" cellspacing="0" width="100%">
+<table id="table_contacts" class="table table-sm nowrap border-0" cellspacing="0" width="100%">
     <thead>
         <tr>
             <th class="pl-3"><input class="check-all" type="checkbox" /></th>
@@ -14,6 +36,8 @@
             <th><?php echo lang('contact_column_phone'); ?></th>
 
             <th></th>
+            <th></th>
+            <th></th>
         </tr>
     </thead>
     <tbody>
@@ -21,8 +45,7 @@
 
       <tr>
             <td class="pl-3"><input type="checkbox" name="checked[]" value="<?php echo $contato->id_contact; ?>" /></td>
-            <td><?php echo ($contato->contact_type == 1)? '<i class="fa fa-user-circle-o" aria-hidden="true"></i>':'<i class="fa fa-building" aria-hidden="true"></i>'; ?> <?php echo ($contato->is_user)? '<i class="fa fa-key"></i>':''; ?></td>
-            <td><?php echo anchor('contato/'.$contato->slug_contact,$contato->display_name); ?></td>
+            <td><?php echo ($contato->contact_type == 1)? '<i class="fa fa-user-circle-o" aria-hidden="true"></i>':'<i class="fa fa-building" aria-hidden="true"></i>'; ?> <?php echo ($contato->is_user)? '<i class="fa fa-key"></i>':''; ?></td>            <td><?php echo anchor('contato/'.$contato->slug_contact,$contato->display_name); ?></td>
             <td><?php echo mailto($contato->email); ?></td>
             <td><?php echo $contato->phone; ?></td>
             <td><?php echo $contato->city; ?></td>
@@ -55,11 +78,12 @@
 
 </div>
 
+  <?php if($pags = $this->pagination->create_links()){ ?>
 <div class="card-footer">
-  <?php echo $this->pagination->create_links(); ?>
-
-
+<?php echo $pags; ?>
 </div>
+<?php } ?>
+
 <?php echo form_close(); ?>
 
 <?php } else{ ?>
@@ -71,5 +95,3 @@
 
 </div>
   <?php } ?>
-
-</div>
