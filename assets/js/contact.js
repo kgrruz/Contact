@@ -8,48 +8,18 @@
                 });
 
                 $("input[name='cpf']").inputmask('999.999.999-99');
-                $("input[name='num_adress']").inputmask('*****', {"placeholder": ""});
+                //$("input[name='num_adress']").inputmask('********', {"placeholder": ""});
 
+                $('.postcode').inputmask('99999-999');
+                $('.cnpj').inputmask('99.999.999/9999-99');
 
+                var jr_placeholder = $('.tk_job_role').data('placeholder');
 
-if($('#geocomplete_contact').length){
-
-  if(edit_mode){
-
-
-         var map = $("#geocomplete_contact").geocomplete({
-           map: ".map_canvas",
-           details: "#details",
-           types: ["geocode", "establishment"],
-           mapOptions: {
-           scrollwheel: true
-         }
-
-         });
-
-         map.geocomplete("find",{lat: parseFloat($('#lat').val()), lng: parseFloat($('#lng').val()) });
-
-
-
-}else{
-
-
-  var map = $("#geocomplete_contact").geocomplete({
-    map: ".map_canvas",
-    details: "#details",
-    location: $("#geocomplete_contact").val(),
-    types: ["geocode", "establishment"],
-    detailsAttribute: "data-geo"
-
-  });
-
-}
-
-}
-
-
-
-
+                $('.tk_job_role').tokenize2({
+                    tokensAllowCustom: true,
+                    tokensMaxItems: 1,
+                    placeholder: jr_placeholder
+                });
 
 
     });
