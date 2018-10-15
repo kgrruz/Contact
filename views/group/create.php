@@ -1,11 +1,10 @@
+<div class="card-body">
 
-
-<div class="Subhead">
 <h2 class="Subhead-heading"><?php echo $toolbar_title; ?></h2>
     <p class="Subhead-description">
       <?php echo lang('group_desc_form_create'); ?>
     </p>
-  </div>
+
 
   <?php echo form_open($this->uri->uri_string()); ?>
     <?php if (validation_errors()) : ?>
@@ -66,11 +65,12 @@ $id = isset($group->id_group) ? $group->id_group : '';
 
 
             </div>
+            </div>
 
-            <hr>
+          <div class="card-footer">
                 <input type='submit' value="<?php echo lang('group_action_create'); ?>" class='btn btn-sm btn-primary' />
                 <?php echo lang('bf_or'); ?>
                 <?php echo anchor('contact/group', lang('group_cancel'), 'class="btn btn-sm btn-warning"'); ?>
-
+  </div>
 
   <?php echo form_close(); ?>

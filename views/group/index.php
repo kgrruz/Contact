@@ -1,8 +1,4 @@
 
-
-
-  <div class="card">
-    <div class="card-header"><?php echo $toolbar_title; ?></div>
 <?php if(count($tree['items'])){ ?>
       <div class="table-responsive ">
           <?php echo form_open(); ?>
@@ -59,4 +55,3 @@
 </div>
 </div>
 <?php } ?>
-</div>
