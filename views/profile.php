@@ -1,7 +1,4 @@
-
-
 <div class="row p-3">
-
   <div class="col-md-3">
 
     <div class="card">
@@ -10,16 +7,18 @@
 
             $user = $this->user_model->find_by('id',$contact->is_user);
             echo user_avatar($user->photo_avatar,$user->email, 224,'card-img-top img-fluid w-100', true,'med','profile_photo');
-
             }else{
             echo contact_avatar($contact->email, 224,'card-img-top img-fluid w-100',true,'profile_photo');
-          }?>
+          }
+          ?>
 
   <div class="card-body">
-    <h4 class="card-title"><?php echo $contact->display_name; ?></h4>
+    <h4 class="card-title"><?php echo ($contact->contact_type == 1)? '<i class="fa fa-user-circle-o" aria-hidden="true"></i>':'<i class="fa fa-building" aria-hidden="true"></i>'; ?> <?php echo (isset($contact->is_user))? '<i class="fa fa-key"></i>':''; ?> <?php echo $contact->display_name; ?></h4>
+      <?php echo (!empty($contact->job_role))? '<p class="card-text">'.$contact->job_role.'</p>':''; ?>
     <p class="card-text"><?php echo mailto($contact->email); ?></p>
   </div>
   <ul class="list-group list-group-flush">
+
     	<?php if(isset($contact->country)){ ?>
 				<li class="list-group-item">
 				<i class="fa fa-map-marker" aria-hidden="true"></i>
@@ -28,15 +27,20 @@
 	 <?php echo (isset($contact->adress) and !empty($contact->adress))? $contact->adress:''; ?><?php echo (isset($contact->num_adress) and !empty($contact->num_adress))? '-'.$contact->num_adress:''; ?>
 	  </li>
 	<?php } ?>
+
     <?php echo (!empty($contact->phone))? '<li class="list-group-item">'.$contact->phone.'</li>':''; ?>
+    <?php echo (!empty($contact->phone_2))? '<li class="list-group-item">'.$contact->phone_2.'</li>':''; ?>
+
+    <?php if(isset($contact->company)){ ?>
+    <?php $company = $this->contact_model->find($contact->company);  ?>
+    <li class="list-group-item"><?php echo anchor('contato/'.$company->slug_contact,'<i class="fa fa-building" aria-hidden="true"></i> '.$company->display_name); ?></li>
+<?php } ?>
   </ul>
 
 </div>
-
 </div>
 
 <div class="col-md-9">
-
 
   <?php if(!empty($contact->is_user)){ ?>
 
@@ -60,20 +64,19 @@
     <?php if(count($tabs)){ ?>
     <div class="card-header">
       <ul class="nav nav-tabs card-header-tabs">
-<?php foreach($tabs as $tab){ ?>
-  <li class="nav-item">
-    <a href="<?php echo base_url().'contato/'.$contact->slug_contact.'/'.$tab['url']; ?>"  class="nav-link <?php echo ($function_tab == $tab['url'])? 'active':''; ?> "> <?php echo $tab['label'][$current_user->language]; ?> </a>
-  </li>
-  <?php }  ?>
+        <?php foreach($tabs as $tab){ ?>
+          <?php if(isset($tab['contact_type']) and in_array($contact->contact_type,$tab['contact_type']) or !isset($tab['contact_type'])){ ?>
+          <li class="nav-item">
+            <a href="<?php echo base_url().'contato/'.$contact->slug_contact.'/'.$tab['url']; ?>"  class="nav-link <?php echo ($function_tab == $tab['url'])? 'active':''; ?> "> <?php echo $tab['label'][$current_user->language]; ?> </a>
+          </li>
+        <?php } ?>
+      <?php } ?>
       </ul>
-    </div><?php } ?>
+    </div>
+  <?php } ?>
 
 
-  <?php if(isset($view_page)){
-
-    $this->load->view($view_page);
-
-  } else{ ?>
+  <?php if(isset($view_page)){ $this->load->view($view_page); } else{ ?>
 
 <div class="text-center">
     <h4 class="card-title"><?php echo lang('contact_nothing_show_title'); ?></h4>
@@ -83,10 +86,7 @@
 
   <?php } ?>
 
-
   </div>
-
-
 
 </div>
 </div>

@@ -26,6 +26,11 @@ $config['person_meta_fields'] =  array(
     'rules'  => 'trim'
 	),
 	array(
+		'name'   => 'cpf',
+		'label'  => 'cpf',
+		'rules'  => 'trim'
+	),
+	array(
 		'name'   => 'country',
 		'label'   => lang('user_meta_country'),
 		'rules'   => 'trim|max_length[100]',
@@ -50,6 +55,13 @@ $config['person_meta_fields'] =  array(
                 'maxlength' => '3',
 				'class'		=> 'span1'
 	))),
+
+	array(
+		'name'   => 'postcode',
+		'label'  => 'postcode',
+		'rules'  => 'trim'
+	),
+
 	array(
 		'name'   => 'city',
     'label'  => 'city',
@@ -75,6 +87,16 @@ $config['person_meta_fields'] =  array(
 	array(
 		'name'   => 'lng',
 		'label'  => 'lng',
+		'rules'  => 'trim'
+	),
+	array(
+		'name'   => 'company',
+		'label'  => 'company',
+		'rules'  => 'trim'
+	),
+	array(
+		'name'   => 'job_role',
+		'label'  => 'job_role',
 		'rules'  => 'trim'
 	)
 );
@@ -125,6 +147,11 @@ $config['company_meta_fields'] =  array(
 	array(
 		'name'   => 'city',
     'label'  => 'city',
+    'rules'  => 'trim'
+	),
+	array(
+		'name'   => 'postcode',
+    'label'  => 'postcode',
     'rules'  => 'trim'
 	),
 	array(
