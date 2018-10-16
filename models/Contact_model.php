@@ -100,6 +100,18 @@ class Contact_model extends BF_Model{
 
     }
 
+		function cities_contacts(){
+
+			$this->db->select("meta_value");
+			$this->db->from('contact_meta');
+			$this->db->where('meta_key', 'city');
+			$this->db->group_by("meta_value");
+			$query = $this->db->get();
+
+			return $query;
+
+		}
+
     function search_list_json($term){
 
       $like = array('display_name' => $term);

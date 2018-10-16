@@ -116,6 +116,8 @@ class Contact extends Front_Controller{
 
       $this->pagination->initialize($this->pager);
 
+      Template::set('cities', $this->contact_model->cities_contacts());
+      
       Template::set('toolbar_title', lang('contact_list'));
       Template::set('contatos', $contacts);
 
@@ -166,9 +168,6 @@ class Contact extends Front_Controller{
               log_notify($this->auth->users_has_permission($this->permissionView), $id_act);
 
               Template::set_message(lang('contact_create_success').$_POST['equip_rad_resp'], 'success');
-
-              $this->db->cache_delete('sells', 'search_customer_sell');
-              $this->db->cache_delete('contacts', 'index');
 
              Template::redirect('contato/'.$inserted_contact->slug_contact);
 
@@ -239,9 +238,6 @@ class Contact extends Front_Controller{
             $id_act = log_activity($this->auth->user_id(), lang('contact_act_create_record') . ': ' . $contact->display_name , 'contact');
 
             log_notify($this->user_model->get_id_users_role('id',array(4,1)), $id_act);
-
-            $this->db->cache_delete('sells', 'search_customer_sell');
-            $this->db->cache_delete('contacts', 'index');
 
             $this->output->set_output(json_encode(array('status'=>'success','idc'=>$insert_id,'image'=>gravatar_link($contact->email, 50, $contact->email, $contact->email), 'name'=>$contact->display_name,'message'=>lang('contact_create_success'))));
 

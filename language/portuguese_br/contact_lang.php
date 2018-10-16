@@ -28,6 +28,7 @@ $lang['contact_edit_heading']    = 'Editar contato';
 $lang['parent_user_account']    = 'Conta associada';
 $lang['contact_settings']       = 'Configurações dos contatos';
 $lang['contact_general_settings']    = 'Geral';
+$lang['contact_all_types'] = 'Todos';
 $lang['contact_company'] = 'Empresa';
 $lang['contact_contact'] = 'Pessoa';
 // Create/Edit Buttons
