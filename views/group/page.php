@@ -1,7 +1,7 @@
 
 
 
-<div class="card">
+
 
 <div class="card-body">
 	<h4><?php echo $group->group_name; ?></h4>
@@ -19,7 +19,7 @@
 			<th><?php echo lang('contact_column_display_name'); ?></th>
 			<th><?php echo lang('contact_column_email'); ?></th>
 			<th><?php echo lang('contact_column_phone'); ?></th>
-
+			<th><?php echo lang('contact_column_created'); ?></th>
 			<th></th>
 		</tr>
 </thead>
@@ -54,8 +54,6 @@
 
 <?php }else{ ?>
 <div class="card-body">
-	Nenhum contato neste grupo.
+	<?php echo lang('group_zero_contacts_ingroup'); ?>
 </div>
 <?php } ?>
-
-</div>

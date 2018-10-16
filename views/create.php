@@ -129,7 +129,7 @@ $id = isset($laudo_rad->id) ? $laudo_rad->id : '';
 
 <?php if(!isset($data_html_adress)){ ?>
 
-  <input type="hidden" id="country" name="country" value="Brasil" />
+  <input type="hidden" id="country" name="country" value="BR" />
   <input type="hidden" id="state" name="state" value="MG" />
   <input type="hidden" id="timezone" name="timezone" value="UM3" />
 
