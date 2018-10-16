@@ -19,7 +19,8 @@
                     tokensAllowCustom: true,
                     tokensMaxItems: 1,
                     placeholder: jr_placeholder
-                });
+                  });
 
 
-    });
+
+                    });

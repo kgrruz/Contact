@@ -117,7 +117,7 @@ class Contact extends Front_Controller{
       $this->pagination->initialize($this->pager);
 
       Template::set('cities', $this->contact_model->cities_contacts());
-      
+
       Template::set('toolbar_title', lang('contact_list'));
       Template::set('contatos', $contacts);
 
@@ -193,10 +193,13 @@ class Contact extends Front_Controller{
         Template::set('tree', $tree);
 
         if($type == 1){
+
         $ext = " - ".lang('contact_contact');
+
         Template::set('selected_company',$this->uri->segment(4));
         $this->contact_model->where('contact_type',2);
         Template::set('companies', $this->contact_model->find_all());
+        Template::set('job_roles', $this->contact_model->get_job_roles());
 
       }else{
 

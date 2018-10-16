@@ -116,6 +116,9 @@ $id = isset($laudo_rad->id) ? $laudo_rad->id : '';
                 <?php echo form_label(lang('contact_field_job_role') , 'job_role', array('class' => 'control-label')); ?>
 
             <select class="form-control form-control-sm tk_job_role" id="job_role" multiple data-placeholder="<?php echo lang('contact_select_job_role'); ?>" name="job_role"  value="<?php echo set_value('job_role', isset($contact->job_role) ? $contact->job_role : ''); ?>">
+              <?php foreach($job_roles->result() as $role){ ?>
+                <option value="<?php echo $role->meta_value; ?>"><?php echo $role->meta_value; ?></option>
+                <?php } ?>
             </select>
             <span class='help-inline'><?php echo form_error('job_role'); ?></span>
 
@@ -138,9 +141,13 @@ $id = isset($laudo_rad->id) ? $laudo_rad->id : '';
                       <input id='postcode' type='text'  class="form-control form-control-sm ad postcode"  placeholder="<?php echo lang('contact_field_postcode'); ?>" name='postcode' maxlength='20' value="<?php echo set_value('postcode', isset($contact->postcode) ? $contact->postcode : ''); ?>" />
                       <span class='help-inline'><?php echo form_error('postcode'); ?></span>
               </div>
+
+              <?php if(isset($selected_company)){
+                $city_company = $this->contact_model->find_meta_for($selected_company,array('city'));
+              } ?>
               <div class="form-group<?php echo form_error('city') ? ' error' : ''; ?>">
                 <?php echo form_label(lang('contact_field_city') . lang('bf_form_label_required'), 'city', array('class' => 'control-label')); ?>
-                      <input id='city' type='text'  class="form-control form-control-sm ad"  placeholder="<?php echo lang('contact_field_city'); ?>" name='city' maxlength='20' value="<?php echo set_value('city', isset($contact->city) ? $contact->city : ''); ?>" />
+                      <input id='city' type='text'  class="form-control form-control-sm ad"  placeholder="<?php echo lang('contact_field_city'); ?>" name='city' maxlength='20' value="<?php echo set_value('city', isset($contact->city) ? $contact->city : $city_company->city); ?>" />
                       <span class='help-inline'><?php echo form_error('city'); ?></span>
               </div>
 
