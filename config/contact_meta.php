@@ -120,6 +120,11 @@ $config['company_meta_fields'] =  array(
     'rules'  => 'trim'
 	),
 	array(
+		'name'   => 'fantasy_name',
+    'label'  => 'fantasy_name',
+    'rules'  => 'trim'
+	),
+	array(
 		'name'   => 'country',
 		'label'   => lang('user_meta_country'),
 		'rules'   => 'trim|max_length[100]',

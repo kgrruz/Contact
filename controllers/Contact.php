@@ -285,11 +285,13 @@ class Contact extends Front_Controller{
 
           if($type == 2){  $meta_fields = config_item('company_meta_fields');   }
 
-            if ($this->save_contact('update', $id, $meta_fields)) {
-                log_activity($this->auth->user_id(), lang('contact_act_edit_record') . ': ' . $id . ' : ' . $this->input->ip_address(), 'contact');
+            if($this->save_contact('update', $id, $meta_fields)) {
 
-                $this->db->cache_delete('sells', 'search_customer_sell');
-                $this->db->cache_delete('contacts', 'index');
+              $data_insert = array('contact_id'=>$id,'post_data'=>$_POST);
+
+              Events::trigger('insert_contact',$data_insert);
+
+                log_activity($this->auth->user_id(), lang('contact_act_edit_record') . ': ' . $id . ' : ' . $this->input->ip_address(), 'contact');
 
                 Template::set_message(lang('contact_edit_success'), 'success');
                 Template::redirect('contacts');
