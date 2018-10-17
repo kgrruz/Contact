@@ -120,7 +120,7 @@ $id = isset($laudo_rad->id) ? $laudo_rad->id : '';
                 <option value="<?php echo $role->meta_value; ?>"><?php echo $role->meta_value; ?></option>
                 <?php } ?>
             </select>
-            <span class='help-inline'><?php echo form_error('job_role'); ?></span>
+            <span class='help-inline'><small><?php echo lang('help_tab_tokenize'); ?></small> <?php echo form_error('job_role'); ?></span>
 
             </div>
 

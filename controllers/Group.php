@@ -282,6 +282,9 @@ class Group extends Front_Controller{
 
           if(count($groups) > 0){
 
+            $this->db->where('id_contact_join',$data['contact_id']);
+            $this->db->delete('contact_groups');
+
           foreach($groups as $group){
 
             $this->db->insert('contacts_groups',array('id_contact_join'=>$data['contact_id'],'id_group_join'=>$group));
@@ -293,7 +296,7 @@ class Group extends Front_Controller{
         public function page(){
 
               $this->authenticate($this->permissionView);
-              
+
             $id = $this->uri->segment(4);
             if (empty($id)) {
                 Template::set_message(lang('group_invalid_id'), 'error');

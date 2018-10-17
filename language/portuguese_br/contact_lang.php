@@ -101,6 +101,7 @@ $lang['contact_field_job_role'] = 'Cargo';
 $lang['contact_select_job_role'] = 'Defina o cargo';
 
 $lang['contact_desc_form_create'] = 'Adicione e/ou edite as informações dos seus contatos.';
+$lang['help_tab_tokenize'] = 'Use tab para definir o valor.';
 
 $lang['contact_customer_save_coordinate'] = 'Salvar informação';
 $lang['contact_customer_check_position'] = 'Marque sua localidade no mapa';
