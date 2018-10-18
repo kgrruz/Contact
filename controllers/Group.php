@@ -283,7 +283,7 @@ class Group extends Front_Controller{
           if(count($groups) > 0){
 
             $this->db->where('id_contact_join',$data['contact_id']);
-            $this->db->delete('contact_groups');
+            $this->db->delete('contacts_groups');
 
           foreach($groups as $group){
 
