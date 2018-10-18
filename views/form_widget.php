@@ -4,7 +4,7 @@
 <select class="form-control form-control-sm tokenize" id="contact_id" multiple name="contact_id">
   <option value="0"><?php echo lang('contact_select_contact'); ?></option>
   <?php foreach($contacts as $contact){ ?>
-  <option value="<?php echo $contact->id_contact; ?>" <?php echo (isset($contact_id) and $contact_id == $contact->id_contact)? 'selected':''; ?> ><?php echo $contact->display_name; ?></option>
+  <option value="<?php echo $contact->id_contact; ?>" <?php echo (isset($contact_id) and $contact_id == $contact->id_contact)? 'selected':''; ?> ><?php echo ($contact->contact_type == 1)? '&#xf2be;':'&#xf0f7;'; ?> <?php echo $contact->display_name; ?></option>
 <?php } ?>
 </select>
 

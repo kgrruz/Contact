@@ -157,7 +157,7 @@ class Contact extends Front_Controller{
 
               $inserted_contact = $this->contact_model->find($insert_id);
 
-              $msg_event = lang('contact_act_create_record') . ': ' . $inserted_contact->display_name;
+              $msg_event = '[contact_act_create_record]' . ': ' . '<a href="contato/'.$inserted_contact->slug_contact.'">'.$inserted_contact->display_name.'</a>';
 
               $data_sse = array('event'=>'refresh_not','msg'=>$msg_event,'to'=>array(4,1),'timestamp'=>now());
 
@@ -167,7 +167,7 @@ class Contact extends Front_Controller{
 
               log_notify($this->auth->users_has_permission($this->permissionView), $id_act);
 
-              Template::set_message(lang('contact_create_success').$_POST['equip_rad_resp'], 'success');
+              Template::set_message(lang('contact_create_success'), 'success');
 
              Template::redirect('contato/'.$inserted_contact->slug_contact);
 
@@ -240,7 +240,7 @@ class Contact extends Front_Controller{
 
             $id_act = log_activity($this->auth->user_id(), lang('contact_act_create_record') . ': ' . $contact->display_name , 'contact');
 
-            log_notify($this->user_model->get_id_users_role('id',array(4,1)), $id_act);
+            log_notify($this->auth->users_has_permission($this->permissionView), $id_act);
 
             $this->output->set_output(json_encode(array('status'=>'success','idc'=>$insert_id,'image'=>gravatar_link($contact->email, 50, $contact->email, $contact->email), 'name'=>$contact->display_name,'message'=>lang('contact_create_success'))));
 
@@ -290,7 +290,11 @@ class Contact extends Front_Controller{
 
               Events::trigger('insert_contact',$data_insert);
 
-                log_activity($this->auth->user_id(), lang('contact_act_edit_record') . ': ' . $id . ' : ' . $this->input->ip_address(), 'contact');
+              $inserted_contact = $this->contact_model->find($id);
+
+                $id_act = log_activity($this->auth->user_id(), '[contact_act_edit_record]' . ' : ' . '<a href="contato/'.$inserted_contact->slug_contact.'">'.$inserted_contact->display_name.'</a>', 'contact');
+
+                log_notify($this->auth->users_has_permission($this->permissionView), $id_act);
 
                 Template::set_message(lang('contact_edit_success'), 'success');
                 Template::redirect('contacts');
@@ -345,8 +349,8 @@ class Contact extends Front_Controller{
 
           if ($this->contact_model->delete($id)) {
 
-              $id_act = log_activity($this->auth->user_id(), lang('contact_act_delete_record') . ': ' . $contact->display_name , 'contact');
-              log_notify($this->user_model->get_id_users_role('id',array(4,1)), $id_act);
+              $id_act = log_activity($this->auth->user_id(), '[contact_act_delete_record]' . ': '. '<a href="contato/'.$contact->slug_contact.'">'.$contact->display_name.'</a>', 'contact');
+              log_notify($this->auth->users_has_permission($this->permissionView), $id_act);
 
               Template::set_message(lang('contact_delete_success'), 'success');
               Template::redirect('contacts');

@@ -143,11 +143,11 @@ $id = isset($laudo_rad->id) ? $laudo_rad->id : '';
               </div>
 
               <?php if(isset($selected_company)){
-                $city_company = $this->contact_model->find_meta_for($selected_company,array('city'));
-              } ?>
+                $city_company = $this->contact_model->find_meta_for($selected_company,array('city'))->city;
+              }else{ $city_company = ''; } ?>
               <div class="form-group<?php echo form_error('city') ? ' error' : ''; ?>">
                 <?php echo form_label(lang('contact_field_city') . lang('bf_form_label_required'), 'city', array('class' => 'control-label')); ?>
-                      <input id='city' type='text'  class="form-control form-control-sm ad"  placeholder="<?php echo lang('contact_field_city'); ?>" name='city' maxlength='20' value="<?php echo set_value('city', isset($contact->city) ? $contact->city : $city_company->city); ?>" />
+                      <input id='city' type='text'  class="form-control form-control-sm ad"  placeholder="<?php echo lang('contact_field_city'); ?>" name='city' maxlength='20' value="<?php echo set_value('city', isset($contact->city) ? $contact->city : $city_company); ?>" />
                       <span class='help-inline'><?php echo form_error('city'); ?></span>
               </div>
 
