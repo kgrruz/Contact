@@ -565,6 +565,8 @@ class Contact extends Front_Controller{
 
 			 $user = $this->user_model->find_user_and_meta($data);
 
+       if(!$this->user_model->find_contact_user($user->id) and $user->role_id == 4){
+
 			 $config = array(
 					 'field' => 'slug_contact',
 					 'title' => 'display_name',
@@ -579,6 +581,7 @@ class Contact extends Front_Controller{
 				 'slug_contact'=> $this->slug->create_uri($user->display_name),
 				 'email'=> $user->email,
 				 'timezone'=> $user->timezone,
+         'created_by'=>$user->id
 			 );
 
 			 $this->db->insert('contacts',$contact_data);
@@ -590,7 +593,7 @@ class Contact extends Front_Controller{
 				 'contact_id'=> $id
 			 );
 
-
+      }
 		 }
 
      public function info_popover($id){
