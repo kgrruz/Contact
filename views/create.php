@@ -19,7 +19,7 @@
 <?php
 endif;
 
-$id = isset($laudo_rad->id) ? $laudo_rad->id : '';
+$id = isset($contact->id_contact) ? $contact->id_contact : '';
 
 ?>
 <div class="row">

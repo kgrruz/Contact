@@ -24,6 +24,7 @@ $lang['contact_actions']     = 'Ações';
 $lang['contact_cancel']      = 'Cancelar';
 $lang['contact_delete_record']   = 'Excluir este(a) contato';
 $lang['contact_delete_confirm']  = 'Você tem certeza que deseja excluir este(a) contact?';
+$lang['contact_is_deleted']  = 'Contato está desativado.';
 $lang['contact_edit_heading']    = 'Editar contato';
 $lang['parent_user_account']    = 'Conta associada';
 $lang['contact_settings']       = 'Configurações dos contatos';

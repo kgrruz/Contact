@@ -57,8 +57,11 @@ class Contact extends Front_Controller{
               Template::set_message(lang('us_empty_id'), 'danger');
           } else {
               foreach ($checked as $userId) {
-                  $this->delete($userId);
+                $msg .=  $this->delete($userId);
               }
+
+              Template::set_message($msg, 'success');
+              Template::redirect('contacts');
           }
       }
 
@@ -157,6 +160,7 @@ class Contact extends Front_Controller{
 
               $inserted_contact = $this->contact_model->find($insert_id);
 
+              // TODO: fix relative url
               $msg_event = '[contact_act_create_record]' . ': ' . '<a href="contato/'.$inserted_contact->slug_contact.'">'.$inserted_contact->display_name.'</a>';
 
               $data_sse = array('event'=>'refresh_not','msg'=>$msg_event,'to'=>array(4,1),'timestamp'=>now());
@@ -267,7 +271,9 @@ class Contact extends Front_Controller{
             redirect('contacts');
         }
 
-        $id = $this->contact_model->find_by('slug_contact',$id)->id_contact;
+        $contact = $this->contact_model->find_by('slug_contact',$id);
+
+        if($contact){
 
         $this->load->model('contact/group_model');
         $meta_fields = config_item('person_meta_fields');
@@ -284,15 +290,13 @@ class Contact extends Front_Controller{
 
           if($type == 2){  $meta_fields = config_item('company_meta_fields');   }
 
-            if($this->save_contact('update', $id, $meta_fields)) {
+            if($this->save_contact('update', $contact->id_contact, $meta_fields)) {
 
-              $data_insert = array('contact_id'=>$id,'post_data'=>$_POST);
+              $data_insert = array('contact_id'=>$contact->id_contact,'post_data'=>$_POST);
 
               Events::trigger('insert_contact',$data_insert);
 
-              $inserted_contact = $this->contact_model->find($id);
-
-                $id_act = log_activity($this->auth->user_id(), '[contact_act_edit_record]' . ' : ' . '<a href="contato/'.$inserted_contact->slug_contact.'">'.$inserted_contact->display_name.'</a>', 'contact');
+                $id_act = log_activity($this->auth->user_id(), '[contact_act_edit_record]' . ' : ' . '<a href="contato/'.$contact->slug_contact.'">'.$contact->display_name.'</a>', 'contact');
 
                 log_notify($this->auth->users_has_permission($this->permissionView), $id_act);
 
@@ -307,13 +311,13 @@ class Contact extends Front_Controller{
         }
 
 
-        $contact = $this->contact_model->find_user_and_meta($id);
+        $contact_meta = $this->contact_model->find_user_and_meta($contact->id_contact);
 
-        $data_html = array('html'=>'','contact'=>$contact,'type'=>$contact->contact_type);
+        $data_html = array('html'=>'','contact'=>$contact_meta,'type'=>$contact->contact_type);
         Events::trigger('show_create_contact',$data_html);
         Template::set('data_html',$data_html['html']);
 
-        Template::set('contact', $contact);
+        Template::set('contact', $contact_meta);
         Template::set('my_groups', $this->group_model->get_contact_groups_array($id));
 
         $parent_node = $this->nested_set->getNodeWhere(array('id_group'=>1));
@@ -322,10 +326,28 @@ class Contact extends Front_Controller{
         Template::set('tree', $tree);
         Template::set('contact_type', $contact->contact_type);
 
-        Template::set('toolbar_title', lang('contact_edit_heading'));
+        if($contact->contact_type == 1){
+
+        $ext = " - ".lang('contact_contact');
+
+        if(isset($contact_meta->company) and $contact_meta->company != 0){ Template::set('selected_company',$contact_meta->company); }
+
+        $this->contact_model->where('contact_type',2);
+        Template::set('companies', $this->contact_model->find_all());
+        Template::set('job_roles', $this->contact_model->get_job_roles());
+
+      }else{
+
+        $ext = " - ".lang('contact_company');
+
+      }
+
+        Template::set('toolbar_title', lang('contact_edit_heading').$ext);
         Template::set_view('create');
         Template::set_block('sub_nav_menu', '_menu_module');
         Template::render('mod_index');
+
+      }else{ show_error(lang('contact_invalid_id')); }
     }
 
     //--------------------------------------------------------------------------
@@ -343,8 +365,8 @@ class Contact extends Front_Controller{
           $this->authenticate($this->permissionDelete);
 
           if (!empty($contact->is_user)) {
-              Template::set_message(lang('contact_has_user'), 'danger');
-              Template::redirect('contacts');
+
+              return lang('contact_has_user').'<br/>';
           }
 
           if ($this->contact_model->delete($id)) {
@@ -352,11 +374,10 @@ class Contact extends Front_Controller{
               $id_act = log_activity($this->auth->user_id(), '[contact_act_delete_record]' . ': '. '<a href="contato/'.$contact->slug_contact.'">'.$contact->display_name.'</a>', 'contact');
               log_notify($this->auth->users_has_permission($this->permissionView), $id_act);
 
-              Template::set_message(lang('contact_delete_success'), 'success');
-              Template::redirect('contacts');
+              return  $contact->display_name.' '.lang('contact_delete_success').'<br/>';
           }
 
-          Template::set_message(lang('contact_delete_failure') . $this->contact_model->error, 'danger');
+          return lang('contact_delete_failure') . $this->contact_model->error;
 
     }
 
@@ -410,7 +431,7 @@ class Contact extends Front_Controller{
         );
 
         $this->load->library('slug', $config);
-        $data['slug_contact'] = $this->slug->create_uri($this->input->post('display_name'));
+        $data['slug_contact'] = $this->slug->create_uri($this->input->post('display_name'),$id);
 
         $return = false;
         if ($type == 'insert') {
@@ -451,12 +472,19 @@ class Contact extends Front_Controller{
 
            if (empty($id)) {
                Template::set_message(lang('contact_invalid_id'), 'danger');
-               redirect('contact');
+               redirect('contacts');
            }
 
            if($id = $this->contact_model->find_by('slug_contact',$id)->id_contact){
 
            $contact = $this->contact_model->find_user_and_meta($id);
+
+           if($contact->deleted){
+
+             Template::set_message(lang('contact_is_deleted'), 'danger');
+             redirect('contacts');
+
+           }
 
            $modules = Modules::list_modules(true);
 

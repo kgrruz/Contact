@@ -31,7 +31,7 @@
     <?php echo (!empty($contact->phone))? '<li class="list-group-item">'.$contact->phone.'</li>':''; ?>
     <?php echo (!empty($contact->phone_2))? '<li class="list-group-item">'.$contact->phone_2.'</li>':''; ?>
 
-    <?php if(isset($contact->company)){ ?>
+    <?php if(isset($contact->company) and $contact->company != 0){ ?>
     <?php $company = $this->contact_model->find($contact->company);  ?>
     <li class="list-group-item"><?php echo anchor('contato/'.$company->slug_contact,'<i class="fa fa-building" aria-hidden="true"></i> '.$company->display_name); ?></li>
 <?php } ?>
