@@ -35,6 +35,18 @@
     <?php $company = $this->contact_model->find($contact->company);  ?>
     <li class="list-group-item"><?php echo anchor('contato/'.$company->slug_contact,'<i class="fa fa-building" aria-hidden="true"></i> '.$company->display_name); ?></li>
 <?php } ?>
+
+<?php if(count($tabs)){ ?>
+
+    <?php foreach($tabs as $tab){ ?>
+      <?php if(isset($tab['contact_type']) and in_array($contact->contact_type,$tab['contact_type']) or !isset($tab['contact_type'])){ ?>
+      
+        <a href="<?php echo base_url().'contato/'.$contact->slug_contact.'/'.$tab['url']; ?>"  class="list-group-item list-group-item-action <?php echo ($function_tab == $tab['url'])? 'active':''; ?> "> <?php echo $tab['label'][$current_user->language]; ?> </a>
+
+    <?php } ?>
+  <?php } ?>
+<?php } ?>
+
   </ul>
 
 </div>
@@ -61,19 +73,7 @@
   <?php } ?>
 
   <div class="card">
-    <?php if(count($tabs)){ ?>
-    <div class="card-header">
-      <ul class="nav nav-tabs card-header-tabs">
-        <?php foreach($tabs as $tab){ ?>
-          <?php if(isset($tab['contact_type']) and in_array($contact->contact_type,$tab['contact_type']) or !isset($tab['contact_type'])){ ?>
-          <li class="nav-item">
-            <a href="<?php echo base_url().'contato/'.$contact->slug_contact.'/'.$tab['url']; ?>"  class="nav-link <?php echo ($function_tab == $tab['url'])? 'active':''; ?> "> <?php echo $tab['label'][$current_user->language]; ?> </a>
-          </li>
-        <?php } ?>
-      <?php } ?>
-      </ul>
-    </div>
-  <?php } ?>
+
 
 
   <?php if(isset($view_page)){ $this->load->view($view_page); } else{ ?>
