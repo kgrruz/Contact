@@ -59,7 +59,7 @@ class Customer extends Front_Controller{
           $this->db->insert('contact_meta',$meta_data_lng);
 
           Template::set_message(lang('contact_customer_geo_success'), 'success');
-          Template::redirect('desktop');
+          Template::redirect('home');
 
         }
 
