@@ -1,8 +1,7 @@
 
-<?php if($contatos){ ?>
+<?php if($contatos){  ?>
 
   <nav class="navbar navbar-expand-lg navbar-light bg-light">
-
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
 
   <form action="<?php echo uri_string(); ?>" method="get" class="form-inline my-2 my-lg-0">
@@ -29,15 +28,13 @@
 <div class="table-responsive ">
 
   <?php echo form_open(); ?>
-<table id="table_contacts" class="table table-sm nowrap border-0" cellspacing="0" width="100%">
+<table id="table_contacts" class="table table-hover table-outline table-vcenter text-nowrap mb-0" >
     <thead>
         <tr>
-            <th class="pl-3"><input class="check-all" type="checkbox" /></th>
             <th></th>
             <th><?php echo lang('contact_column_display_name'); ?></th>
             <th><?php echo lang('contact_column_email'); ?></th>
             <th><?php echo lang('contact_column_phone'); ?></th>
-
             <th></th>
             <th></th>
             <th></th>
@@ -47,8 +44,7 @@
 <?php foreach($contatos as $contato){ ?>
 
       <tr>
-            <td class="pl-3"><input type="checkbox" name="checked[]" value="<?php echo $contato->id_contact; ?>" /></td>
-            <td><?php echo ($contato->contact_type == 1)? '<i class="fa fa-user-circle-o" aria-hidden="true"></i>':'<i class="fa fa-building" aria-hidden="true"></i>'; ?> <?php echo ($contato->is_user)? '<i class="fa fa-key"></i>':''; ?></td>
+            <td><?php echo ($contato->contact_type == 1)? '<i class="fa fa-user" aria-hidden="true"></i>':'<i class="fa fa-building" aria-hidden="true"></i>'; ?> <?php echo ($contato->is_user)? '<i class="fa fa-key"></i>':''; ?></td>
             <td><?php echo anchor('contato/'.$contato->slug_contact,$contato->display_name); ?></td>
             <td><?php echo mailto($contato->email); ?></td>
             <td><?php echo $contato->phone; ?></td>
@@ -58,7 +54,7 @@
             <td>
               <div class="btn-group btn-group-sm" role="group" >
 
-                <?php echo anchor('contact/edit/'.$contato->slug_contact,'<i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                <?php echo anchor('contact/edit/'.$contato->slug_contact,'<i class="fa fa-edit" aria-hidden="true"></i>
           ','class="btn btn-sm btn-secondary"'); ?>
 
               </div>
@@ -66,15 +62,6 @@
       </tr>
 <?php } ?>
     </tbody>
-    <tfoot>
-      <tr><td></td>
-      <td colspan="7"><?php
-      echo lang('bf_with_selected'); ?>
-
-      <input type="submit" name="delete" class="btn  btn-sm btn-danger" id="delete-me" value="<?php echo lang('bf_action_delete'); ?>" onclick="return confirm('<?php e(js_escape(lang('contact_delete_account_confirm'))); ?>')" />
-</td>
-</tr>
-</tfoot>
 </table>
 
 
