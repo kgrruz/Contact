@@ -55,7 +55,7 @@
         );
 
 
-    $config['after_end_create_user'][] = array(
+    $config['after_register_process'][] = array(
             'module'     => 'contact',
             'filepath'   => 'controllers',
             'filename'   => 'Contact.php',
@@ -94,6 +94,14 @@
                     'filename'   => 'Events_contact.php',
                     'class'  => 'Events_contact',
                     'method'     => '_get_markersbound'
+                );
+
+            $config['show_header_user_page'][] = array(
+                    'module'     => 'contact',
+                    'filepath'   => 'controllers',
+                    'filename'   => 'Events_contact.php',
+                    'class'      => 'Events_contact',
+                    'method'     => '_card_related_contact'
                 );
 
             $config['after_login'][] = array(

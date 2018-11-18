@@ -9,31 +9,35 @@ class Events_contact{
  function __construct(){
 
     $this->CI =& get_instance();
+    $this->CI->load->model('contact/contact_model');
     $this->CI->lang->load('contact/contact');
     $this->CI->load->helper('contact/contact');
+
 
  }
 
 
  public function _geral_search(&$data){
 
-   $this->CI->load->model('contact/contact_model');
 
           if (has_permission($this->permissionView)) {
 
-            $results = $this->CI->contact_model->search_general($data['term'],array('id_contact','email','slug_contact','display_name','phone'),12,$data['offset']);
+            $results = $this->CI->contact_model->search_general($data['term'],array('id_contact','email','slug_contact','display_name','phone','contact_type'),12,$data['offset']);
 
             $html = array();
 
           foreach($results as $result){
 
-            array_push($html,array('<hr><div class="media">
+            $type = ($result->contact_type == 1)? '<i class="fa fa-user" aria-hidden="true"></i> ':'<i class="fa fa-building" aria-hidden="true"></i> ';
+            $key  = (isset($result->is_user))? '<i class="fa fa-key"></i> ':' ';
+
+            array_push($html,array('<div class="media border-bottom p-3">
      <img class="mr-3" style="width:64px" src="'.contact_avatar($result->email, 64, null,false,null).'" alt="contact_photo">
-     <div class="media-body">
-       <h5 class="my-0">'.anchor('contato/'.$result->slug_contact,$result->display_name).'</h5>'.
-       $result->country.' '.anchor('contact/edit/'.$result->slug_contact,lang('contact_edit')).'
-     </div>
-   </div>'));
+     <div class="media-body row d-flex h-100">
+        <div class="col-sm-9">
+     <h5 class="my-0">'.$type.$key.anchor('contato/'.$result->slug_contact,$result->display_name).'</h5>
+     </div><div class="col-sm-3 my-auto" >'.anchor('contact/edit/'.$result->slug_contact,'<i class="fa fa-edit"></i>','class=""').'</div>
+   </div></div>'));
 
           }
 
@@ -49,6 +53,18 @@ class Events_contact{
       public function _kanban(&$data){
 
 
+
+      }
+
+      public function _card_related_contact(&$data){
+
+          if($idc = $this->CI->user_model->find_contact_user($data['user'])){
+
+          $data['contact'] = $this->CI->contact_model->find($idc);
+
+       $data['html'] =  $this->CI->load->view("contact/card_related_contact",$data,true);
+
+     }
 
       }
 
@@ -149,9 +165,12 @@ class Events_contact{
 
       public function _form_widget(&$html){
 
-        $this->CI->load->model('contact/contact_model');
+        Assets::add_module_js('contact', 'contact.js');
+
         $this->CI->contact_model->where('deleted',0);
+
         if(isset($html['contact_id'])){ $data['contact_id'] = $html['contact_id']; };
+
         $data['contacts'] = $this->CI->contact_model->find_all();
         $html['html'] =  $this->CI->load->view('contact/form_widget',$data,true);
 
@@ -188,8 +207,6 @@ class Events_contact{
         }
 
         function _get_markersbound(&$data_json){
-
-          $this->CI->load->model('contact/contact_model');
 
           array_push($data_json['markers'],$this->CI->contact_model->get_markersbound($data_json['north'],$data_json['south'],$data_json['east'],$data_json['west']));
 
