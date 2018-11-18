@@ -1,9 +1,5 @@
 <div class="card-body">
-
-<h2 class="Subhead-heading"><?php echo $toolbar_title; ?></h2>
-    <p class="Subhead-description">
-      <?php echo lang('contact_desc_form_create'); ?>
-    </p>
+<h4 class="card-title"><?php echo $toolbar_title; ?></h4>
 
   <?php echo form_open($this->uri->uri_string(),'id="form_contact"'); ?>
 
@@ -23,7 +19,7 @@ $id = isset($contact->id_contact) ? $contact->id_contact : '';
 
 ?>
 <div class="row">
-  <div class="col-md-4">
+  <div class="col-md-5">
             <div class="form-group<?php echo form_error('display_name') ? ' error' : ''; ?>">
                 <?php echo form_label(lang('contact_field_display_name') . lang('bf_form_label_required'), 'display_name', array('class' => 'control-label')); ?>
 
@@ -85,7 +81,7 @@ $id = isset($contact->id_contact) ? $contact->id_contact : '';
             <div class="form-group<?php echo form_error('group') ? ' error' : ''; ?>">
                 <?php echo form_label(lang('contact_field_groups') . lang('bf_form_label_required'), 'group', array('class' => 'control-label')); ?>
 
-                    <select id='group' class="form-control form-control-sm form-control form-control-sm-sm" multiple name='group[]' >
+                    <select id='group' class="form-control form-control-sm form-control form-control-sm form-control form-control-sm-sm-sm" multiple name='group[]' >
                       <?php foreach($tree['items'] as $group){ ?>
                       <option <?php if(isset($my_groups)){ if(in_array($group['id_group'],$my_groups)){ echo 'selected'; }}elseif($group['id_group'] == 1){ echo 'selected';} ?> value="<?php echo $group['id_group']; ?>"><?php echo str_repeat('-', $this->nested_set->getNodeLevel($group)*4); ?> <?php echo ucfirst($group['group_name']); ?></option>
                     <?php } ?>
@@ -115,7 +111,7 @@ $id = isset($contact->id_contact) ? $contact->id_contact : '';
             <div class="form-group<?php echo form_error('job_role') ? ' error' : ''; ?>">
                 <?php echo form_label(lang('contact_field_job_role') , 'job_role', array('class' => 'control-label')); ?>
 
-            <select class="form-control form-control-sm tk_job_role" id="job_role" multiple data-placeholder="<?php echo lang('contact_select_job_role'); ?>" name="job_role"  value="<?php echo set_value('job_role', isset($contact->job_role) ? $contact->job_role : ''); ?>">
+            <select class="form-control form-control-sm tokenize" id="job_role" multiple data-placeholder="<?php echo lang('contact_select_job_role'); ?>" name="job_role"  value="<?php echo set_value('job_role', isset($contact->job_role) ? $contact->job_role : ''); ?>">
               <?php foreach($job_roles->result() as $role){ ?>
                 <option value="<?php echo $role->meta_value; ?>"><?php echo $role->meta_value; ?></option>
                 <?php } ?>
@@ -128,7 +124,7 @@ $id = isset($contact->id_contact) ? $contact->id_contact : '';
 
             </div>
 
-            <div class="col-md-4">
+            <div class="col-md-5">
 
 <?php if(!isset($data_html_adress)){ ?>
 
