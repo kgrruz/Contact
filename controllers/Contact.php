@@ -190,7 +190,6 @@ class Contact extends Front_Controller{
         Template::set('data_html',$data_html['html']);
         Template::set('groups',$this->group_model->find_all());
 
-
         $parent_node = $this->nested_set->getNodeWhere(array('id_group'=>1));
         $tree = $this->nested_set->getSubTree($parent_node);
 
@@ -202,6 +201,7 @@ class Contact extends Front_Controller{
 
         Template::set('selected_company',$this->uri->segment(4));
         $this->contact_model->where('contact_type',2);
+        $this->contact_model->where('deleted',0);
         Template::set('companies', $this->contact_model->find_all());
         Template::set('job_roles', $this->contact_model->get_job_roles());
 
@@ -211,9 +211,7 @@ class Contact extends Front_Controller{
 
       }
 
-
         Template::set('toolbar_title', lang('contact_action_create').$ext);
-
         Template::set('contact_type', $type);
         Template::set_block('sub_nav_menu', '_menu_module');
         Template::render('mod_index');
@@ -591,7 +589,7 @@ class Contact extends Front_Controller{
 
 		 public function Create_user_contact($data){
 
-			 $user = $this->user_model->find_user_and_meta($data);
+			 $user = $this->user_model->find_user_and_meta($data['user_id']);
 
        if(!$this->user_model->find_contact_user($user->id) and $user->role_id == 4){
 
@@ -620,6 +618,24 @@ class Contact extends Front_Controller{
 				 'meta_value'=> $user->id,
 				 'contact_id'=> $id
 			 );
+
+       $this->db->insert('contact_meta',$contact_data_meta);
+
+			 $contact_data_meta2 = array(
+				 'meta_key'=> 'country',
+				 'meta_value'=> $user->country,
+				 'contact_id'=> $id
+			 );
+
+       $this->db->insert('contact_meta',$contact_data_meta2);
+
+			 $contact_data_meta3 = array(
+				 'meta_key'=> 'state',
+				 'meta_value'=> $user->state,
+				 'contact_id'=> $id
+			 );
+
+       $this->db->insert('contact_meta',$contact_data_meta3);
 
       }
 		 }
