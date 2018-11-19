@@ -210,6 +210,11 @@ class Events_contact{
 
           array_push($data_json['markers'],$this->CI->contact_model->get_markersbound($data_json['north'],$data_json['south'],$data_json['east'],$data_json['west']));
 
+        }
+
+        function _get_marker_list(&$data_json){
+
+          array_push($data_json['markers'],$this->CI->contact_model->search_locs($data_json['search']));
 
         }
   }

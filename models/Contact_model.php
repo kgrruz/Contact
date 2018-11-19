@@ -8,7 +8,7 @@ class Contact_model extends BF_Model{
 	protected $date_format	= 'datetime';
 	protected $meta_table   = 'contact_meta';
 
-	protected $log_user 	= true;
+	protected $log_user 	  = true;
 	protected $set_created	= true;
 	protected $set_modified = true;
 	protected $soft_deletes	= true;
@@ -26,7 +26,7 @@ class Contact_model extends BF_Model{
 	protected $after_insert 	= array();
 	protected $before_update 	= array();
 	protected $after_update 	= array();
-	protected $before_find 	    = array();
+	protected $before_find 	  = array();
 	protected $after_find 		= array();
 	protected $before_delete 	= array();
 	protected $after_delete 	= array();
@@ -160,8 +160,29 @@ class Contact_model extends BF_Model{
 
 				 $coordinates = $this->db->get();
 		     return $coordinates->result_array();
+    }
 
+    public function search_locs($search){
 
+     $this->db->select("
+         'contact' as module,
+				 'bigcity.png' as icon,contacts.id_contact as idc,
+				 contacts.display_name as name,
+				 MAX(CASE WHEN {$this->db->dbprefix}contact_meta.meta_key = 'city' THEN {$this->db->dbprefix}contact_meta.meta_value END) AS 'city',
+				 MAX(CASE WHEN {$this->db->dbprefix}contact_meta.meta_key = 'adress' THEN {$this->db->dbprefix}contact_meta.meta_value END) AS 'adress',
+				 MAX(CASE WHEN {$this->db->dbprefix}contact_meta.meta_key = 'num_adress' THEN {$this->db->dbprefix}contact_meta.meta_value END) AS 'num_adress',
+				 MAX(CASE WHEN {$this->db->dbprefix}contact_meta.meta_key = 'lat' THEN {$this->db->dbprefix}contact_meta.meta_value END) AS 'lat',
+         MAX(CASE WHEN {$this->db->dbprefix}contact_meta.meta_key = 'lng' THEN {$this->db->dbprefix}contact_meta.meta_value END) AS 'lng'
+				 ");
+				 $this->db->from("contacts");
+         $this->db->join("contact_meta","contacts.id_contact = contact_meta.contact_id","left");
+				 $this->db->like("display_name",$search);
+				 $this->db->having("lat <>",'NULL');
+				 $this->db->having("lng <>",'NULL');
+         $this->db->group_by("id_contact");
+
+				 $coordinates = $this->db->get();
+		     return $coordinates->result_array();
     }
 
 

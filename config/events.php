@@ -96,6 +96,14 @@
                     'method'     => '_get_markersbound'
                 );
 
+            $config['search_markers'][] = array(
+                    'module'     => 'contact',
+                    'filepath'   => 'controllers',
+                    'filename'   => 'Events_contact.php',
+                    'class'      => 'Events_contact',
+                    'method'     => '_get_marker_list'
+                );
+
             $config['show_header_user_page'][] = array(
                     'module'     => 'contact',
                     'filepath'   => 'controllers',
