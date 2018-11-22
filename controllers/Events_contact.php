@@ -19,7 +19,6 @@ class Events_contact{
 
  public function _geral_search(&$data){
 
-
           if (has_permission($this->permissionView)) {
 
             $results = $this->CI->contact_model->search_general($data['term'],array('id_contact','email','slug_contact','display_name','phone','contact_type'),12,$data['offset']);
@@ -48,6 +47,12 @@ class Events_contact{
           array_push($data['data'],array('module_real'=>'contact','module'=>lang('contact_module_name'),'result'=>$html,'total'=>$total));
 
         }
+      }
+
+      public function _tour_link(&$data){
+
+        array_push($data['tours'],array('text'=>lang('contact_tour_register'),'link'=>'contact/create/2#at_tour'));
+
       }
 
       public function _kanban(&$data){

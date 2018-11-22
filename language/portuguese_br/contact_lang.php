@@ -33,7 +33,7 @@ $lang['contact_all_types'] = 'Todos';
 $lang['contact_company'] = 'Empresa';
 $lang['contact_contact'] = 'Pessoa';
 // Create/Edit Buttons
-$lang['contact_action_edit']   = 'Salvar contato';
+$lang['contact_action_edit']   = 'Editar contato';
 $lang['contact_action_create']   = 'Registrar contato';
 
 // Activities
@@ -103,6 +103,8 @@ $lang['contact_select_job_role'] = 'Defina o cargo';
 
 $lang['contact_desc_form_create'] = 'Adicione e/ou edite as informações dos seus contatos.';
 $lang['help_tab_tokenize'] = 'Use tab para definir o valor.';
+
+$lang['contact_tour_register'] = 'Registrando um novo contato';
 
 $lang['contact_customer_save_coordinate'] = 'Salvar informação';
 $lang['contact_customer_check_position'] = 'Marque sua localidade no mapa';
