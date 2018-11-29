@@ -34,9 +34,9 @@ $id = isset($group->id_group) ? $group->id_group : '';
 
 
             <div class="form-group<?php echo form_error('description') ? ' error' : ''; ?>">
-                <?php echo form_label(lang('group_field_description') . lang('bf_form_label_required'), 'description', array('class' => 'control-label')); ?>
+                <?php echo form_label(lang('group_field_description'), 'description', array('class' => 'control-label')); ?>
 
-                    <textarea id='description' rows="5" type='text' placeholder="<?php echo lang('group_placeholder_description'); ?>" class="form-control form-control-sm" required='required' name='description' ><?php echo set_value('description', isset($group->description) ? $group->description : ''); ?></textarea>
+                    <textarea id='description' rows="5" type='text' placeholder="<?php echo lang('group_placeholder_description'); ?>" class="form-control form-control-sm" name='description' ><?php echo set_value('description', isset($group->description) ? $group->description : ''); ?></textarea>
                     <span class='help-inline'><?php echo form_error('description'); ?></span>
 
             </div>
