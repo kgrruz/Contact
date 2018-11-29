@@ -205,9 +205,7 @@ class Group extends Front_Controller{
 
         // Validate the data
         $this->form_validation->set_rules($this->group_model->get_validation_rules());
-
         $this->form_validation->set_rules('group_name', 'lang:group_field_group_name', "unique[groups.group_name{$extraUniqueRule}]|trim|max_length[255]");
-
 
         if ($this->form_validation->run() === false) {
             return false;
@@ -242,9 +240,17 @@ class Group extends Front_Controller{
               'created_on'=>date('Y-m-d H:i:s')
             );
 
-            $parent_node = $this->nested_set->getNodeWhere(array('id_group'=>$this->input->post('parent_group')));
-            $node = $this->nested_set->insertNewChild($parent_node,$data_insert);
-            $id   = $node['id_group'];
+            if($idp = $this->input->post("parent_group")){
+
+                $parent_node = $this->nested_set->getNodeWhere(array('id_group'=>$idp));
+                $node = $this->nested_set->insertNewChild($parent_node,$data_insert);
+                $id   = $node['id_group'];
+
+              }else{
+
+                $this->nested_set->initialiseRoot($data_insert);
+
+              }
 
             if (is_numeric($id)) {
                 $return = $id;
