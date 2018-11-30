@@ -46,6 +46,14 @@
             'method'     => '_tour_link'
         );
 
+        $config['load_initial_config'][] = array(
+                'module'     => 'contact',
+                'filepath'   => 'controllers',
+                'filename'   => 'Events_contact.php',
+                'class'  => 'Events_contact',
+                'method'     => '_config_link'
+            );
+
     $config['search_groups'][] = array(
             'module'     => 'contact',
             'filepath'   => 'controllers',

@@ -10,7 +10,9 @@ class Events_contact{
 
     $this->CI =& get_instance();
     $this->CI->load->model('contact/contact_model');
+    $this->CI->load->model('contact/group_model');
     $this->CI->lang->load('contact/contact');
+    $this->CI->lang->load('contact/group');
     $this->CI->load->helper('contact/contact');
 
 
@@ -56,6 +58,15 @@ class Events_contact{
         array_push($data['tours'],array('text'=>lang('contact_tour_register'),'link'=>'contact/create/2#at_tour'));
 
        }
+      }
+
+      public function _config_link(&$data){
+
+           if (has_permission($this->permissionView) and !$this->CI->group_model->count_by('deleted',0)) {
+
+        array_push($data['configs'],array('text'=>lang('group_config_new_group'),'link'=>'contact/group/create'));
+
+        }
       }
 
       public function _kanban(&$data){

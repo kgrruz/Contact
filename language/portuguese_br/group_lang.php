@@ -41,4 +41,6 @@ $lang['group_field_created_on'] = 'Criado em';
 $lang['group_field_parent_group'] = 'Grupo pai';
 $lang['group_field_contact_join_on'] = 'Desde';
 
+$lang['group_config_new_group'] = 'Cadastre um grupo de contatos';
+
 $lang['group_placeholder_description'] = 'Descrição do grupo de contatos ...';
