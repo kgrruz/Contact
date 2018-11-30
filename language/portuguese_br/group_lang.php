@@ -25,6 +25,7 @@ $lang['group_delete_record'] = 'Excluir este Grupo';
 $lang['group_delete_confirm'] = 'Quer mesmo excluir este (s) grupo (s)?';
 $lang['group_edit_heading'] = 'Editar Grupo';
 $lang['group_desc_form_create'] = 'Adicionar / editar grupos de contatos.';
+$lang['group_zero_contacts_ingroup'] = 'Não há contatos neste grupo.';
 
 // Cria / Edita Botões
 $lang['group_action_edit'] = 'Salvar Grupo';
