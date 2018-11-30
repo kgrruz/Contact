@@ -51,8 +51,11 @@ class Events_contact{
 
       public function _tour_link(&$data){
 
+           if (has_permission($this->permissionView)) {
+
         array_push($data['tours'],array('text'=>lang('contact_tour_register'),'link'=>'contact/create/2#at_tour'));
 
+       }
       }
 
       public function _kanban(&$data){
