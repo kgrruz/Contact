@@ -14,12 +14,6 @@
 
                 var jr_placeholder = $('.tk_job_role').data('placeholder');
 
-                $('.tk_job_role').tokenize2({
-                    tokensAllowCustom: true,
-                    tokensMaxItems: 1,
-                    placeholder: jr_placeholder
-                  });
+                $('.tokenize').tokenize2({'tokensMaxItems':1,'allowEmptyValues':true,'searchFromStart':false});
 
-
-
-                    });
+              });
