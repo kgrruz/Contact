@@ -650,7 +650,7 @@ class Contact extends Front_Controller{
        $contact = $this->contact_model->find($id);
 
        $this->output->set_output('
-  <img class="card-img-top" src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a8/JackMcCauley.jpg/300px-JackMcCauley.jpg" alt="Card image cap">
+  <img class="card-img-top" src="'.contact_avatar($contact->email, 200,'card-img-top img-fluid w-100',false,'profile_photo').'" alt="Card image cap">
   <div class="card-body">
     <h5 class="card-title">'.$contact->display_name.'</h5>
     <p class="card-text">'.$contact->phone.'</p>
