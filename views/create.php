@@ -175,7 +175,7 @@ $id = isset($contact->id_contact) ? $contact->id_contact : '';
 
 
 <div class="card-footer">
-                <input type='submit' value="<?php echo lang('contact_action_create'); ?>" class='btn btn-sm btn-primary' />
+                <input type='submit' id="create_contact" value="<?php echo lang('contact_action_create'); ?>" class='btn btn-sm btn-primary' />
                 <?php echo lang('bf_or'); ?>
                 <?php echo anchor('contacts', lang('contact_cancel'), 'class="btn btn-sm btn-warning"'); ?>
 </div>
