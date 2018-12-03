@@ -4,22 +4,22 @@
   <nav class="navbar navbar-expand-lg navbar-light bg-light">
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
 
-  <form action="<?php echo uri_string(); ?>" method="get" class="form-inline my-2 my-lg-0">
+    <form action="<?php echo base_url(); ?>contact/index" method="get" class="form-inline my-2 my-lg-0">
 
       <select class="form-control mr-sm-2" name="city">
         <option value="0"><?php echo lang('contact_field_city'); ?></option>
         <?php foreach($cities->result() as $city){ ?>
-          <option value="<?php echo $city->meta_value; ?>"><?php echo $city->meta_value; ?></option>
+          <option value="<?php echo $city->meta_value; ?>" <?php echo (isset($_GET['city']) and $_GET['city'] == $city->meta_value)? 'selected':''; ?> ><?php echo $city->meta_value; ?></option>
           <?php } ?>
       </select>
 
       <select class="form-control mr-sm-2" name="contact_type">
         <option value="0"><?php echo lang('contact_all_types'); ?></option>
-        <option value="1"><?php echo lang('contact_contact'); ?></option>
-        <option value="2"><?php echo lang('contact_company'); ?></option>
+        <option value="1" <?php echo (isset($_GET['contact_type']) and $_GET['contact_type'] == 1)? 'selected':''; ?> ><?php echo lang('contact_contact'); ?></option>
+        <option value="2" <?php echo (isset($_GET['contact_type']) and $_GET['contact_type'] == 2)? 'selected':''; ?> ><?php echo lang('contact_company'); ?></option>
       </select>
 
-      <input class="form-control mr-sm-2" type="search" value="<?php echo set_value('term'); ?>" name="term" placeholder="<?php echo lang('bf_search'); ?>" aria-label="<?php echo lang('bf_search'); ?>">
+      <input class="form-control mr-sm-2" type="search"  value="<?php echo (isset($_GET['term']) and !empty($_GET['term']))? $_GET['term']:''; ?>" name="term" placeholder="<?php echo lang('bf_search'); ?>" aria-label="<?php echo lang('bf_search'); ?>">
       <button class="btn btn-success my-2 my-sm-0" type="submit"><?php echo lang('bf_search'); ?></button>
     </form>
   </div>

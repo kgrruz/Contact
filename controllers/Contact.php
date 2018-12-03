@@ -66,26 +66,13 @@ class Contact extends Front_Controller{
           }
       }
 
-      if($_GET){
-      $url_parameters =  http_build_query($_GET);
-      $this->pager['suffix'] = '?' . http_build_query($_GET, '', "&");
-      }
 
       $offset = $this->uri->segment(3);
       $where = array('contacts.deleted'=>0);
 
-
-      if(isset($_GET['term'])){
-
-        $this->contact_model->like("contacts.display_name",$_GET['term']);
-
-      }
-
-      if(isset($_GET['contact_type']) and $_GET['contact_type'] != 0){
-
-        $this->contact_model->where("contacts.contact_type",$_GET['contact_type']);
-
-      }
+      if(isset($_GET['term']) and !empty($_GET['term'])){ $this->contact_model->like("contacts.display_name",$_GET['term']); }
+      if(isset($_GET['contact_type']) and $_GET['contact_type'] != 0){ $this->contact_model->where("contacts.contact_type",$_GET['contact_type']);}
+      if(isset($_GET['city']) and !empty($_GET['city'])){ $this->contact_model->having("city",$_GET['city']);}
 
       $this->contact_model->limit($this->limit, $offset)->where($where);
       $this->db->order_by('display_name','asc');
@@ -102,19 +89,19 @@ class Contact extends Front_Controller{
 
       $this->pager['base_url']    = base_url()."contact/index/";
       $this->pager['per_page']    = $this->limit;
+      $this->pager['reuse_query_string'] = true;
 
-      if(isset($_GET['term'])){
+      if(isset($_GET['term']) and !empty($_GET['term'])){ $this->contact_model->like("contacts.display_name",$_GET['term']); }
+      if(isset($_GET['contact_type']) and $_GET['contact_type'] != 0){ $this->contact_model->where("contacts.contact_type",$_GET['contact_type']);}
+      if(isset($_GET['city']) and !empty($_GET['city'])){ $this->contact_model->having("city",$_GET['city']);}
 
-        $this->contact_model->like("contacts.display_name",$_GET['term']);
-
-      }
-
-      if(isset($_GET['contact_type']) and $_GET['contact_type'] != 0){
-
-        $this->contact_model->where("contacts.contact_type",$_GET['contact_type']);
-
-      }
-
+      $this->db->group_by('id_contact');
+      $this->contact_model->select("
+        MAX(CASE WHEN meta_key = 'is_user' THEN meta_value END) AS 'is_user',
+        MAX(CASE WHEN meta_key = 'city' THEN meta_value END) AS 'city',
+        id_contact,display_name,contact_type,slug_contact,phone,email,contacts.created_on as created_on
+        ");
+      $this->contact_model->join('contact_meta','contact_meta.contact_id = contacts.id_contact','left');
       $this->pager['total_rows']  = $this->contact_model->where($where)->count_all();
       $this->pager['uri_segment'] = 3;
 
