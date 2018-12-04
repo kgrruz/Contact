@@ -56,6 +56,7 @@
 
                 <?php echo anchor('contact/edit/'.$contato->slug_contact,'<i class="fa fa-edit" aria-hidden="true"></i>
           ','class="btn btn-sm btn-secondary"'); ?>
+          <?php echo anchor('contact/delete/'.$contato->id_contact,'<i class="fa fa-trash" aria-hidden="true"></i>','data-message="'.lang("contact_delete_confirm").'" class="btn btn-light exc_bot" '); ?>
 
               </div>
             </td>

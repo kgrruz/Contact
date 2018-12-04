@@ -51,22 +51,6 @@ class Contact extends Front_Controller{
 
       $this->authenticate($this->permissionView,'desktop');
 
-      if (isset($_POST['delete'])) {
-          $checked = $this->input->post('checked');
-          if (empty($checked)) {
-              // No users checked.
-              Template::set_message(lang('us_empty_id'), 'danger');
-          } else {
-              foreach ($checked as $userId) {
-                $msg .=  $this->delete($userId);
-              }
-
-              Template::set_message($msg, 'success');
-              Template::redirect('contacts');
-          }
-      }
-
-
       $offset = $this->uri->segment(3);
       $where = array('contacts.deleted'=>0);
 
@@ -340,7 +324,7 @@ class Contact extends Front_Controller{
     // !PRIVATE METHODS
     //--------------------------------------------------------------------------
 
-    private function delete($id){
+    public function delete($id){
 
       $contact = $this->contact_model->find_user_and_meta($id);
       if (! isset($contact)) {
@@ -360,7 +344,9 @@ class Contact extends Front_Controller{
               $id_act = log_activity($this->auth->user_id(), '[contact_act_delete_record]' . ': '. '<a href="contato/'.$contact->slug_contact.'">'.$contact->display_name.'</a>', 'contact');
               log_notify($this->auth->users_has_permission($this->permissionView), $id_act);
 
-              return  $contact->display_name.' '.lang('contact_delete_success').'<br/>';
+              Template::set_message($contact->display_name.' '.lang('contact_delete_success'),'success');
+              Template::redirect($this->agent->referrer());
+
           }
 
           return lang('contact_delete_failure') . $this->contact_model->error;
