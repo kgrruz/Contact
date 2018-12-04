@@ -1,4 +1,6 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
+<?php if($data){ ?>
+
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
 
   <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
     <div class="navbar-nav">
@@ -6,70 +8,54 @@
   </div>
   </div>
 </nav>
-<?php  if($data){ ?>
 
+  <div class="table-responsive">
 
-  <?php echo form_open(); ?>
-<div class="table-responsive">
-<table id="table_contacts" class="table table-sm nowrap" cellspacing="0" width="100%">
-    <thead>
+  <table id="table_contacts" class="table table-hover table-outline table-vcenter text-nowrap mb-0" >
+      <thead>
+          <tr>
+              <th></th>
+              <th><?php echo lang('contact_column_display_name'); ?></th>
+              <th><?php echo lang('contact_column_email'); ?></th>
+              <th><?php echo lang('contact_column_phone'); ?></th>
+              <th></th>
+              <th></th>
+          </tr>
+      </thead>
+      <tbody>
+  <?php foreach($data as $contato){ ?>
+
         <tr>
-            <th class="pl-3"><input class="check-all" type="checkbox" /></th>
-            <th></th>
-            <th><?php echo lang('contact_column_display_name'); ?></th>
-            <th><?php echo lang('contact_column_email'); ?></th>
-            <th><?php echo lang('contact_column_phone'); ?></th>
-            <th><?php echo lang('contact_column_job_role'); ?></th>
+              <td><?php echo ($contato->contact_type == 1)? '<i class="fa fa-user" aria-hidden="true"></i>':'<i class="fa fa-building" aria-hidden="true"></i>'; ?> <?php echo ($contato->is_user)? '<i class="fa fa-key"></i>':''; ?></td>
+              <td><?php echo anchor('contato/'.$contato->slug_contact,$contato->display_name); ?></td>
+              <td><?php echo mailto($contato->email); ?></td>
+              <td><?php echo $contato->phone; ?></td>
+              <td><?php echo $contato->cargo; ?></td>
+              <td>
+                <div class="btn-group btn-group-sm" role="group" >
 
-            <th></th>
+                  <?php echo anchor('contact/edit/'.$contato->slug_contact,'<i class="fa fa-edit" aria-hidden="true"></i>
+            ','class="btn btn-sm btn-secondary"'); ?>
+            <?php echo anchor('contact/delete/'.$contato->id_contact,'<i class="fa fa-trash" aria-hidden="true"></i>','data-message="'.lang("contact_delete_confirm").'" class="btn btn-light exc_bot" '); ?>
+
+                </div>
+              </td>
         </tr>
-    </thead>
-    <tbody>
-<?php foreach($data as $contato){ ?>
+  <?php } ?>
+      </tbody>
+  </table>
 
-      <tr>
-            <td class="pl-3"><input type="checkbox" name="checked[]" value="<?php echo $contato->id_contact; ?>" /></td>
-            <td><i class="fa fa-user-circle-o" aria-hidden="true"></i></td>
-            <td><?php echo anchor('contato/'.$contato->slug_contact,$contato->display_name); ?></td>
-            <td><?php echo mailto($contato->email); ?></td>
-            <td><?php echo $contato->phone; ?></td>
-            <td><?php echo $contato->cargo; ?></td>
 
-            <td>
-              <div class="btn-group btn-group-sm" role="group" >
 
-                <?php echo anchor('contact/edit/'.$contato->slug_contact,'<i class="fa fa-pencil-square-o" aria-hidden="true"></i>
-          ','class="btn btn-sm btn-secondary"'); ?>
 
-              </div>
-            </td>
-      </tr>
-    <?php } ?>
-    </tbody>
-    <tfoot>
-      <tr><td></td>
-      <td colspan="6"><?php
-      echo lang('bf_with_selected'); ?>
+  </div>
 
-      <input type="submit" name="delete" class="btn  btn-sm btn-danger" id="delete-me" value="<?php echo lang('bf_action_delete'); ?>" onclick="return confirm('<?php e(js_escape(lang('contact_delete_account_confirm'))); ?>')" />
-</td>
-</tr>
-</tfoot>
-</table>
-
-</div>
-</div>
 
 <?php if($pags = $this->pagination->create_links()){ ?>
 <div class="card-footer">
 <?php echo $pags; ?>
 </div>
-<?php } ?>
-
-
-<?php echo form_close(); ?>
-
-<?php } else{ ?>
+<?php } } else{ ?>
   <div class="card-body text-center">
 
   <h4 class="card-title"><?php echo lang('contact_records_empty'); ?></h4>

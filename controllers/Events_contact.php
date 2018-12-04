@@ -96,6 +96,7 @@ class Events_contact{
             $where = array('company'=>$data['id_contact']);
 
             $this->CI->contact_model->select("
+              MAX(CASE WHEN meta_key = 'is_user' THEN meta_value END) AS 'is_user',
               MAX(CASE WHEN meta_key = 'company' THEN meta_value END) AS 'company',
               MAX(CASE WHEN meta_key = 'job_role' THEN meta_value END) AS 'cargo',
               MAX(CASE WHEN meta_key = 'resp_equip' THEN meta_value END) AS 'resp_equip',
@@ -105,7 +106,6 @@ class Events_contact{
             $this->CI->contact_model->having($where);
             $this->CI->contact_model->limit(12, $offset);
             $contacts = $this->CI->contact_model->find_all();
-
 
             $this->CI->load->library('pagination');
 
