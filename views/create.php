@@ -82,9 +82,9 @@ $id = isset($contact->id_contact) ? $contact->id_contact : '';
                 <?php echo form_label(lang('contact_field_groups') . lang('bf_form_label_required'), 'group', array('class' => 'control-label')); ?>
 
                     <select id='group' class="form-control form-control-sm form-control form-control-sm form-control form-control-sm-sm-sm" multiple name='group[]' >
-                      <?php foreach($tree['items'] as $group){ ?>
+                       <?php if(count($tree['items'])){ foreach($tree['items'] as $group){ ?>
                       <option <?php if(isset($my_groups)){ if(in_array($group['id_group'],$my_groups)){ echo 'selected'; }}elseif($group['id_group'] == 1){ echo 'selected';} ?> value="<?php echo $group['id_group']; ?>"><?php echo str_repeat('-', $this->nested_set->getNodeLevel($group)*4); ?> <?php echo ucfirst($group['group_name']); ?></option>
-                    <?php } ?>
+                    <?php } }else{ ?><option value="0"><?php echo lang('group_no_records'); ?></option><?php } ?>
                     </select>
                     <span class='help-inline'><?php echo form_error('group'); ?></span>
 
