@@ -25,9 +25,8 @@
   </div>
 </nav>
 
-<div class="table-responsive ">
+<div class="table-responsive">
 
-  <?php echo form_open(); ?>
 <table id="table_contacts" class="table table-hover table-outline table-vcenter text-nowrap mb-0" >
     <thead>
         <tr>
@@ -74,11 +73,7 @@
 <div class="card-footer">
 <?php echo $pags; ?>
 </div>
-<?php } ?>
-
-<?php echo form_close(); ?>
-
-<?php } else{ ?>
+<?php } } else{ ?>
   <div class="card-body text-center">
 
   <h4 class="card-title">Sem registros</h4>
