@@ -32,7 +32,7 @@
   <td><?php echo date('d/m/Y',strtotime($group['created_on'])); ?></td>
   <td>
     <?php if($group['id_group'] != 1){ ?>
-    <?php echo anchor('contact/group/edit/'.$group['slug_group'],'<i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+    <?php echo anchor('contact/group/edit/'.$group['slug_group'],'<i class="fa fa-edit" aria-hidden="true"></i>
 ','class="btn btn-sm btn-secondary"'); ?>  <?php } ?></td>
 </tr>
 <?php } ?>
