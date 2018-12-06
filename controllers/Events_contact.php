@@ -198,7 +198,7 @@ class Events_contact{
       function _show_widget_button(){
 
       if (has_permission($this->permissionView)) {
-            return anchor('contact/create/2',lang('contact_action_create'),'class="btn btn-success"');
+            return anchor('contact/create/2','<i class="fa fa-plus"></i><i class="fa fa-user"></i>','class="btn btn-success"');
 
           }
       }
