@@ -191,6 +191,9 @@ class Events_contact{
         if(isset($html['contact_id'])){ $data['contact_id'] = $html['contact_id']; };
 
         $data['contacts'] = $this->CI->contact_model->find_all();
+
+        $data['label'] = $html['label'];
+
         $html['html'] =  $this->CI->load->view('contact/form_widget',$data,true);
 
       }
