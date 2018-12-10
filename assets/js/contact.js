@@ -14,6 +14,24 @@
 
                 var jr_placeholder = $('.tk_job_role').data('placeholder');
 
-                $('.tokenize').tokenize2({'tokensMaxItems':1,'allowEmptyValues':true,'searchFromStart':false});
+                function format (option) {
+
+        if (!option.id) { return option.text; }
+
+        var $option = $('<div class="media">'+
+      '<img class="mr-3" src="'+option.element.dataset.img+'" alt="icon">'+
+      '<div class="media-body">'+
+        '<h6 class="mt-0">'+option.element.dataset.contact+'</h6>'+
+    '</div>');
+        return $option;
+
+      };
+
+                    $('#contact_id').select2({
+                      templateResult: format,
+                      templateSelection: format,
+                      theme: 'bootstrap'
+                    });
+
 
               });
