@@ -414,16 +414,8 @@ class Contact extends Front_Controller{
                 $return = $id;
             }
         } elseif ($type == 'update') {
+
             $return = $this->contact_model->update($id, $data);
-
-            if(isset($_POST['company']) and $_POST['company'] != 0){
-
-               $this->db->where('id_company_join',$_POST['company']);
-               $this->db->where('id_contact_join',$id);
-               $this->db->delete('companies_contacts');
-               $this->db->insert('companies_contacts',array('id_company_join'=>$_POST['company'],'id_contact_join'=>$id));
-
-            }
 
         }
 
