@@ -48,7 +48,7 @@
             <td><?php echo mailto($contato->email); ?></td>
             <td><?php echo $contato->phone; ?></td>
             <td><?php echo $contato->city; ?></td>
-            <td><?php echo date('d/m/Y H:i',strtotime($contato->created_on)); ?></td>
+            <td><?php echo ut_date($contato->created_on,$current_user->d_format); ?></td>
 
             <td>
               <div class="btn-group btn-group-sm" role="group" >

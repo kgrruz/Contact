@@ -29,7 +29,7 @@
     <?php echo anchor('contact/group/page/'.$group['slug_group'],ucfirst($group['group_name'])); ?></td>
   <td><?php echo ellipsize($group['description'],60); ?></td>
   <td class="text-center"><span class="badge badge-pill badge-primary"><?php echo $this->group_model->count_contacts_in_group($group['id_group']); ?></span></td>
-  <td><?php echo date('d/m/Y',strtotime($group['created_on'])); ?></td>
+  <td><?php echo ut_date($group['created_on'],$current_user->d_format); ?></td>
   <td>
     <?php if($group['id_group'] != 1){ ?>
     <?php echo anchor('contact/group/edit/'.$group['slug_group'],'<i class="fa fa-edit" aria-hidden="true"></i>
