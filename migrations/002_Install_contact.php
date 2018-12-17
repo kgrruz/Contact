@@ -36,6 +36,12 @@ class Migration_Install_contact extends Migration
             'constraint' => 30,
             'null'       => true
         ),
+        'contact_type' => array(
+            'type'       => 'TINYINT',
+            'constraint' => 1,
+						'default'		 => 1,
+            'null'       => false
+        ),
         'timezone' => array(
             'type'       => 'VARCHAR',
             'constraint' => 10,
