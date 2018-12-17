@@ -100,9 +100,9 @@ $id = isset($contact->id_contact) ? $contact->id_contact : '';
 
             <select class="form-control form-control-sm tokenize" multiple id="company" name="company">
               <option value="0"><?php echo lang('contact_select_company'); ?></option>
-              <?php foreach($companies as $contact){ ?>
+              <?php if($companies){ foreach($companies as $contact){ ?>
               <option value="<?php echo $contact->id_contact; ?>" <?php echo (isset($selected_company) and $selected_company == $contact->id_contact)? 'selected':''; ?> ><?php echo $contact->display_name; ?></option>
-            <?php } ?>
+            <?php } }?>
             </select>
             <span class='help-inline'><?php echo form_error('company'); ?></span>
 
