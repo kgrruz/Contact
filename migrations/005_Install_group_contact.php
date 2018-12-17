@@ -25,11 +25,9 @@ class Migration_Install_group_contact extends Migration
             'type'       => 'BIGINT',
             'constraint' => 20,
             'null'       => false,
-        ),
-    	'created_on' => array(
-            'type'       => 'datetime',
-            'default'    => date('Y-m-d H:i:s'),
         )
+				,
+				'created_on DATETIME DEFAULT CURRENT_TIMESTAMP'
 	);
 
 	/**
