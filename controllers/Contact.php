@@ -30,7 +30,6 @@ class Contact extends Front_Controller{
         $this->nested_set->setControlParams('groups','lft','rgt','id_group','parent_group','group_name');
 
         Assets::add_module_js('contact', 'locales.js');
-        Assets::add_module_js('contact', 'tour.js');
 
         Assets::add_module_css('contact', 'contact.css');
 
