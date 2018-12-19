@@ -26,6 +26,11 @@ $config['person_meta_fields'] =  array(
     'rules'  => 'trim'
 	),
 	array(
+		'name'   => 'phone2',
+    'label'  => 'phone2',
+    'rules'  => 'trim'
+	),
+	array(
 		'name'   => 'cpf',
 		'label'  => 'cpf',
 		'rules'  => 'trim'
@@ -113,6 +118,11 @@ $config['company_meta_fields'] =  array(
 		'name'   => 'size',
     'label'  => 'size',
     'rules'  => 'trim'
+	),
+	array(
+		'name'   => 'phone2',
+		'label'  => 'phone2',
+		'rules'  => 'trim'
 	),
 	array(
 		'name'   => 'adress',

@@ -79,11 +79,11 @@ $id = isset($contact->id_contact) ? $contact->id_contact : '';
                     <span class='help-inline'><?php echo form_error('phone'); ?></span>
 
             </div>
-            <div class="col-sm-6 form-group<?php echo form_error('phone') ? ' error' : ''; ?>">
-                <?php echo form_label(lang('contact_field_phone'), 'phone', array('class' => 'control-label')); ?>
+            <div class="col-sm-6 form-group<?php echo form_error('phone2') ? ' error' : ''; ?>">
+                <?php echo form_label(lang('contact_field_phone'), 'phone2', array('class' => 'control-label')); ?>
 
-                    <input type='text' class="form-control phone"  id="phone" name='phone'  value="<?php echo set_value('phone', isset($contact->phone) ? $contact->phone : ''); ?>" />
-                    <span class='help-inline'><?php echo form_error('phone'); ?></span>
+                    <input type='text' class="form-control phone"  id="phone2" name='phone2'  value="<?php echo set_value('phone2', isset($contact->phone2) ? $contact->phone2 : ''); ?>" />
+                    <span class='help-inline'><?php echo form_error('phone2'); ?></span>
 
             </div>
             </div>
