@@ -431,7 +431,7 @@ class Contact extends Front_Controller{
 
      public function profile(){
 
-       $this->authenticate($this->permissionView,'/desktop');
+       $this->authenticate($this->permissionView);
 
            $id = $this->uri->segment(2);
 
