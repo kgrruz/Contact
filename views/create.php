@@ -209,12 +209,13 @@ $id = isset($contact->id_contact) ? $contact->id_contact : '';
 
               <?php if(isset($selected_company)){
                 $city_company = $this->contact_model->find_meta_for($selected_company,array('city'))->city;
-              }else{ $city_company = ''; } ?>
+              }else{ $city_company = ''; }  ?>
               <div class="col-sm-6 form-group<?php echo form_error('city') ? ' error' : ''; ?>">
+
                 <?php echo form_label(lang('contact_field_city') . lang('bf_form_label_required'), 'city', array('class' => 'control-label')); ?>
                       <select id='city' type='text'  class="form-control ad"  placeholder="<?php echo lang('contact_field_city'); ?>" name='city' />
                         <?php foreach($cities->result() as $city){ ?>
-                          <option value="<?php echo $city->meta_value; ?>" <?php echo (isset($contact) and $contact->city == $city->meta_value)? 'selected':''; ?>  ><?php echo $city->meta_value; ?></option>
+                          <option value="<?php echo $city->meta_value; ?>" <?php echo (isset($contact_meta) and $contact_meta->city == $city->meta_value)? 'selected':''; ?>  ><?php echo $city->meta_value; ?></option>
                           <?php } ?>
                         </select>
                       <span class='help-inline'><?php echo form_error('city'); ?></span>
