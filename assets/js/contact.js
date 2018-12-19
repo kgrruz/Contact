@@ -33,5 +33,12 @@
                       theme: 'bootstrap'
                     });
 
+                    $("#job_role").select2({
+                      tags: true,
+                      tokenSeparators: [','],
+                      theme: 'bootstrap'
+
+                  })
+
 
               });
