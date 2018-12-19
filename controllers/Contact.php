@@ -182,6 +182,7 @@ class Contact extends Front_Controller{
 
       }
 
+        Template::set('cities', $this->contact_model->cities_contacts());
         Template::set('toolbar_title', lang('contact_action_create').$ext);
         Template::set('contact_type', $type);
         Template::set_block('sub_nav_menu', '_menu_module');
@@ -310,6 +311,7 @@ class Contact extends Front_Controller{
         $ext = " - ".lang('contact_company');
 
       }
+      Template::set('cities', $this->contact_model->cities_contacts());
 
         Template::set('toolbar_title', lang('contact_edit_heading').$ext);
         Template::set_view('create');

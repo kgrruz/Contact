@@ -58,7 +58,7 @@ $id = isset($contact->id_contact) ? $contact->id_contact : '';
         <div class="form-group<?php echo form_error('cpf') ? ' error' : ''; ?>">
             <?php echo form_label(lang('contact_field_cpf'), 'cpf', array('class' => 'control-label')); ?>
 
-                <input id='cpf' type='text' class="form-control  cpf" name='cpf' maxlength='15' value="<?php echo set_value('cnpj', isset($contact->cpf) ? $contact->cpf : ''); ?>" />
+                <input id='cpf' type='text' class="form-control cpf" name='cpf' maxlength='15' value="<?php echo set_value('cnpj', isset($contact->cpf) ? $contact->cpf : ''); ?>" />
                 <span class='help-inline'><?php echo form_error('cpf'); ?></span>
 
         </div>
@@ -68,7 +68,7 @@ $id = isset($contact->id_contact) ? $contact->id_contact : '';
             <div class="form-group<?php echo form_error('phone') ? ' error' : ''; ?>">
                 <?php echo form_label(lang('contact_field_phone'), 'phone', array('class' => 'control-label')); ?>
 
-                    <input type='text' class="form-control  "  id="phone" name='phone'  value="<?php echo set_value('phone', isset($contact->phone) ? $contact->phone : ''); ?>" />
+                    <input type='text' class="form-control phone"  id="phone" name='phone'  value="<?php echo set_value('phone', isset($contact->phone) ? $contact->phone : ''); ?>" />
                     <span class='help-inline'><?php echo form_error('phone'); ?></span>
 
             </div>
@@ -119,7 +119,7 @@ $id = isset($contact->id_contact) ? $contact->id_contact : '';
 
             <select class="form-control  tokenize" id="job_role" data-placeholder="<?php echo lang('contact_select_job_role'); ?>" name="job_role"  value="<?php echo set_value('job_role', isset($contact->job_role) ? $contact->job_role : ''); ?>">
               <?php foreach($job_roles->result() as $role){ ?>
-                <option value="<?php echo $role->meta_value; ?>"><?php echo $role->meta_value; ?></option>
+                <option value="<?php echo $role->meta_value; ?>" <?php echo (isset($contact) and $contact->job_role == $role->meta_value)? 'selected':''; ?> ><?php echo $role->meta_value; ?></option>
                 <?php } ?>
             </select>
             <span class='help-inline'><small><?php echo lang('help_tab_tokenize'); ?></small> <?php echo form_error('job_role'); ?></span>
@@ -181,7 +181,7 @@ $id = isset($contact->id_contact) ? $contact->id_contact : '';
 
               <div class="form-group<?php echo form_error('postcode') ? ' error' : ''; ?>">
                 <?php echo form_label(lang('contact_field_postcode'), 'postcode', array('class' => 'control-label')); ?>
-                      <input id='postcode' type='text'  class="form-control  ad postcode"  placeholder="<?php echo lang('contact_field_postcode'); ?>" name='postcode' maxlength='20' value="<?php echo set_value('postcode', isset($contact->postcode) ? $contact->postcode : ''); ?>" />
+                      <input id='postcode' type='text'  class="form-control ad postcode"  placeholder="<?php echo lang('contact_field_postcode'); ?>" name='postcode' maxlength='20' value="<?php echo set_value('postcode', isset($contact->postcode) ? $contact->postcode : ''); ?>" />
                       <span class='help-inline'><?php echo form_error('postcode'); ?></span>
               </div>
 
@@ -190,9 +190,14 @@ $id = isset($contact->id_contact) ? $contact->id_contact : '';
               }else{ $city_company = ''; } ?>
               <div class="form-group<?php echo form_error('city') ? ' error' : ''; ?>">
                 <?php echo form_label(lang('contact_field_city') . lang('bf_form_label_required'), 'city', array('class' => 'control-label')); ?>
-                      <input id='city' type='text'  class="form-control  ad"  placeholder="<?php echo lang('contact_field_city'); ?>" name='city' maxlength='20' value="<?php echo set_value('city', isset($contact->city) ? $contact->city : $city_company); ?>" />
+                      <select id='city' type='text'  class="form-control ad"  placeholder="<?php echo lang('contact_field_city'); ?>" name='city' />
+                        <?php foreach($cities->result() as $city){ ?>
+                          <option value="<?php echo $city->meta_value; ?>" <?php echo (isset($contact) and $contact->city == $city->meta_value)? 'selected':''; ?>  ><?php echo $city->meta_value; ?></option>
+                          <?php } ?>
+                        </select>
                       <span class='help-inline'><?php echo form_error('city'); ?></span>
               </div>
+
 
               <div class="form-group<?php echo form_error('neibor') ? ' error' : ''; ?>">
                   <?php echo form_label(lang('contact_field_neibor') , 'neibor', array('class' => 'control-label')); ?>
