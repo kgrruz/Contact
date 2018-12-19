@@ -26,7 +26,9 @@ $id = isset($contact->id_contact) ? $contact->id_contact : '';
 ?>
 <div class="row">
   <div class="col-md-6">
-            <div class="form-group<?php echo form_error('display_name') ? ' error' : ''; ?>">
+
+    <div class="row">
+            <div class="col-sm-6 form-group<?php echo form_error('display_name') ? ' error' : ''; ?>">
                 <?php echo form_label(lang('contact_field_display_name') . lang('bf_form_label_required'), 'display_name', array('class' => 'control-label')); ?>
 
                     <input id='display_name' type='text' class="form-control  " required='required' name='display_name' maxlength='255' value="<?php echo set_value('display_name', isset($contact->display_name) ? $contact->display_name : ''); ?>" />
@@ -35,8 +37,9 @@ $id = isset($contact->id_contact) ? $contact->id_contact : '';
             </div>
 
   <?php if($contact_type == 2){ ?>
-
-    <div class="form-group<?php echo form_error('fantasy_name') ? ' error' : ''; ?>">
+  </div>
+<div class="row">
+    <div class="col-sm-6 form-group<?php echo form_error('fantasy_name') ? ' error' : ''; ?>">
         <?php echo form_label(lang('contact_field_fantasy_name') , 'fantasy_name', array('class' => 'control-label')); ?>
 
             <input id='fantasy_name' type='text' class="form-control  "  name='fantasy_name' maxlength='255' value="<?php echo set_value('fantasy_name', isset($contact->fantasy_name) ? $contact->fantasy_name : ''); ?>" />
@@ -44,18 +47,20 @@ $id = isset($contact->id_contact) ? $contact->id_contact : '';
 
     </div>
 
-    <div class="form-group<?php echo form_error('cnpj') ? ' error' : ''; ?>">
+    <div class="col-sm-6 form-group<?php echo form_error('cnpj') ? ' error' : ''; ?>">
         <?php echo form_label(lang('contact_field_cnpj'), 'cnpj', array('class' => 'control-label')); ?>
 
             <input id='cnpj' type='text' class="form-control  cnpj" name='cnpj' maxlength='255' value="<?php echo set_value('cnpj', isset($contact->cnpj) ? $contact->cnpj : ''); ?>" />
             <span class='help-inline'><?php echo form_error('cnpj'); ?></span>
 
     </div>
+    </div>
+    <div class="row">
 
   <?php }else{ ?>
 
 
-        <div class="form-group<?php echo form_error('cpf') ? ' error' : ''; ?>">
+        <div class="col-sm-6 form-group<?php echo form_error('cpf') ? ' error' : ''; ?>">
             <?php echo form_label(lang('contact_field_cpf'), 'cpf', array('class' => 'control-label')); ?>
 
                 <input id='cpf' type='text' class="form-control cpf" name='cpf' maxlength='15' value="<?php echo set_value('cnpj', isset($contact->cpf) ? $contact->cpf : ''); ?>" />
@@ -64,17 +69,28 @@ $id = isset($contact->id_contact) ? $contact->id_contact : '';
         </div>
 
       <?php } ?>
+</div>
 
-            <div class="form-group<?php echo form_error('phone') ? ' error' : ''; ?>">
+<div class="row">
+            <div class="col-sm-6 form-group<?php echo form_error('phone') ? ' error' : ''; ?>">
                 <?php echo form_label(lang('contact_field_phone'), 'phone', array('class' => 'control-label')); ?>
 
                     <input type='text' class="form-control phone"  id="phone" name='phone'  value="<?php echo set_value('phone', isset($contact->phone) ? $contact->phone : ''); ?>" />
                     <span class='help-inline'><?php echo form_error('phone'); ?></span>
 
             </div>
+            <div class="col-sm-6 form-group<?php echo form_error('phone') ? ' error' : ''; ?>">
+                <?php echo form_label(lang('contact_field_phone'), 'phone', array('class' => 'control-label')); ?>
 
+                    <input type='text' class="form-control phone"  id="phone" name='phone'  value="<?php echo set_value('phone', isset($contact->phone) ? $contact->phone : ''); ?>" />
+                    <span class='help-inline'><?php echo form_error('phone'); ?></span>
 
-            <div class="form-group<?php echo form_error('email') ? ' error' : ''; ?>">
+            </div>
+            </div>
+
+<div class="row">
+
+            <div class="col-sm-6 form-group<?php echo form_error('email') ? ' error' : ''; ?>">
                 <?php echo form_label(lang('contact_field_email'), 'email', array('class' => 'control-label')); ?>
 
                     <input type='email' class="form-control  "  id="email" name='email'  value="<?php echo set_value('email', isset($contact->email) ? $contact->email : ''); ?>" />
@@ -84,7 +100,7 @@ $id = isset($contact->id_contact) ? $contact->id_contact : '';
 
 
 
-            <div class="form-group<?php echo form_error('group') ? ' error' : ''; ?>">
+            <div class="col-sm-6 form-group<?php echo form_error('group') ? ' error' : ''; ?>">
                 <?php echo form_label(lang('contact_field_groups') . lang('bf_form_label_required'), 'group', array('class' => 'control-label')); ?>
 
                     <select id='group' class="form-control  form-control  form-control -sm-sm" multiple name='group[]' >
@@ -94,6 +110,7 @@ $id = isset($contact->id_contact) ? $contact->id_contact : '';
                     </select>
                     <span class='help-inline'><?php echo form_error('group'); ?></span>
 
+            </div>
             </div>
 
             <?php echo $data_html; ?>
@@ -148,7 +165,9 @@ $id = isset($contact->id_contact) ? $contact->id_contact : '';
       <span class="help-inline"><?php echo form_error('timezones'); ?></span>
   </div>
 
-  <div class="form-group<?php echo form_error('country') ? ' error' : ''; ?>">
+<div class="row">
+
+  <div class="col-sm-6 form-group<?php echo form_error('country') ? ' error' : ''; ?>">
   <label class="control-label required" for="country"><?php echo lang('contact_field_country'); ?></label>
 
   <?php
@@ -163,7 +182,7 @@ $id = isset($contact->id_contact) ? $contact->id_contact : '';
       <span class="help-inline"><?php echo form_error('country'); ?></span>
   </div>
 
-  <div class="form-group<?php echo form_error('state') ? ' error' : ''; ?>">
+  <div class="col-sm-6 form-group<?php echo form_error('state') ? ' error' : ''; ?>">
   <label class="control-label required" for="state"><?php echo lang('contact_field_state'); ?></label>
 
   <?php
@@ -178,6 +197,7 @@ $id = isset($contact->id_contact) ? $contact->id_contact : '';
   ?>
       <span class="help-inline"><?php echo form_error('state'); ?></span>
   </div>
+  </div>
 
               <div class="form-group<?php echo form_error('postcode') ? ' error' : ''; ?>">
                 <?php echo form_label(lang('contact_field_postcode'), 'postcode', array('class' => 'control-label')); ?>
@@ -185,10 +205,12 @@ $id = isset($contact->id_contact) ? $contact->id_contact : '';
                       <span class='help-inline'><?php echo form_error('postcode'); ?></span>
               </div>
 
+<div class="row">
+
               <?php if(isset($selected_company)){
                 $city_company = $this->contact_model->find_meta_for($selected_company,array('city'))->city;
               }else{ $city_company = ''; } ?>
-              <div class="form-group<?php echo form_error('city') ? ' error' : ''; ?>">
+              <div class="col-sm-6 form-group<?php echo form_error('city') ? ' error' : ''; ?>">
                 <?php echo form_label(lang('contact_field_city') . lang('bf_form_label_required'), 'city', array('class' => 'control-label')); ?>
                       <select id='city' type='text'  class="form-control ad"  placeholder="<?php echo lang('contact_field_city'); ?>" name='city' />
                         <?php foreach($cities->result() as $city){ ?>
@@ -199,22 +221,24 @@ $id = isset($contact->id_contact) ? $contact->id_contact : '';
               </div>
 
 
-              <div class="form-group<?php echo form_error('neibor') ? ' error' : ''; ?>">
+              <div class="col-sm-6 form-group<?php echo form_error('neibor') ? ' error' : ''; ?>">
                   <?php echo form_label(lang('contact_field_neibor') , 'neibor', array('class' => 'control-label')); ?>
                       <input id='neibor' type='text'  class="form-control  ad"  name='neibor' maxlength='40' placeholder="<?php echo lang('contact_field_neibor'); ?>" value="<?php echo set_value('neibor', isset($contact->neibor) ? $contact->neibor : ''); ?>" />
                       <span class='help-inline'><?php echo form_error('neibor'); ?></span>
               </div>
-
-              <div class="form-group<?php echo form_error('adress') ? ' error' : ''; ?>">
+              </div>
+<div class="row">
+              <div class="col-sm-9 form-group<?php echo form_error('adress') ? ' error' : ''; ?>">
                   <?php echo form_label(lang('contact_field_adress'), 'adress', array('class' => 'control-label')); ?>
                       <input id='adress' type='text'  class="form-control  ad"  name='adress' maxlength='80' placeholder="<?php echo lang('contact_field_adress'); ?>" value="<?php echo set_value('adress', isset($contact->adress) ? $contact->adress : ''); ?>" />
                       <span class='help-inline'><?php echo form_error('adress'); ?></span>
               </div>
 
-              <div class="form-group<?php echo form_error('num_adress') ? ' error' : ''; ?>">
+              <div class="col-sm-3 form-group<?php echo form_error('num_adress') ? ' error' : ''; ?>">
                 <?php echo form_label(lang('contact_field_num_adress'), 'num_adress', array('class' => 'control-label')); ?>
                       <input id='num_adress' type='text' class="form-control  ad"   name='num_adress' placeholder="<?php echo lang('contact_field_num_adress'); ?>" maxlength='20' value="<?php echo set_value('num_adress', isset($contact->num_adress) ? $contact->num_adress : ''); ?>" />
                       <span class='help-inline'><?php echo form_error('num_adress'); ?></span>
+              </div>
               </div>
 
 <input type="hidden" name="contact_type" value="<?php echo $contact_type; ?>" />
