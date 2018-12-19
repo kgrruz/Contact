@@ -68,17 +68,15 @@
 
   <div class="card">
 
+  <?php if(is_array($contact_type) and !in_array($contact->contact_type,$contact_type)){ ?>
 
-
-  <?php if(isset($view_page)){ $this->load->view($view_page); } else{ ?>
-
-<div class="text-center">
+<div class="card-body text-center">
     <h4 class="card-title"><?php echo lang('contact_nothing_show_title'); ?></h4>
       <p class="card-text"><?php echo lang('contact_nothing_show_desc'); ?></p>
 
     </div>
 
-  <?php } ?>
+  <?php }else{  $this->load->view($view_page); } ?>
 
   </div>
 

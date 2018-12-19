@@ -120,6 +120,7 @@ class Events_contact{
             $this->CI->pagination->initialize($this->CI->pager);
 
             $data['data_table'] = $contacts;
+            $data['contact_type'] = array(2);
 
             $data['view_page'] = 'contact/company/index';
 

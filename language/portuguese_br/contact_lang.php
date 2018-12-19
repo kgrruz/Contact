@@ -32,6 +32,8 @@ $lang['contact_general_settings']    = 'Geral';
 $lang['contact_all_types'] = 'Todos';
 $lang['contact_company'] = 'Empresa';
 $lang['contact_contact'] = 'Pessoa';
+$lang['contact_nothing_show_title'] = '';
+$lang['contact_nothing_show_desc'] = '';
 // Create/Edit Buttons
 $lang['contact_action_edit']   = 'Editar contato';
 $lang['contact_action_create']   = 'Registrar contato';

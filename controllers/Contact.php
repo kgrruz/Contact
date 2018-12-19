@@ -467,12 +467,13 @@ class Contact extends Front_Controller{
 
            $function = $this->uri->segment(3,$tabs[0]['url']);
 
-           $data = array('function'=>$function,'view_page'=>'','id_contact'=>$id,'data_table'=>'','slug'=>$contact->slug_contact);
+           $data = array('function'=>$function,'view_page'=>'','contact_type'=>'','id_contact'=>$id,'data_table'=>'','slug'=>$contact->slug_contact);
 
            Events::trigger('show_profile_contact',$data);
            Template::set('function_tab',$function);
 
            Template::set('data',$data['data_table']);
+           Template::set('contact_type',$data['contact_type']);
            Template::set('id_contact',$data['id_contact']);
            Template::set('view_page', $data['view_page']);
 
