@@ -111,7 +111,7 @@ class Group_model extends BF_Model{
 
   function get_contacts_in_group($id){
 
-    $this->db->select('id_contact,slug_contact,phone,modified_on,display_name,email,contacts_groups.created_on');
+    $this->db->select('id_contact,slug_contact,phone,modified_on,display_name,email,contacts_groups.created_on as created_on');
     $this->db->from('contacts_groups');
     $this->db->join('contacts','contacts.id_contact  = contacts_groups.id_contact_join');
     $this->db->where('id_group_join',$id);

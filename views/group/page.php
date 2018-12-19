@@ -32,7 +32,7 @@
 	  <td><?php echo anchor('contato/'.$contato->slug_contact,$contato->display_name); ?></td>
 	  <td><?php echo mailto($contato->email); ?></td>
 	  <td><?php echo $contato->phone; ?></td>
-	  <td><?php echo date('d/m/Y H:i',strtotime($contato->modified_on)); ?></td>
+	  <td><?php echo ut_date($contato->created_on,$current_user->d_format.' '.$current_user->t_format); ?></td>
 
 	  <td>
 	    <div class="btn-group btn-group-sm" role="group" >
