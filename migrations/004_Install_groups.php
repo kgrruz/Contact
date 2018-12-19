@@ -84,8 +84,23 @@ class Migration_Install_groups extends Migration
 		$this->dbforge->add_field($this->fields);
 		$this->dbforge->add_key('id_group', true);
 		$this->dbforge->create_table($this->table_name);
-	}
 
+		$this->lang->load('contact/group');
+
+		$first_group = array(
+			'group_name'=>$this->lang->line('group_first_group_name'),
+			'slug_group'=>$this->lang->line('group_first_group_slug'),
+			'parent_group'=>0,
+			'lft'=>1,
+			'rgt'=>2,
+			'description'=>$this->lang->line('group_first_group_desc'),
+			'created_on'=>date('Y-m-d H:i:s'),
+			'created_by'=>1
+		);
+
+		$this->db->insert("groups",$first_group);
+
+	}
 	/**
 	 * Uninstall this version
 	 *
