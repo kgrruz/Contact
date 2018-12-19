@@ -1,16 +1,38 @@
   $(document).on('ready', function() {
 
-                $("input[name='phone']").inputmask({
-                      mask: ["(99) 9999-9999", "(99) 99999-9999"],
-                      keepStatic: true,
-                      placeholder: ""
+if($(".phone").length){
+
+    $(".phone").inputmask({
+          mask: $('#country').find(':selected').data("phone_pattern").split(','),
+          keepStatic: true,
+          placeholder: ""
+    });
+
+      $('.postcode').inputmask({
+        mask:$('#country').find(':selected').data("zip_pattern").split(','),
+        keepStatic: true
+      });
+
+      $('.cnpj').inputmask($('#country').find(':selected').data("comp_id_pattern"));
+      $("input[name='cpf']").inputmask($('#country').find(':selected').data("person_id_pattern"));
+
+                $('#country').change(function(){
+
+                  $(".phone").inputmask({
+                        mask: $(this).find(':selected').data("phone_pattern").split(','),
+                        keepStatic: true,
+                        placeholder: ""
+                  });
+
+                    $('.postcode').inputmask({
+                      mask:$(this).find(':selected').data("zip_pattern").split(','),
+                      keepStatic: true
+                    });
+
+                    $('.cnpj').inputmask($(this).find(':selected').data("comp_id_pattern"));
+                    $("input[name='cpf']").inputmask($(this).find(':selected').data("person_id_pattern"));
+
                 });
-
-                $("input[name='cpf']").inputmask('999.999.999-99');
-                //$("input[name='num_adress']").inputmask('********', {"placeholder": ""});
-
-                $('.postcode').inputmask('99999-999');
-                $('.cnpj').inputmask('99.999.999/9999-99');
 
                 var jr_placeholder = $('.tk_job_role').data('placeholder');
 
@@ -39,6 +61,12 @@
                       theme: 'bootstrap'
 
                   })
+                    $("#city").select2({
+                      tags: true,
+                      tokenSeparators: [','],
+                      theme: 'bootstrap'
 
+                  })
+}
 
               });
