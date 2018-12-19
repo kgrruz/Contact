@@ -288,7 +288,7 @@ class Contact extends Front_Controller{
         Template::set('data_html',$data_html['html']);
 
         Template::set('contact', $contact_meta);
-        Template::set('my_groups', $this->group_model->get_contact_groups_array($id));
+        Template::set('my_groups', $this->group_model->get_contact_groups_array($contact->id_contact));
 
         $parent_node = $this->nested_set->getNodeWhere(array('id_group'=>1));
         $tree = $this->nested_set->getSubTree($parent_node);

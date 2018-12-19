@@ -40,6 +40,7 @@ $lang['group_field_number_contacts'] = 'Contatos';
 $lang['group_field_created_on'] = 'Criado em';
 $lang['group_field_parent_group'] = 'Grupo pai';
 $lang['group_field_contact_join_on'] = 'Desde';
+$lang['group_field_placeholder'] = 'Selecione um grupo...';
 
 $lang['group_config_new_group'] = 'Cadastre um grupo de contatos';
 
