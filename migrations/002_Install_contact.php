@@ -87,6 +87,19 @@ class Migration_Install_contact extends Migration
 		$this->dbforge->add_field($this->fields);
 		$this->dbforge->add_key('id_contact', true);
 		$this->dbforge->create_table($this->table_name);
+
+		//insert widget
+
+		$data_widget = array(
+			'name_widget'=>'Add contact',
+			'description_widget'=>'Display add contact button',
+			'order_view'=>0,
+			'path'=>serialize(array("class"=>"Events_contact","function"=>"_show_widget_button")),
+			'module'=>'contact'
+		);
+
+		$this->db->insert("widgets",$data_widget);
+
 	}
 
 	/**
