@@ -40,8 +40,8 @@ $lang['contact_action_create']   = 'Registrar contato';
 
 // Activities
 $lang['contact_act_create_record'] = 'Adicionou contato';
-$lang['contact_act_edit_record'] = 'Atualizado registro com ID';
-$lang['contact_act_delete_record'] = 'Excluído registro com ID';
+$lang['contact_act_edit_record'] = 'Atualizado contato';
+$lang['contact_act_delete_record'] = 'Excluído contato';
 
 //Listing Specifics
 $lang['contact_records_empty']    = 'Nenhum registro encontrado.';
