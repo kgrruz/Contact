@@ -40,6 +40,14 @@ class Customer extends Front_Controller{
 
         $this->authenticate();
 
+        Assets::add_module_css('contact','ol.css');
+        Assets::add_module_js('contact','ol.js');
+
+        Assets::add_module_css('contact','ol-geocoder.min.css');
+        Assets::add_module_js('contact','ol-geocoder.js');
+
+        Assets::add_module_js('contact','map_widget.js');
+
         if (isset($_POST['save'])) {
 
           $meta_data_lat = array(
