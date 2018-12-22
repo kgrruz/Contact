@@ -19,6 +19,8 @@ class Contact extends Front_Controller{
 
         parent::__construct();
 
+        if (!$this->db->table_exists('contacts')){ show_error('No contacts table.'); }
+
         $this->load->model('contact/contact_model');
 
         $this->lang->load('contact/contact');

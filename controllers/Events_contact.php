@@ -62,10 +62,13 @@ class Events_contact{
 
       public function _config_link(&$data){
 
+        if ($this->CI->db->table_exists('groups')){
+
            if (has_permission($this->permissionView) and !$this->CI->group_model->count_by('deleted',0)) {
 
         array_push($data['configs'],array('text'=>lang('group_config_new_group'),'link'=>'contact/group/create'));
 
+        }
         }
       }
 
