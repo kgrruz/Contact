@@ -4,7 +4,7 @@
 
 <input type="hidden" id="adress" value="<?php echo (isset($meta->adress))? $meta->adress:''; ?>" />
 <input type="hidden" id="city" value="<?php echo (isset($meta->city))? $meta->city:''; ?>" />
-<input type="hidden" id="country" value="<?php echo $meta->country; ?>" />
+<input type="hidden" id="country" value="<?php echo (isset($meta->city))? $meta->country:''; ?>" />
 <input type="hidden" id="neibor" value="" />
 
 <div class="card">
