@@ -3,11 +3,11 @@ $defaultTimezone = isset($user->timezone) ? $user->timezone : strtoupper(setting
 $defaultCountry = 'BR';
 $defaultState   = 'MG';
 ?>
-
+<?php echo form_open($this->uri->uri_string(),'id="form_contact"'); ?>
 <div class="card-body">
 <h4 class="card-title"><?php echo $toolbar_title; ?></h4>
 
-  <?php echo form_open($this->uri->uri_string(),'id="form_contact"'); ?>
+
 
     <?php if (validation_errors()) : ?>
 
@@ -252,12 +252,12 @@ $id = isset($contact->id_contact) ? $contact->id_contact : '';
 
 
 <div class="card-footer">
-                <input type='submit' id="create_contact" value="<?php echo lang('contact_action_create'); ?>" class='btn btn-sm btn-primary' />
+                <button type='submit' id="create_contact" class='btn btn-sm btn-primary'><?php echo lang('contact_action_create'); ?></button>
                 <?php echo lang('bf_or'); ?>
                 <?php echo anchor('contacts', lang('contact_cancel'), 'class="btn btn-sm btn-warning"'); ?>
 </div>
+<?php echo form_close(); ?>
 
-  <?php echo form_close(); ?>
   <?php   Assets::add_js(
               $this->load->view(
                   'users/country_state_js',
