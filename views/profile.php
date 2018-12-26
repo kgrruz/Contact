@@ -1,4 +1,5 @@
-<div class="row p-3">
+
+<div class="row">
   <div class="col-md-3">
 
     <div class="card">
@@ -80,6 +81,7 @@
 
   </div>
 
+</div>
 </div>
 </div>
 
