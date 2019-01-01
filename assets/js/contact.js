@@ -36,6 +36,24 @@ if($(".phone").length){
 
                 var jr_placeholder = $('.tk_job_role').data('placeholder');
 
+                $("#job_role").select2({
+                  tags: true,
+                  tokenSeparators: [','],
+                  theme: 'bootstrap'
+
+              })
+                $("#city").select2({
+                  tags: true,
+                  tokenSeparators: [','],
+                  theme: 'bootstrap'
+
+              })
+
+              }
+
+
+      if($("#contact_id").length){
+
                 function format (option) {
 
         if (!option.id) { return option.text; }
@@ -49,24 +67,16 @@ if($(".phone").length){
 
       };
 
+
+
                     $('#contact_id').select2({
                       templateResult: format,
                       templateSelection: format,
                       theme: 'bootstrap'
                     });
 
-                    $("#job_role").select2({
-                      tags: true,
-                      tokenSeparators: [','],
-                      theme: 'bootstrap'
+                  }
 
-                  })
-                    $("#city").select2({
-                      tags: true,
-                      tokenSeparators: [','],
-                      theme: 'bootstrap'
 
-                  })
-}
 
               });
