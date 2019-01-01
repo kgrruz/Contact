@@ -37,7 +37,7 @@
 	  <td>
 	    <div class="btn-group btn-group-sm" role="group" >
 
-	      <?php echo anchor('contact/edit/'.$contato->slug_contact,'<i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+	      <?php echo anchor('contact/edit/'.$contato->slug_contact,'<i class="fa fa-edit" aria-hidden="true"></i>
 	','class="btn btn-sm btn-secondary"'); ?>
 
 	    </div>
