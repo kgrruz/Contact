@@ -190,6 +190,12 @@ class Events_contact{
 
         Assets::add_module_js('contact', 'contact.js');
 
+        if(isset($html['contact_type'])){
+
+          $this->CI->contact_model->where('contact_type',$html['contact_type']);
+
+        }
+
         $this->CI->contact_model->where('deleted',0);
 
         if(isset($html['contact_id'])){ $data['contact_id'] = $html['contact_id']; };
