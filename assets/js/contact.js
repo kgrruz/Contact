@@ -68,11 +68,12 @@ if($(".phone").length){
       };
 
 
-
                     $('#contact_id').select2({
                       templateResult: format,
                       templateSelection: format,
-                      theme: 'bootstrap'
+                      theme: 'bootstrap',
+                      placeholder: $.i18n('contact-placeholder'),
+                      allowClear: true
                     });
 
                   }

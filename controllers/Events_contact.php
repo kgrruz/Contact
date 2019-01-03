@@ -188,6 +188,7 @@ class Events_contact{
 
       public function _form_widget(&$html){
 
+        Assets::add_module_js('contact', 'locale.js');
         Assets::add_module_js('contact', 'contact.js');
 
         if(isset($html['contact_type'])){
