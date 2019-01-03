@@ -214,7 +214,8 @@ $id = isset($contact->id_contact) ? $contact->id_contact : '';
               <div class="col-sm-6 form-group<?php echo form_error('city') ? ' error' : ''; ?>">
 
                 <?php echo form_label(lang('contact_field_city') . lang('bf_form_label_required'), 'city', array('class' => 'control-label')); ?>
-                      <select id='city' type='text'  class="form-control ad"  placeholder="<?php echo lang('contact_field_city'); ?>" name='city' />
+                      <select id='city' type='text'  class="form-control ad"  data-placeholder="<?php echo lang('contact_field_city'); ?>" name='city' />
+                        <option></option>
                         <?php foreach($cities->result() as $city){ ?>
                           <option value="<?php echo $city->meta_value; ?>" <?php if(isset($contact)){ echo ($contact->city == $city->meta_value)? 'selected':''; }else{ echo ($city_company == $city->meta_value)? 'selected':''; } ?>  ><?php echo $city->meta_value; ?></option>
                           <?php } ?>

@@ -1,4 +1,14 @@
-### Fix wrong variable name. (HEAD -> master)
+### Add select2 placeholder to city input. (HEAD -> master)
+>Thu, 3 Jan 2019 15:10:10 -0200
+
+>Author: kleber (ruzkleber@gmail.com)
+
+>Commiter: kleber (ruzkleber@gmail.com)
+
+
+
+
+### Fix wrong variable name. (ge/master)
 >Thu, 3 Jan 2019 15:01:06 -0200
 
 >Author: kleber (ruzkleber@gmail.com)
@@ -8,7 +18,7 @@
 
 
 
-### Add contact_type,city to table contacts in group. (origin/master, origin/HEAD, ge/master)
+### Add contact_type,city to table contacts in group. (origin/master, origin/HEAD)
 >Thu, 3 Jan 2019 12:55:38 -0200
 
 >Author: kleber (ruzkleber@gmail.com)
