@@ -1,4 +1,14 @@
-### Add job role placeholder. (HEAD -> master)
+### Fix foreach conflict with variable values. (HEAD -> master)
+>Thu, 3 Jan 2019 12:40:35 -0200
+
+>Author: kleber (ruzkleber@gmail.com)
+
+>Commiter: kleber (ruzkleber@gmail.com)
+
+
+
+
+### Add job role placeholder. (origin/master, origin/HEAD, ge/master)
 >Thu, 3 Jan 2019 11:03:38 -0200
 
 >Author: kleber (ruzkleber@gmail.com)
@@ -18,7 +28,7 @@
 
 
 
-### Ignore changes on releases folder. (origin/master, origin/HEAD)
+### Ignore changes on releases folder.
 >Thu, 3 Jan 2019 09:53:21 -0200
 
 >Author: kleber (ruzkleber@gmail.com)

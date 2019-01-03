@@ -123,8 +123,8 @@ $id = isset($contact->id_contact) ? $contact->id_contact : '';
 
             <select class="form-control  tokenize" multiple id="company" name="company">
               <option value="0"><?php echo lang('contact_select_company'); ?></option>
-              <?php if($companies){ foreach($companies as $contact){ ?>
-              <option value="<?php echo $contact->id_contact; ?>" <?php echo (isset($selected_company) and $selected_company == $contact->id_contact)? 'selected':''; ?> ><?php echo $contact->display_name; ?></option>
+              <?php if($companies){ foreach($companies as $comp){ ?>
+              <option value="<?php echo $comp->id_contact; ?>" <?php echo (isset($selected_company) and $selected_company == $comp->id_contact)? 'selected':''; ?> ><?php echo $contact->display_name; ?></option>
             <?php } }?>
             </select>
             <span class='help-inline'><?php echo form_error('company'); ?></span>
@@ -137,7 +137,7 @@ $id = isset($contact->id_contact) ? $contact->id_contact : '';
             <select class="form-control  tokenize" id="job_role" data-placeholder="<?php echo lang('contact_select_job_role'); ?>" name="job_role"  value="<?php echo set_value('job_role', isset($contact->job_role) ? $contact->job_role : ''); ?>">
               <option></option>
               <?php foreach($job_roles->result() as $role){ ?>
-                <option value="<?php echo $role->meta_value; ?>" <?php echo (isset($contact_meta) and $contact_meta->job_role == $role->meta_value)? 'selected':''; ?> ><?php echo $role->meta_value; ?></option>
+                <option value="<?php echo $role->meta_value; ?>" <?php echo (isset($contact) and $contact->job_role == $role->meta_value)? 'selected':''; ?> ><?php echo $role->meta_value; ?></option>
                 <?php } ?>
             </select>
             <span class='help-inline'><small><?php echo lang('help_tab_tokenize'); ?></small> <?php echo form_error('job_role'); ?></span>
@@ -216,7 +216,7 @@ $id = isset($contact->id_contact) ? $contact->id_contact : '';
                 <?php echo form_label(lang('contact_field_city') . lang('bf_form_label_required'), 'city', array('class' => 'control-label')); ?>
                       <select id='city' type='text'  class="form-control ad"  placeholder="<?php echo lang('contact_field_city'); ?>" name='city' />
                         <?php foreach($cities->result() as $city){ ?>
-                          <option value="<?php echo $city->meta_value; ?>" <?php if(isset($contact_meta)){ echo ($contact_meta->city == $city->meta_value)? 'selected':''; }else{ echo ($city_company == $city->meta_value)? 'selected':''; } ?>  ><?php echo $city->meta_value; ?></option>
+                          <option value="<?php echo $city->meta_value; ?>" <?php if(isset($contact)){ echo ($contact->city == $city->meta_value)? 'selected':''; }else{ echo ($city_company == $city->meta_value)? 'selected':''; } ?>  ><?php echo $city->meta_value; ?></option>
                           <?php } ?>
                         </select>
                       <span class='help-inline'><?php echo form_error('city'); ?></span>
