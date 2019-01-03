@@ -111,9 +111,15 @@ class Group_model extends BF_Model{
 
   function get_contacts_in_group($id){
 
-    $this->db->select('id_contact,slug_contact,phone,modified_on,display_name,email,contacts_groups.created_on as created_on');
+    $this->db->select('id_contact,slug_contact,phone,modified_on,display_name,email,contact_type, contacts_groups.created_on as created_on');
+    $this->db->select("
+      MAX(CASE WHEN meta_key = 'is_user' THEN meta_value END) AS 'is_user',
+      MAX(CASE WHEN meta_key = 'city' THEN meta_value END) AS 'city',
+      ");
+
     $this->db->from('contacts_groups');
     $this->db->join('contacts','contacts.id_contact  = contacts_groups.id_contact_join');
+      $this->db->join('contact_meta','contact_meta.contact_id = contacts.id_contact','left');
     $this->db->where('id_group_join',$id);
     return $this->db->get()->result();
 

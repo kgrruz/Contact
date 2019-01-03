@@ -19,6 +19,7 @@
 			<th><?php echo lang('contact_column_display_name'); ?></th>
 			<th><?php echo lang('contact_column_email'); ?></th>
 			<th><?php echo lang('contact_column_phone'); ?></th>
+			<th></th>
 			<th><?php echo lang('contact_column_created'); ?></th>
 			<th></th>
 		</tr>
@@ -28,10 +29,12 @@
 
 	<tr>
 
-	  <td><i class="fa fa-user-circle-o" aria-hidden="true"></i></td>
+		<td class="pl-3"><?php echo ($contato->contact_type == 1)? '<i class="fa fa-user" aria-hidden="true"></i>':'<i class="fa fa-building" aria-hidden="true"></i>'; ?> <?php echo ($contato->is_user)? '<i class="fa fa-key"></i>':''; ?></td>
+
 	  <td><?php echo anchor('contato/'.$contato->slug_contact,$contato->display_name); ?></td>
 	  <td><?php echo mailto($contato->email); ?></td>
 	  <td><?php echo $contato->phone; ?></td>
+	  <td><?php echo $contato->city; ?></td>
 	  <td><?php echo ut_date($contato->created_on,$current_user->d_format.' '.$current_user->t_format); ?></td>
 
 	  <td>
