@@ -105,7 +105,7 @@ $id = isset($contact->id_contact) ? $contact->id_contact : '';
 
                     <select id='group' class="form-control  form-control  form-control -sm-sm" multiple name='group[]' >
                        <?php if(count($tree['items'])){ foreach($tree['items'] as $group){ ?>
-                      <option <?php if(isset($my_groups)){ if(in_array($group['id_group'],$my_groups)){ echo 'selected'; }} ?> value="<?php echo $group['id_group']; ?>"><?php echo str_repeat('-', $this->nested_set->getNodeLevel($group)*4); ?> <?php echo ucfirst($group['group_name']); ?></option>
+                      <option <?php if(isset($my_groups)){ if(in_array($group['id_group'],$my_groups)){ echo 'selected'; }}else if($group['id_group'] == 1){ echo 'selected'; } ?> value="<?php echo $group['id_group']; ?>"><?php echo str_repeat('-', $this->nested_set->getNodeLevel($group)*4); ?> <?php echo ucfirst($group['group_name']); ?></option>
                     <?php } }else{ ?><option value="0"><?php echo lang('group_no_records'); ?></option><?php } ?>
                     </select>
                     <span class='help-inline'><?php echo form_error('group'); ?></span>

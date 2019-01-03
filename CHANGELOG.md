@@ -1,4 +1,14 @@
-### Ignore changes on releases folder. (HEAD -> master)
+### Add default group selection. (HEAD -> master)
+>Thu, 3 Jan 2019 10:45:53 -0200
+
+>Author: kleber (ruzkleber@gmail.com)
+
+>Commiter: kleber (ruzkleber@gmail.com)
+
+
+
+
+### Ignore changes on releases folder. (origin/master, origin/HEAD, ge/master)
 >Thu, 3 Jan 2019 09:53:21 -0200
 
 >Author: kleber (ruzkleber@gmail.com)
@@ -38,7 +48,7 @@
 
 
 
-### Add contact type parameter to widget form display. (origin/master, origin/HEAD)
+### Add contact type parameter to widget form display.
 >Wed, 2 Jan 2019 21:43:03 -0200
 
 >Author: kleber (ruzkleber@gmail.com)
