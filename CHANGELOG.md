@@ -1,4 +1,14 @@
-### Add contact widget placeholder translation. (HEAD -> master)
+### Remove tab changelog from markdown. (HEAD -> master)
+>Thu, 3 Jan 2019 09:51:47 -0200
+
+>Author: kleber (ruzkleber@gmail.com)
+
+>Commiter: kleber (ruzkleber@gmail.com)
+
+
+
+
+### Add contact widget placeholder translation.
 >Thu, 3 Jan 2019 07:35:55 -0200
 
 >Author: kleber (ruzkleber@gmail.com)

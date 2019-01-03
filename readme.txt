@@ -22,13 +22,3 @@ Recursos:
 ### SCREENSHOT
 
 </div>
-
-
-<div class="tab-pane" id="changelog" role="tabpanel" aria-labelledby="changelog-tab" markdown="1">
-### Changelog
-
-
-= 1.3.0 =
-*Data de lançamento - 01 Janeiro 2019*
-
-</div>
