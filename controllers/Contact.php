@@ -345,7 +345,7 @@ class Contact extends Front_Controller{
               $id_act = log_activity($this->auth->user_id(), '[contact_act_delete_record]' . ': '. '<a href="contato/'.$contact->slug_contact.'">'.$contact->display_name.'</a>', 'contact');
               log_notify($this->auth->users_has_permission($this->permissionView), $id_act);
 
-              Template::set_message($contact->display_name.' '.lang('contact_delete_success'),'success');
+              Template::set_message(lang("contact_contact_name").' <strong>'.$contact->display_name.'</strong> '.lang('contact_delete_success'),'success');
               Template::redirect($this->agent->referrer());
 
           }

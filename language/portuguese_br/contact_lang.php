@@ -17,7 +17,7 @@ $lang['contact_invalid_id']    = 'ID do Contato inválida.';
 $lang['contact_edit_success']    = 'Contato salvo(a) com sucesso.';
 $lang['contact_edit_failure']    = 'Ocorreu um problema salvando o(a) contact: ';
 $lang['contact_delete_account_confirm']    = 'Tem certeza que deseja excluir o(s) contato(s): ';
-$lang['contact_delete_success']  = 'Registro(s) excluído(s) com sucesso.';
+$lang['contact_delete_success']  = 'excluído(s) com sucesso.';
 $lang['contact_delete_failure']  = 'Não foi possível excluir o registro: ';
 $lang['contact_delete_error']    = 'Voc6e não selecionou nenhum registro para excluir.';
 $lang['contact_actions']     = 'Ações';
@@ -32,6 +32,7 @@ $lang['contact_general_settings']    = 'Geral';
 $lang['contact_all_types'] = 'Todos';
 $lang['contact_company'] = 'Empresa';
 $lang['contact_contact'] = 'Pessoa';
+$lang['contact_contact_name'] = 'Contato';
 $lang['contact_nothing_show_title'] = '';
 $lang['contact_nothing_show_desc'] = '';
 // Create/Edit Buttons
@@ -41,7 +42,7 @@ $lang['contact_action_create']   = 'Registrar contato';
 // Activities
 $lang['contact_act_create_record'] = 'Adicionou contato';
 $lang['contact_act_edit_record'] = 'Atualizado contato';
-$lang['contact_act_delete_record'] = 'Excluído contato';
+$lang['contact_act_delete_record'] = 'Excluiu o contato';
 
 //Listing Specifics
 $lang['contact_records_empty']    = 'Nenhum registro encontrado.';

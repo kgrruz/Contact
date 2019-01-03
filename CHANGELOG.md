@@ -1,4 +1,14 @@
-### Add select2 placeholder to city input. (HEAD -> master)
+### Change notification message on delete contact record. (HEAD -> master)
+>Thu, 3 Jan 2019 15:36:51 -0200
+
+>Author: kleber (ruzkleber@gmail.com)
+
+>Commiter: kleber (ruzkleber@gmail.com)
+
+
+
+
+### Add select2 placeholder to city input. (origin/master, origin/HEAD, ge/master)
 >Thu, 3 Jan 2019 15:10:10 -0200
 
 >Author: kleber (ruzkleber@gmail.com)
@@ -8,7 +18,7 @@
 
 
 
-### Fix wrong variable name. (ge/master)
+### Fix wrong variable name.
 >Thu, 3 Jan 2019 15:01:06 -0200
 
 >Author: kleber (ruzkleber@gmail.com)
@@ -18,7 +28,7 @@
 
 
 
-### Add contact_type,city to table contacts in group. (origin/master, origin/HEAD)
+### Add contact_type,city to table contacts in group.
 >Thu, 3 Jan 2019 12:55:38 -0200
 
 >Author: kleber (ruzkleber@gmail.com)
