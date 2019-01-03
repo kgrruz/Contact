@@ -1,4 +1,14 @@
-### Add folder to store stable versions of module. (HEAD -> master)
+### Ignore changes on releases folder. (HEAD -> master)
+>Thu, 3 Jan 2019 09:53:21 -0200
+
+>Author: kleber (ruzkleber@gmail.com)
+
+>Commiter: kleber (ruzkleber@gmail.com)
+
+
+
+
+### Add folder to store stable versions of module.
 >Thu, 3 Jan 2019 09:52:37 -0200
 
 >Author: kleber (ruzkleber@gmail.com)
