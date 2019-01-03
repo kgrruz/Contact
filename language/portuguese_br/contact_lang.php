@@ -35,6 +35,7 @@ $lang['contact_contact'] = 'Pessoa';
 $lang['contact_contact_name'] = 'Contato';
 $lang['contact_nothing_show_title'] = '';
 $lang['contact_nothing_show_desc'] = '';
+$lang['contact_has_user'] = 'O contato possui um usuário relacionado. Não pode ser removido.';
 // Create/Edit Buttons
 $lang['contact_action_edit']   = 'Editar contato';
 $lang['contact_action_create']   = 'Registrar contato';

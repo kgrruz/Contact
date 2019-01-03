@@ -1,4 +1,14 @@
-### Fix link in notification when update contact slug. (HEAD -> master)
+### Block delete contact if has related user account. (HEAD -> master)
+>Thu, 3 Jan 2019 18:29:51 -0200
+
+>Author: kleber (ruzkleber@gmail.com)
+
+>Commiter: kleber (ruzkleber@gmail.com)
+
+
+
+
+### Fix link in notification when update contact slug. (origin/master, origin/HEAD, ge/master)
 >Thu, 3 Jan 2019 15:48:46 -0200
 
 >Author: kleber (ruzkleber@gmail.com)
@@ -18,7 +28,7 @@
 
 
 
-### Add select2 placeholder to city input. (origin/master, origin/HEAD, ge/master)
+### Add select2 placeholder to city input.
 >Thu, 3 Jan 2019 15:10:10 -0200
 
 >Author: kleber (ruzkleber@gmail.com)

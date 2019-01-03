@@ -339,7 +339,8 @@ class Contact extends Front_Controller{
 
           if (!empty($contact->is_user)) {
 
-              return lang('contact_has_user').'<br/>';
+              Template::set_message(lang('contact_has_user'), 'danger');
+              Template::redirect($this->agent->referrer());
           }
 
           if ($this->contact_model->delete($id)) {
@@ -352,7 +353,7 @@ class Contact extends Front_Controller{
 
           }
 
-          return lang('contact_delete_failure') . $this->contact_model->error;
+          Template::set_message(lang('contact_delete_failure') . $this->contact_model->error,'danger');
 
     }
 
