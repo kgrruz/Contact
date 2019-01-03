@@ -1,4 +1,14 @@
-### Fix class name of error messages. (HEAD -> master)
+### Fix error class. Add lang line for validation error. (HEAD -> master)
+>Thu, 3 Jan 2019 19:01:10 -0200
+
+>Author: kleber (ruzkleber@gmail.com)
+
+>Commiter: kleber (ruzkleber@gmail.com)
+
+
+
+
+### Fix class name of error messages. (ge/master)
 >Thu, 3 Jan 2019 18:56:15 -0200
 
 >Author: kleber (ruzkleber@gmail.com)
@@ -18,7 +28,7 @@
 
 
 
-### Block delete contact if has related user account. (ge/master)
+### Block delete contact if has related user account.
 >Thu, 3 Jan 2019 18:29:51 -0200
 
 >Author: kleber (ruzkleber@gmail.com)

@@ -29,6 +29,7 @@ $lang['group_zero_contacts_ingroup'] = 'Não há contatos neste grupo.';
 $lang['group_first_group_name'] = 'Geral';
 $lang['group_first_group_slug'] = 'geral';
 $lang['group_first_group_desc'] = 'Grupos em geral.';
+$lang['group_errors_message'] = 'Erro ao tentar criar o Grupo';
 
 // Cria / Edita Botões
 $lang['group_action_edit'] = 'Salvar Grupo';

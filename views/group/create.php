@@ -9,7 +9,7 @@
   <?php echo form_open($this->uri->uri_string()); ?>
     <?php if (validation_errors()) : ?>
 
-<div class='alert alert-block alert-error'>
+<div class='alert alert-block alert-danger'>
     <a class='close' data-dismiss='alert'>&times;</a>
     <h4 class='alert-heading'>
         <?php echo lang('group_errors_message'); ?>
