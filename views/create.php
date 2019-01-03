@@ -124,7 +124,7 @@ $id = isset($contact->id_contact) ? $contact->id_contact : '';
             <select class="form-control  tokenize" multiple id="company" name="company">
               <option value="0"><?php echo lang('contact_select_company'); ?></option>
               <?php if($companies){ foreach($companies as $comp){ ?>
-              <option value="<?php echo $comp->id_contact; ?>" <?php echo (isset($selected_company) and $selected_company == $comp->id_contact)? 'selected':''; ?> ><?php echo $contact->display_name; ?></option>
+              <option value="<?php echo $comp->id_contact; ?>" <?php echo (isset($selected_company) and $selected_company == $comp->id_contact)? 'selected':''; ?> ><?php echo $comp->display_name; ?></option>
             <?php } }?>
             </select>
             <span class='help-inline'><?php echo form_error('company'); ?></span>

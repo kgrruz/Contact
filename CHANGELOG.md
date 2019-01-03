@@ -1,4 +1,14 @@
-### Add contact_type,city to table contacts in group. (HEAD -> master)
+### Fix wrong variable name. (HEAD -> master)
+>Thu, 3 Jan 2019 15:01:06 -0200
+
+>Author: kleber (ruzkleber@gmail.com)
+
+>Commiter: kleber (ruzkleber@gmail.com)
+
+
+
+
+### Add contact_type,city to table contacts in group. (origin/master, origin/HEAD, ge/master)
 >Thu, 3 Jan 2019 12:55:38 -0200
 
 >Author: kleber (ruzkleber@gmail.com)
@@ -8,7 +18,7 @@
 
 
 
-### Fix foreach conflict with variable values. (ge/master)
+### Fix foreach conflict with variable values.
 >Thu, 3 Jan 2019 12:40:35 -0200
 
 >Author: kleber (ruzkleber@gmail.com)
@@ -18,7 +28,7 @@
 
 
 
-### Add job role placeholder. (origin/master, origin/HEAD)
+### Add job role placeholder.
 >Thu, 3 Jan 2019 11:03:38 -0200
 
 >Author: kleber (ruzkleber@gmail.com)
