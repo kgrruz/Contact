@@ -135,6 +135,7 @@ $id = isset($contact->id_contact) ? $contact->id_contact : '';
                 <?php echo form_label(lang('contact_field_job_role') , 'job_role', array('class' => 'control-label')); ?>
 
             <select class="form-control  tokenize" id="job_role" data-placeholder="<?php echo lang('contact_select_job_role'); ?>" name="job_role"  value="<?php echo set_value('job_role', isset($contact->job_role) ? $contact->job_role : ''); ?>">
+              <option></option>
               <?php foreach($job_roles->result() as $role){ ?>
                 <option value="<?php echo $role->meta_value; ?>" <?php echo (isset($contact_meta) and $contact_meta->job_role == $role->meta_value)? 'selected':''; ?> ><?php echo $role->meta_value; ?></option>
                 <?php } ?>

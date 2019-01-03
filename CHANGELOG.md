@@ -1,4 +1,14 @@
-### Add default group selection. (HEAD -> master)
+### Add job role placeholder. (HEAD -> master)
+>Thu, 3 Jan 2019 11:03:38 -0200
+
+>Author: kleber (ruzkleber@gmail.com)
+
+>Commiter: kleber (ruzkleber@gmail.com)
+
+
+
+
+### Add default group selection.
 >Thu, 3 Jan 2019 10:45:53 -0200
 
 >Author: kleber (ruzkleber@gmail.com)
@@ -8,7 +18,7 @@
 
 
 
-### Ignore changes on releases folder. (origin/master, origin/HEAD, ge/master)
+### Ignore changes on releases folder. (origin/master, origin/HEAD)
 >Thu, 3 Jan 2019 09:53:21 -0200
 
 >Author: kleber (ruzkleber@gmail.com)
