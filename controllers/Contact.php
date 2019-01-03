@@ -262,6 +262,8 @@ class Contact extends Front_Controller{
 
             if($this->save_contact('update', $contact->id_contact, $meta_fields)) {
 
+              $contact = $this->contact_model->find($contact->id_contact);
+
               $data_insert = array('contact_id'=>$contact->id_contact,'post_data'=>$_POST);
 
               Events::trigger('insert_contact',$data_insert);

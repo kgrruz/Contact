@@ -41,7 +41,7 @@ $lang['contact_action_create']   = 'Registrar contato';
 
 // Activities
 $lang['contact_act_create_record'] = 'Adicionou contato';
-$lang['contact_act_edit_record'] = 'Atualizado contato';
+$lang['contact_act_edit_record'] = 'Editou o contato';
 $lang['contact_act_delete_record'] = 'Excluiu o contato';
 
 //Listing Specifics

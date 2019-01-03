@@ -1,4 +1,14 @@
-### Change notification message on delete contact record. (HEAD -> master)
+### Fix link in notification when update contact slug. (HEAD -> master)
+>Thu, 3 Jan 2019 15:48:46 -0200
+
+>Author: kleber (ruzkleber@gmail.com)
+
+>Commiter: kleber (ruzkleber@gmail.com)
+
+
+
+
+### Change notification message on delete contact record.
 >Thu, 3 Jan 2019 15:36:51 -0200
 
 >Author: kleber (ruzkleber@gmail.com)
