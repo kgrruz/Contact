@@ -118,9 +118,11 @@ class Group_model extends BF_Model{
       ");
 
     $this->db->from('contacts_groups');
-    $this->db->join('contacts','contacts.id_contact  = contacts_groups.id_contact_join');
-      $this->db->join('contact_meta','contact_meta.contact_id = contacts.id_contact','left');
+    $this->db->join('contacts','contacts.id_contact  = contacts_groups.id_contact_join','left');
+    $this->db->join('contact_meta','contact_meta.contact_id = contacts.id_contact','left');
     $this->db->where('id_group_join',$id);
+    $this->db->where('contacts.deleted',0);
+    $this->db->group_by('id_contact_join');
     return $this->db->get()->result();
 
 
@@ -130,7 +132,9 @@ class Group_model extends BF_Model{
 
     $this->db->select('id_join_group');
     $this->db->from('contacts_groups');
+    $this->db->join('contacts','contacts.id_contact  = contacts_groups.id_contact_join');
     $this->db->where('id_group_join',$id);
+    $this->db->where('contacts.deleted',0);
     return $this->db->get()->num_rows();
 
   }

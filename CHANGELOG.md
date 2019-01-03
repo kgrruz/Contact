@@ -1,4 +1,14 @@
-### Fix error class. Add lang line for validation error. (HEAD -> master)
+### Fix contact group queries. (HEAD -> master)
+>Thu, 3 Jan 2019 19:09:24 -0200
+
+>Author: kleber (ruzkleber@gmail.com)
+
+>Commiter: kleber (ruzkleber@gmail.com)
+
+
+
+
+### Fix error class. Add lang line for validation error. (origin/master, origin/HEAD)
 >Thu, 3 Jan 2019 19:01:10 -0200
 
 >Author: kleber (ruzkleber@gmail.com)
@@ -18,7 +28,7 @@
 
 
 
-### Fix group lang line message. (origin/master, origin/HEAD)
+### Fix group lang line message.
 >Thu, 3 Jan 2019 18:53:44 -0200
 
 >Author: kleber (ruzkleber@gmail.com)
