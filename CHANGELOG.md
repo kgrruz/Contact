@@ -1,4 +1,14 @@
-### Remove tab changelog from markdown. (HEAD -> master)
+### Add folder to store stable versions of module. (HEAD -> master)
+>Thu, 3 Jan 2019 09:52:37 -0200
+
+>Author: kleber (ruzkleber@gmail.com)
+
+>Commiter: kleber (ruzkleber@gmail.com)
+
+
+
+
+### Remove tab changelog from markdown.
 >Thu, 3 Jan 2019 09:51:47 -0200
 
 >Author: kleber (ruzkleber@gmail.com)
