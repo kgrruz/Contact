@@ -29,7 +29,7 @@ class Group extends Front_Controller{
 
         $this->nested_set->setControlParams('groups','lft','rgt','id_group','parent_group','group_name');
 
-        $this->form_validation->set_error_delimiters("<span class='error'>", "</span>");
+        $this->form_validation->set_error_delimiters("<span class='danger'>", "</span>");
 
     }
 
@@ -48,7 +48,7 @@ class Group extends Front_Controller{
           $checked = $this->input->post('checked');
           if (empty($checked)) {
               // No users checked.
-              Template::set_message(lang('us_empty_id'), 'error');
+              Template::set_message(lang('us_empty_id'), 'danger');
           } else {
               foreach ($checked as $userId) {
                   $this->delete($userId);
@@ -93,7 +93,7 @@ class Group extends Front_Controller{
 
             // Not validation error
             if ( ! empty($this->group_model->error)) {
-                Template::set_message(lang('group_create_failure') . $this->group_model->error, 'error');
+                Template::set_message(lang('group_create_failure') . $this->group_model->error, 'danger');
             }
         }
 
@@ -114,7 +114,7 @@ class Group extends Front_Controller{
 
         $id = $this->uri->segment(4);
         if (empty($id)) {
-            Template::set_message(lang('group_invalid_id'), 'error');
+            Template::set_message(lang('group_invalid_id'), 'danger');
             redirect('contact/group');
         }
 
@@ -132,7 +132,7 @@ class Group extends Front_Controller{
 
             // Not validation error
             if ( ! empty($this->group_model->error)) {
-                Template::set_message(lang('group_edit_failure') . $this->group_model->error, 'error');
+                Template::set_message(lang('group_edit_failure') . $this->group_model->error, 'danger');
             }
         }
 
@@ -179,7 +179,7 @@ class Group extends Front_Controller{
               return;
           }
 
-          Template::set_message(lang('group_delete_failure') . $this->group_model->error, 'error');
+          Template::set_message(lang('group_delete_failure') . $this->group_model->error, 'danger');
 
     }
 
@@ -305,7 +305,7 @@ class Group extends Front_Controller{
 
             $id = $this->uri->segment(4);
             if (empty($id)) {
-                Template::set_message(lang('group_invalid_id'), 'error');
+                Template::set_message(lang('group_invalid_id'), 'danger');
                 redirect('contact/group');
             }
 

@@ -1,4 +1,14 @@
-### Fix group lang line message. (HEAD -> master)
+### Fix class name of error messages. (HEAD -> master)
+>Thu, 3 Jan 2019 18:56:15 -0200
+
+>Author: kleber (ruzkleber@gmail.com)
+
+>Commiter: kleber (ruzkleber@gmail.com)
+
+
+
+
+### Fix group lang line message. (origin/master, origin/HEAD)
 >Thu, 3 Jan 2019 18:53:44 -0200
 
 >Author: kleber (ruzkleber@gmail.com)
@@ -18,7 +28,7 @@
 
 
 
-### Fix link in notification when update contact slug. (origin/master, origin/HEAD)
+### Fix link in notification when update contact slug.
 >Thu, 3 Jan 2019 15:48:46 -0200
 
 >Author: kleber (ruzkleber@gmail.com)
