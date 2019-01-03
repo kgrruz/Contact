@@ -162,7 +162,7 @@ class Group extends Front_Controller{
 
       $group = $this->group_model->find($id);
       if (! isset($group)) {
-          Template::set_message(lang('us_invalid_group_id'), 'error');
+          Template::set_message(lang('group_invalid_id'), 'danger');
           Template::redirect('contact/group');
       }
 

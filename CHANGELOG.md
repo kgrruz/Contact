@@ -1,4 +1,14 @@
-### Block delete contact if has related user account. (HEAD -> master)
+### Fix group lang line message. (HEAD -> master)
+>Thu, 3 Jan 2019 18:53:44 -0200
+
+>Author: kleber (ruzkleber@gmail.com)
+
+>Commiter: kleber (ruzkleber@gmail.com)
+
+
+
+
+### Block delete contact if has related user account. (ge/master)
 >Thu, 3 Jan 2019 18:29:51 -0200
 
 >Author: kleber (ruzkleber@gmail.com)
@@ -8,7 +18,7 @@
 
 
 
-### Fix link in notification when update contact slug. (origin/master, origin/HEAD, ge/master)
+### Fix link in notification when update contact slug. (origin/master, origin/HEAD)
 >Thu, 3 Jan 2019 15:48:46 -0200
 
 >Author: kleber (ruzkleber@gmail.com)
