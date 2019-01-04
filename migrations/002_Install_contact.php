@@ -84,9 +84,13 @@ class Migration_Install_contact extends Migration
 	 */
 	public function up()
 	{
+		if ( ! $this->db->table_exists($this->table_name)){
+
 		$this->dbforge->add_field($this->fields);
 		$this->dbforge->add_key('id_contact', true);
 		$this->dbforge->create_table($this->table_name);
+
+	}
 
 		//insert widget
 
