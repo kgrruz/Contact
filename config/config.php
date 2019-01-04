@@ -17,4 +17,9 @@ $config['module_config'] = array(
 	)
 );
 
+$config['install_check'] = array(
+'php_version'=>array('5.6','>='),
+'php_ext'=>array('mbstring'),
+'modules'=>array());
+
 $config['load_gravatar'] = false;
