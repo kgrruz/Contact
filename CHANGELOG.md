@@ -1,4 +1,14 @@
-### Fix contact group queries. (HEAD -> master)
+### Add setting check module update migration. (HEAD -> master)
+>Fri, 4 Jan 2019 13:43:34 -0200
+
+>Author: kleber (ruzkleber@gmail.com)
+
+>Commiter: kleber (ruzkleber@gmail.com)
+
+
+
+
+### Fix contact group queries. (origin/master, origin/HEAD, ge/master)
 >Thu, 3 Jan 2019 19:09:24 -0200
 
 >Author: kleber (ruzkleber@gmail.com)
@@ -8,7 +18,7 @@
 
 
 
-### Fix error class. Add lang line for validation error. (origin/master, origin/HEAD)
+### Fix error class. Add lang line for validation error.
 >Thu, 3 Jan 2019 19:01:10 -0200
 
 >Author: kleber (ruzkleber@gmail.com)
@@ -18,7 +28,7 @@
 
 
 
-### Fix class name of error messages. (ge/master)
+### Fix class name of error messages.
 >Thu, 3 Jan 2019 18:56:15 -0200
 
 >Author: kleber (ruzkleber@gmail.com)

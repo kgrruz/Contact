@@ -100,6 +100,16 @@ class Migration_Install_contact extends Migration
 
 		$this->db->insert("widgets",$data_widget);
 
+		$version = Modules::config("contact");
+
+		$data_st = array(
+			'name' => 'contact.module_update',
+			'module' => 'core',
+			'value' => 'a:3:{s:9:"timestamp";i:'.time().';s:7:"version";s:10:"'.$version['version'].'";s:6:"update";i:0;}'
+		);
+
+		$this->db->insert("settings",$data_st);
+
 	}
 
 	/**
