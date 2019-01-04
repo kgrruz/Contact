@@ -35,6 +35,8 @@ $lang['group_errors_message'] = 'Erro ao tentar criar o Grupo';
 $lang['group_action_edit'] = 'Salvar Grupo';
 $lang['group_action_create'] = 'Adicionar grupo';
 
+$lang['group_act_delete_record'] = 'Removeu o grupo';
+
 $lang['group_module_name'] = 'Grupos';
 
 // Campos

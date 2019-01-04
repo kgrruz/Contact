@@ -1,4 +1,14 @@
-### Add setting check module update migration. (HEAD -> master)
+### Add lang line message on delete group. (HEAD -> master)
+>Fri, 4 Jan 2019 13:49:40 -0200
+
+>Author: kleber (ruzkleber@gmail.com)
+
+>Commiter: kleber (ruzkleber@gmail.com)
+
+
+
+
+### Add setting check module update migration.
 >Fri, 4 Jan 2019 13:43:34 -0200
 
 >Author: kleber (ruzkleber@gmail.com)
