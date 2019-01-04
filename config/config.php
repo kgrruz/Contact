@@ -19,6 +19,7 @@ $config['module_config'] = array(
 
 $config['install_check'] = array(
 'php_version'=>array('5.6','>='),
+'gestor_version'=>array('0.4.0-dev','>='),
 'php_ext'=>array('mbstring'),
 'modules'=>array());
 
