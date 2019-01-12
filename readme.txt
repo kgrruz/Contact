@@ -24,5 +24,5 @@ Recursos:
 
 <div class="tab-pane" id="sc" role="tabpanel" aria-labelledby="install-tab" markdown="1">
 ### SCREENSHOT
-
+![alt text](https://zdnet2.cbsistatic.com/hub/i/r/2014/10/04/65ea8ee3-4be0-11e4-b6a0-d4ae52e95e57/resize/770xauto/924b961311a9c020e654d2035e933b56/contact-details.png)
 </div>
