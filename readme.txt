@@ -14,11 +14,11 @@ Recursos:
 
 <div class="tab-pane" id="install" role="tabpanel" aria-labelledby="install-tab" markdown="1">
 ### INSTALAÇÃO
-1-Vá até a área administrativa do Gestor;
-2-Clique no menu "desenvolvedor" e depois em "módulos";
-3-Acesse a aba "Instalar módulo";
-4-Procure o modulo zipado e envie-o.
-5-Pronto. Seu módulo está instalado.
+1. Vá até a área administrativa do Gestor;
+2. Clique no menu "desenvolvedor" e depois em "módulos";
+3. Acesse a aba "Instalar módulo";
+4. Procure o modulo zipado e envie-o.
+5. Pronto. Seu módulo está instalado.
 
 </div>
 
