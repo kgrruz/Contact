@@ -8,7 +8,7 @@ class Migration_Install_contact_meta extends Migration
 	private $table_name = 'contact_meta';
 
 	/**
-	 * @var array The table's fields 
+	 * @var array The table's fields
 	 */
 	private $fields = array(
 		'meta_id' => array(
@@ -41,6 +41,7 @@ class Migration_Install_contact_meta extends Migration
 	{
 		$this->dbforge->add_field($this->fields);
 		$this->dbforge->add_key('meta_id', true);
+		$this->dbforge->add_key('contact_id');
 		$this->dbforge->create_table($this->table_name);
 	}
 
