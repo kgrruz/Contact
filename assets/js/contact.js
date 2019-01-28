@@ -76,8 +76,10 @@ if($(".phone").length){
                       allowClear: true
                     });
 
+
+
                   }
-
-
+                  
+                  if($("#company").length){  $('#company').select2();  }
 
               });
