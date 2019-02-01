@@ -113,3 +113,4 @@ $lang['contact_tour_register'] = 'Registrando um novo contato';
 $lang['contact_customer_save_coordinate'] = 'Salvar informação';
 $lang['contact_customer_check_position'] = 'Marque sua localidade no mapa';
 $lang['contact_customer_geo_success'] = 'Localidade registrada com sucesso.';
+$lang['contact_placeholder'] = 'Selecione um contato...';
