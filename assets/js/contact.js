@@ -59,7 +59,7 @@ if($(".phone").length){
         if (!option.id) { return option.text; }
 
         var $option = $('<div class="media">'+
-      '<img class="mr-3" src="'+option.element.dataset.img+'" alt="icon">'+
+      '<img class="mr-3" src="'+option.element.dataset.img+'" style="width:20px;" alt="icon">'+
       '<div class="media-body">'+
         '<h6 class="mt-0">'+option.element.dataset.contact+'</h6>'+
     '</div>');
@@ -79,7 +79,7 @@ if($(".phone").length){
 
 
                   }
-                  
+
                   if($("#company").length){  $('#company').select2();  }
 
               });
