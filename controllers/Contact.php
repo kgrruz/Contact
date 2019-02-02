@@ -273,7 +273,7 @@ class Contact extends Front_Controller{
                 log_notify($this->auth->users_has_permission($this->permissionView), $id_act);
 
                 Template::set_message(lang('contact_edit_success'), 'success');
-                Template::redirect('contacts');
+                Template::redirect($this->agent->referrer());
             }
 
             // Not validation error
@@ -373,9 +373,7 @@ class Contact extends Front_Controller{
 
         if ($type == 'update') {
             $_POST['id_contact'] = $id;
-
               $extraUniqueRule = ',contacts.id_contact';
-
         }
 
         $metaData = array();
@@ -389,7 +387,8 @@ class Contact extends Front_Controller{
         $this->form_validation->set_rules($this->contact_model->get_validation_rules());
 
           $this->form_validation->set_rules('email', 'lang:contact_field_email', "unique[contacts.email{$extraUniqueRule}]|trim|valid_email|max_length[255]");
-          $this->form_validation->set_rules('phone', 'lang:contact_field_phone', "unique[contacts.phone{$extraUniqueRule}]|trim|max_length[20]");
+          $this->form_validation->set_rules('phone', 'lang:contact_field_phone', "trim|max_length[20]");
+
 
         if ($this->form_validation->run() === false) {
             return false;
