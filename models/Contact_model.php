@@ -53,6 +53,11 @@ class Contact_model extends BF_Model{
 			'rules' => 'required|trim|max_length[255]',
 		),
 		array(
+			'field' => 'phone',
+			'label' => 'lang:contact_field_phone',
+			'rules' => 'trim',
+		),
+		array(
 			'field' => 'timezone',
 			'label' => 'lang:contact_field_timezone',
 			'rules' => 'trim|alpha_numeric|max_length[10]',
