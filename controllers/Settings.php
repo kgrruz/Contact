@@ -43,7 +43,6 @@ class Settings extends Admin_Controller{
         $this->auth->restrict($this->permissionView);
 
         $this->lang->load('contact/contact');
-        $this->load->model('roles/role_model');
 
         $this->siteSettings = $this->settings_lib->find_all();
 
@@ -55,17 +54,17 @@ class Settings extends Admin_Controller{
 
       if (isset($_POST['save'])) {
 
-          $this->form_validation->set_rules('key_map', 'lang:contact_key_map', 'required|trim|max_length[120]');
-          $this->form_validation->set_rules('email_require', 'lang:contact_email_require', 'required');
+          $this->form_validation->set_rules('state', 'lang:contact_settings_default_state', 'required|trim');
+          $this->form_validation->set_rules('country', 'lang:contact_settings_default_country', 'required|trim');
 
 
           if ($this->form_validation->run() === false) {
-              Template::set_message(lang('contact_settings_save_error'), 'error');
+              Template::set_message(lang('contact_settings_save_error'), 'danger');
           } else {
 
               $data = array(
-                  array('name' => 'contact.api_key_maps', 'value' => $this->input->post('key_map')),
-                  array('name' => 'contact.email_require',     'value' => $this->input->post('email_require'))
+                  array('name' => 'contact.default_state', 'value' => $this->input->post('state')),
+                  array('name' => 'contact.default_country',     'value' => $this->input->post('country'))
                   );
 
               // Save the settings to the db
@@ -76,11 +75,14 @@ class Settings extends Admin_Controller{
                   redirect(SITE_AREA . '/settings/emailer');
               }
 
-              Template::set_message(lang('contact_settings_save_error'), 'error');
+              Template::set_message(lang('contact_settings_save_error'), 'danger');
           }
       }
 
-      Template::set('toolbar_title', lang('us_user_management'));
+      $this->load->config('address');
+      $this->load->helper('address');
+
+      Template::set('toolbar_title', lang('contact_settings'));
       Template::render();
 
     }

@@ -1,7 +1,7 @@
 <?php
 $defaultTimezone = isset($user->timezone) ? $user->timezone : strtoupper(settings_item('site.default_user_timezone'));
-$defaultCountry = 'BR';
-$defaultState   = 'MG';
+$defaultCountry = settings_item('contact.default_country');
+$defaultState   = settings_item('contact.default_state');
 ?>
 <?php echo form_open($this->uri->uri_string(),'id="form_contact"'); ?>
 <div class="card-body">
