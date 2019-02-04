@@ -128,10 +128,10 @@
                     'method'     => '_card_related_contact'
                 );
 
-            $config['after_login'][] = array(
+          /*  $config['after_login'][] = array(
                     'module'     => 'contact',
                     'filepath'   => 'controllers',
                     'filename'   => 'Customer.php',
                     'class'  => 'Customer',
                     'method'     => '_redirect_complete_geo'
-                );
+                ); */
