@@ -113,7 +113,6 @@ class Group_model extends BF_Model{
 
     $this->db->select('id_contact,slug_contact,phone,modified_on,display_name,email,contact_type, contacts_groups.created_on as created_on');
     $this->db->select("
-      MAX(CASE WHEN meta_key = 'is_user' THEN meta_value END) AS 'is_user',
       MAX(CASE WHEN meta_key = 'city' THEN meta_value END) AS 'city',
       ");
 

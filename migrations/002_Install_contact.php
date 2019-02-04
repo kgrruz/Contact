@@ -6,6 +6,7 @@ class Migration_Install_contact extends Migration
 	 * @var string The name of the database table
 	 */
 	private $table_name = 'contacts';
+	private $table_name_contacts_users = 'contacts_users';
 
 	/**
 	 * @var array The table's fields
@@ -76,6 +77,26 @@ class Migration_Install_contact extends Migration
             'null'       => true,
         )
 	);
+	private $fields_contacts_users = array(
+		'id_access_key' => array(
+			'type'       => 'INT',
+			'constraint' => 11,
+			'auto_increment' => true,
+		),
+        'contact_id' => array(
+            'type'       => 'INT',
+            'constraint' => 11,
+            'null'       => false,
+        ),
+           'user_id' => array(
+            'type'       => 'INT',
+            'constraint' => 11,
+            'null'       => false,
+        ),
+        'created_on' => array(
+            'type'       => 'datetime',
+            'default'    => '0000-00-00 00:00:00',
+        ));
 
 	/**
 	 * Install this version
@@ -89,6 +110,13 @@ class Migration_Install_contact extends Migration
 		$this->dbforge->add_field($this->fields);
 		$this->dbforge->add_key('id_contact', true);
 		$this->dbforge->create_table($this->table_name);
+
+	}
+		if ( ! $this->db->table_exists($this->table_name_contacts_users)){
+
+		$this->dbforge->add_field($this->fields_contacts_users);
+		$this->dbforge->add_key('id_access_key', true);
+		$this->dbforge->create_table($this->table_name_contacts_users);
 
 	}
 

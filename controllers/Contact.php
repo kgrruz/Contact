@@ -61,7 +61,6 @@ class Contact extends Front_Controller{
       $this->db->order_by('display_name','asc');
       $this->db->group_by('id_contact');
       $this->contact_model->select("
-        MAX(CASE WHEN meta_key = 'is_user' THEN meta_value END) AS 'is_user',
         MAX(CASE WHEN meta_key = 'city' THEN meta_value END) AS 'city',
         id_contact,display_name,contact_type,slug_contact,phone,email,contacts.created_on as created_on
         ");
@@ -80,7 +79,6 @@ class Contact extends Front_Controller{
 
       $this->db->group_by('id_contact');
       $this->contact_model->select("
-        MAX(CASE WHEN meta_key = 'is_user' THEN meta_value END) AS 'is_user',
         MAX(CASE WHEN meta_key = 'city' THEN meta_value END) AS 'city',
         id_contact,display_name,contact_type,slug_contact,phone,email,contacts.created_on as created_on
         ");
@@ -337,12 +335,6 @@ class Contact extends Front_Controller{
 
           $this->authenticate($this->permissionDelete);
 
-          if (!empty($contact->is_user)) {
-
-              Template::set_message(lang('contact_has_user'), 'danger');
-              Template::redirect($this->agent->referrer());
-          }
-
           if ($this->contact_model->delete($id)) {
 
               $id_act = log_activity($this->auth->user_id(), '[contact_act_delete_record]' . ': '. '<a href="contato/'.$contact->slug_contact.'">'.$contact->display_name.'</a>', 'contact');
@@ -384,10 +376,9 @@ class Contact extends Front_Controller{
 
 
         // Validate the data
-        $this->form_validation->set_rules($this->contact_model->get_validation_rules());
 
-          $this->form_validation->set_rules('email', 'lang:contact_field_email', "unique[contacts.email{$extraUniqueRule}]|trim|valid_email|max_length[255]");
-          $this->form_validation->set_rules('phone', 'lang:contact_field_phone', "trim|max_length[20]");
+        $this->form_validation->set_rules($this->contact_model->get_validation_rules($type));
+        $this->form_validation->set_rules('email', 'lang:contact_field_email', "unique[contacts.email{$extraUniqueRule}]|trim|valid_email|max_length[255]");
 
 
         if ($this->form_validation->run() === false) {
@@ -482,6 +473,7 @@ class Contact extends Front_Controller{
            }
 
            Template::set('tabs',$tabs);
+           Template::set('users_access', $this->db->join("users","users.id = contacts_users.user_id","left")->where("contacts_users.contact_id",$data['id_contact'])->get("contacts_users"));
            Template::set('contact', $contact);
            Template::set('toolbar_title', $contact->display_name);
            Template::render();
@@ -561,7 +553,7 @@ class Contact extends Front_Controller{
 
 			 $user = $this->user_model->find_user_and_meta($data['user_id']);
 
-       if(!$this->user_model->find_contact_user($user->id) and $user->role_id == 4){
+       if(!$this->user_model->find_contact_user($user->id) and $user->role_id == 2){
 
 			 $config = array(
 					 'field' => 'slug_contact',
@@ -577,19 +569,19 @@ class Contact extends Front_Controller{
 				 'slug_contact'=> $this->slug->create_uri($user->display_name),
 				 'email'=> $user->email,
 				 'timezone'=> $user->timezone,
-         'created_by'=>$user->id
+         'created_by'=>$user->id,
+         'created_on'=>date('Y-m-d H:i:s')
 			 );
 
 			 $this->db->insert('contacts',$contact_data);
 			 $id = $this->db->insert_id();
 
 			 $contact_data_meta = array(
-				 'meta_key'=> 'is_user',
-				 'meta_value'=> $user->id,
+				 'user_id'=> $user->id,
 				 'contact_id'=> $id
 			 );
 
-       $this->db->insert('contact_meta',$contact_data_meta);
+       $this->db->insert('contacts_users',$contact_data_meta);
 
 			 $contact_data_meta2 = array(
 				 'meta_key'=> 'country',

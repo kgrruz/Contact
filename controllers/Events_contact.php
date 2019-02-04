@@ -30,13 +30,13 @@ class Events_contact{
           foreach($results as $result){
 
             $type = ($result->contact_type == 1)? '<i class="fa fa-user" aria-hidden="true"></i> ':'<i class="fa fa-building" aria-hidden="true"></i> ';
-            $key  = (isset($result->is_user))? '<i class="fa fa-key"></i> ':' ';
+
 
             array_push($html,array('<div class="media border-bottom p-3">
      <img class="mr-3" style="width:64px" src="'.contact_avatar($result->email, 64, null,false,null).'" alt="contact_photo">
      <div class="media-body row d-flex h-100">
         <div class="col-sm-9">
-     <h5 class="my-0">'.$type.$key.anchor('contato/'.$result->slug_contact,$result->display_name).'</h5>
+     <h5 class="my-0">'.$type.anchor('contato/'.$result->slug_contact,$result->display_name).'</h5>
      </div><div class="col-sm-3 my-auto" >'.anchor('contact/edit/'.$result->slug_contact,'<i class="fa fa-edit"></i>','class=""').'</div>
    </div></div>'));
 
@@ -99,7 +99,7 @@ class Events_contact{
             $where = array('company'=>$data['id_contact']);
 
             $this->CI->contact_model->select("
-              MAX(CASE WHEN meta_key = 'is_user' THEN meta_value END) AS 'is_user',
+
               MAX(CASE WHEN meta_key = 'company' THEN meta_value END) AS 'company',
               MAX(CASE WHEN meta_key = 'job_role' THEN meta_value END) AS 'cargo',
               MAX(CASE WHEN meta_key = 'resp_equip' THEN meta_value END) AS 'resp_equip',
