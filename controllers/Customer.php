@@ -32,7 +32,7 @@ class Customer extends Front_Controller{
 
         $meta_loc = $this->contact_model->find_meta_for($this->customer,array('lat','lng'));
 
-        if($data['role_id'] == 4 and !$meta_loc->lng){ Template::redirect('contact/customer/complete_geo'); }
+        if($data['role_id'] == 2 and !$meta_loc->lng){ Template::redirect('contact/customer/complete_geo'); }
 
       }
 
