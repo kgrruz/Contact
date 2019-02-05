@@ -80,9 +80,9 @@ class Events_contact{
 
       public function _card_related_contact(&$data){
 
-          if($idc = $this->CI->user_model->find_contact_user($data['user'])){
+          if($ids = $this->CI->contact_model->find_contacts_user($data['user'])){
 
-          $data['contact'] = $this->CI->contact_model->find($idc);
+          $data['contacts'] = $ids;
 
        $data['html'] =  $this->CI->load->view("contact/card_related_contact",$data,true);
 

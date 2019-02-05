@@ -325,6 +325,30 @@ class Contact_model extends BF_Model{
     }
 
 
+		public function add_user_contact($id_contact,$id_user){
 
+			$data = array(
+				'contact_id'=>$id_contact,
+				'user_id'=>$id_user
+			);
 
-	}
+			$this->db->insert('contacts_users',$data);
+
+		}
+
+		public function find_contacts_user($id_user){
+
+		$data = array(
+			'user_id'=>$id_user
+		);
+
+		$this->db->select('id_contact,slug_contact,display_name,email');
+		$this->db->from('contacts_users');
+		$this->db->join('contacts','contacts.id_contact = contacts_users.contact_id','left');
+		$this->db->where($data);
+		$result = $this->db->get();
+
+		if($result->num_rows()){ return $result->result(); }else{ return false; }
+
+}
+}
