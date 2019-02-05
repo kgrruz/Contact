@@ -52,7 +52,7 @@
   <?php if($users_access->num_rows()){ ?>
 
   <div class="card mb-3">
-    <div class="card-header"><i class="fa fa-key"></i>&nbsp;<?php echo lang('parent_user_account'); ?></div>
+    <div class="card-header"><i class="fa fa-key"></i>&nbsp;<?php echo lang('contact_access_by'); ?></div>
         <ul class="list-group list-group-flush">
           <?php foreach($users_access->result() as $us){ ?>
             <li class="list-group-item">
