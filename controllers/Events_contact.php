@@ -19,6 +19,59 @@ class Events_contact{
  }
 
 
+ public function Create_user_contact($data){
+
+   $user = $this->CI->user_model->find_user_and_meta($data['user_id']);
+
+   if($user->role_id == 2){
+
+   $config = array(
+       'field' => 'slug_contact',
+       'title' => 'display_name',
+       'table' => 'contacts',
+       'id' => 'id_contact',
+   );
+
+   $this->CI->load->library('contact/slug', $config);
+
+   $contact_data = array(
+     'display_name'=> $user->display_name,
+     'slug_contact'=> $this->CI->slug->create_uri($user->display_name),
+     'email'=> $user->email,
+     'timezone'=> $user->timezone,
+     'created_by'=>$user->id,
+     'created_on'=>date('Y-m-d H:i:s')
+   );
+
+   $this->CI->db->insert('contacts',$contact_data);
+   $id = $this->CI->db->insert_id();
+
+   $contact_data_meta = array(
+     'user_id'=> $user->id,
+     'contact_id'=> $id
+   );
+
+   $this->CI->db->insert('contacts_users',$contact_data_meta);
+
+   $contact_data_meta2 = array(
+     'meta_key'=> 'country',
+     'meta_value'=> $user->country,
+     'contact_id'=> $id
+   );
+
+   $this->CI->db->insert('contact_meta',$contact_data_meta2);
+
+   $contact_data_meta3 = array(
+     'meta_key'=> 'state',
+     'meta_value'=> $user->state,
+     'contact_id'=> $id
+   );
+
+   $this->CI->db->insert('contact_meta',$contact_data_meta3);
+
+  }
+ }
+
  public function _geral_search(&$data){
 
           if (has_permission($this->permissionView)) {
@@ -250,4 +303,18 @@ class Events_contact{
           array_push($data_json['markers'],$this->CI->contact_model->search_locs($data_json['search']));
 
         }
+
+        function contact_create_access(&$data){
+
+            if($data['function'] == __FUNCTION__){
+
+                    $this->CI->load->model('roles/role_model');
+                    $contact_id = $data['id_contact'];
+                    $this->CI->user_model->where("users.id NOT IN(select user_id from {$this->CI->db->dbprefix}contacts_users where contact_id = {$contact_id})");
+                    $this->CI->user_model->where("active",1);
+                    $data['data_table'] = $this->CI->user_model->find_all();
+                    $data['view_page'] = 'contact/content/create_access';
+
+                  }
+            }
   }

@@ -3,7 +3,7 @@
 /**
  * Contact controller
  */
-class Contact extends Front_Controller{
+class Content extends Admin_Controller{
 
     protected $permissionCreate = 'Contact.Content.Create';
     protected $permissionDelete = 'Contact.Content.Delete';
@@ -62,8 +62,7 @@ class Contact extends Front_Controller{
       $this->db->group_by('id_contact');
       $this->contact_model->select("
         MAX(CASE WHEN meta_key = 'city' THEN meta_value END) AS 'city',
-        id_contact,display_name,contact_type,slug_contact,phone,email,contacts.created_on as created_on
-        ");
+        id_contact,display_name,contact_type,slug_contact,phone,email,contacts.created_on as created_on");
       $this->contact_model->join('contact_meta','contact_meta.contact_id = contacts.id_contact','left');
       $contacts = $this->contact_model->find_all();
 
@@ -93,8 +92,9 @@ class Contact extends Front_Controller{
       Template::set('toolbar_title', lang('contact_list'));
       Template::set('contatos', $contacts);
 
-      Template::set_block('sub_nav_menu', '_menu_module');
-      Template::render('mod_index');
+      Template::set_block('sub_nav', 'content/_sub_nav');
+
+      Template::render();
 
     }
 
@@ -183,8 +183,8 @@ class Contact extends Front_Controller{
         Template::set('cities', $this->contact_model->cities_contacts());
         Template::set('toolbar_title', lang('contact_action_create').$ext);
         Template::set('contact_type', $type);
-        Template::set_block('sub_nav_menu', '_menu_module');
-        Template::render('mod_index');
+        Template::set_block('sub_nav', 'content/_sub_nav');
+        Template::render();
     }
 
     public function ajax_create(){
@@ -315,8 +315,8 @@ class Contact extends Front_Controller{
 
         Template::set('toolbar_title', lang('contact_edit_heading').$ext);
         Template::set_view('create');
-        Template::set_block('sub_nav_menu', '_menu_module');
-        Template::render('mod_index');
+        Template::set_block('sub_nav', 'content/_sub_nav');
+        Template::render();
 
       }else{ show_error(lang('contact_invalid_id')); }
     }
@@ -426,7 +426,7 @@ class Contact extends Front_Controller{
 
        $this->authenticate($this->permissionView);
 
-           $id = $this->uri->segment(2);
+           $id = $this->uri->segment(5);
 
            if (empty($id)) {
                Template::set_message(lang('contact_invalid_id'), 'danger');
@@ -458,7 +458,7 @@ class Contact extends Front_Controller{
 
            if(count($tabs)){
 
-           $function = $this->uri->segment(3,$tabs[0]['url']);
+           $function = $this->uri->segment(6,$tabs[0]['url']);
 
            $data = array('function'=>$function,'view_page'=>'','contact_type'=>'','id_contact'=>$id,'data_table'=>'','slug'=>$contact->slug_contact);
 
@@ -471,6 +471,7 @@ class Contact extends Front_Controller{
            Template::set('view_page', $data['view_page']);
 
            }
+
 
            Template::set('tabs',$tabs);
            Template::set('users_access', $this->db->join("users","users.id = contacts_users.user_id","left")->where("contacts_users.contact_id",$data['id_contact'])->get("contacts_users"));
@@ -512,7 +513,180 @@ class Contact extends Front_Controller{
      }
 
 
-     
+     function send_access(){
+
+       if (isset($_POST['save'])) {
+
+         $this->form_validation->set_rules('user', 'lang:bf_user', 'required');
+
+          if ($this->form_validation->run()){
+
+         $data_contact_access = array(
+           'contact_id'=>$this->input->post('contact_invite'),
+           'user_id'=>$this->input->post('user'),
+           'created_on'=>date('Y-m-d H:i:s')
+         );
+
+         $this->db->insert('contacts_users',$data_contact_access);
+
+         /*  $this->load->library('emailer/emailer');
+
+        $user = $this->user_model->find($this->input->post('user'));
+
+         $data = array(
+             'to'      => $user->email,
+             'subject' => lang('us_access_granted'),
+             'message' => $this->load->view(
+                 'users/_emails/access_granted',
+                 array('user' => $user),
+                 true
+             ),
+          );
+
+         if ($this->emailer->send($data,true)) {
+             Template::set_message(lang('us_reset_pass_message'), 'success');
+         } else {
+             Template::set_message(lang('us_reset_pass_error') . $this->emailer->error, 'danger');
+         }
+
+         */
+
+             log_activity(
+                   $this->auth->user_id(),
+                   '[us_log_invite]'.' '.$data['to'],
+                   'users'
+               );
+
+               Template::set_message(lang('contact_give_access_success'), 'success');
+               Template::redirect($this->agent->referrer());
+
+           }else{
+
+             Template::set_message( validation_errors(), 'danger');
+             Template::redirect($this->agent->referrer());
+
+           }
+         }
+     }
+
+     public function remove_access($id_access){
+
+       $this->db->where("id_access_key",$id_access);
+       $this->db->delete('contacts_users');
+
+       Template::set_message(lang('contact_give_removed_access'), 'success');
+       Template::redirect($this->agent->referrer());
+
+     }
+
+
+
+     public function create_access(){
+
+       $this->auth->restrict($this->permissionCreate);
+       $this->online_users->run_online();
+
+           $id = $this->uri->segment(3);
+
+           if (empty($id)) {
+               Template::set_message(lang('contact_invalid_id'), 'danger');
+               redirect('contacts');
+           }
+
+       if($id = $this->contact_model->find_by('slug_contact',$id)->id_contact){
+
+       $contact = $this->contact_model->find_user_and_meta($id);
+       $this->load->model('roles/role_model');
+       Template::set(
+           'roles',
+           $this->role_model->select('role_id, role_name, default')
+                            ->where('deleted', 0)
+                            ->order_by('role_name', 'asc')
+                            ->find_all()
+       );
+
+       Template::set('contact', $contact);
+       Template::set('view_page', 'create_access');
+       Template::set('toolbar_title', $contact->display_name);
+       Template::set_view('profile');
+       Template::render();
+
+     }else{
+
+       Template::set_message(lang('contact_invalid_id'), 'danger');
+       redirect('contacts');
+     }
+    }
+
+		 public function Create_user_contact($data){
+
+			 $user = $this->user_model->find_user_and_meta($data['user_id']);
+
+       if(!$this->user_model->find_contact_user($user->id) and $user->role_id == 2){
+
+			 $config = array(
+					 'field' => 'slug_contact',
+					 'title' => 'display_name',
+					 'table' => 'contacts',
+					 'id' => 'id_contact',
+			 );
+
+			 $this->load->library('contact/slug', $config);
+
+			 $contact_data = array(
+				 'display_name'=> $user->display_name,
+				 'slug_contact'=> $this->slug->create_uri($user->display_name),
+				 'email'=> $user->email,
+				 'timezone'=> $user->timezone,
+         'created_by'=>$user->id,
+         'created_on'=>date('Y-m-d H:i:s')
+			 );
+
+			 $this->db->insert('contacts',$contact_data);
+			 $id = $this->db->insert_id();
+
+			 $contact_data_meta = array(
+				 'user_id'=> $user->id,
+				 'contact_id'=> $id
+			 );
+
+       $this->db->insert('contacts_users',$contact_data_meta);
+
+			 $contact_data_meta2 = array(
+				 'meta_key'=> 'country',
+				 'meta_value'=> $user->country,
+				 'contact_id'=> $id
+			 );
+
+       $this->db->insert('contact_meta',$contact_data_meta2);
+
+			 $contact_data_meta3 = array(
+				 'meta_key'=> 'state',
+				 'meta_value'=> $user->state,
+				 'contact_id'=> $id
+			 );
+
+       $this->db->insert('contact_meta',$contact_data_meta3);
+
+      }
+		 }
+
+     public function info_popover($id){
+
+       if (!$this->input->is_ajax_request()) {  exit('No direct script access allowed'); }
+
+       $this->authenticate($this->permissionCreate);
+
+       $contact = $this->contact_model->find($id);
+
+       $this->output->set_output('
+  <img class="card-img-top" src="'.contact_avatar($contact->email, 200,'card-img-top img-fluid w-100',false,'profile_photo').'" alt="Card image cap">
+  <div class="card-body">
+    <h5 class="card-title">'.$contact->display_name.'</h5>
+    <p class="card-text">'.$contact->phone.'</p>
+    </div>');
+
+     }
 
 
 

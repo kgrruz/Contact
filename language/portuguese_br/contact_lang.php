@@ -122,3 +122,9 @@ $lang['contact_settings_default_locale'] = 'Definir região padrão';
 $lang['contact_settings_default_state'] = 'Estado';
 $lang['contact_settings_default_country'] = 'País';
 $lang['contact_settings_save_error'] = 'Erro ao salvar configurações';
+
+$lang['contact_give_access'] = 'Adicionar acesso a um usuário';
+$lang['contact_action_give_access'] = 'Permitir acesso';
+$lang['contact_give_access_success'] = 'Acesso garantido com sucesso.';
+$lang['contact_give_removed_access'] = 'Acesso removido com sucesso';
+$lang['contact_confirm_remove_access'] = 'Tem certeza que deseja retirar o acesso?';

@@ -74,10 +74,18 @@
     $config['after_register_process'][] = array(
             'module'     => 'contact',
             'filepath'   => 'controllers',
-            'filename'   => 'Contact.php',
-            'class'  => 'Contact',
+            'filename'   => 'Events_contact.php',
+            'class'  => 'Events_contact',
             'method'     => 'Create_user_contact'
         );
+
+        $config['show_profile_contact'][] = array(
+                'module'     => 'contact',
+                'filepath'   => 'controllers',
+                'filename'   => 'Events_contact.php',
+                'class'  => 'Events_contact',
+                'method'     => 'contact_create_access'
+            );
 
     $config['show_profile_contact'][] = array(
             'module'     => 'contact',

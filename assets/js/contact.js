@@ -80,6 +80,39 @@ if($(".phone").length){
 
                   }
 
-                  if($("#company").length){  $('#company').select2();  }
+
+
+                  if($("#company").length){
+
+                    $('#company').select2();
+
+                  }
+
+
+
+                  if($("#user_access").length){
+
+                    function format_user (option) {
+
+            if (!option.id) { return option.text; }
+
+            var $option = $('<div class="media">'+
+          '<img class="mr-3" src="'+option.element.dataset.img+'" style="width:50px;" alt="icon">'+
+          '<div class="media-body">'+
+            '<h6 class="mt-0">'+option.element.dataset.contact+'</h6>'+
+        '</div>');
+            return $option;
+
+          };
+
+                    $('#user_access').select2({
+                      templateResult: format_user,
+                      templateSelection: format_user,
+                      theme: 'bootstrap',
+                      placeholder: $.i18n('contact-placeholder'),
+                      allowClear: true
+                    });
+
+                  }
 
               });
