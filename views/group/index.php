@@ -1,5 +1,7 @@
 
-<?php if(count($tree['items'])){ ?>
+<div class="card">
+
+  <?php if(count($tree['items'])){ ?>
       <div class="table-responsive ">
           <?php echo form_open(); ?>
         <table id="table_groups" class="table table-hover table-outline table-vcenter text-nowrap mb-0" >
@@ -55,4 +57,4 @@
 <?php echo lang('group_no_records'); ?>
 </div>
 </div>
-<?php } ?>
+<?php } ?></div>

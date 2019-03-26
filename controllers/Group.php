@@ -3,7 +3,7 @@
 /**
  * Group controller
  */
-class Group extends Front_Controller{
+class Group extends Admin_Controller{
 
     protected $permissionCreate = 'Contact.Content.Create';
     protected $permissionDelete = 'Contact.Content.Delete';
@@ -63,8 +63,8 @@ class Group extends Front_Controller{
       Template::set('tree', $tree);
       Template::set('toolbar_title', lang('group_list'));
 
-      Template::set_block('sub_nav_menu', '_menu_module');
-      Template::render('mod_index');
+      Template::set_block('sub_nav', 'content/_sub_nav');
+      Template::render();
 
     }
 
@@ -105,8 +105,8 @@ class Group extends Front_Controller{
 
         Template::set('tree', $tree);
 
-        Template::set_block('sub_nav_menu', '_menu_module');
-        Template::render('mod_index');
+        Template::set_block('sub_nav', 'content/_sub_nav');
+        Template::render();
     }
 
 
@@ -149,8 +149,8 @@ class Group extends Front_Controller{
         $tree = $this->nested_set->getSubTree($parent_node);
 
         Template::set('tree', $tree);
-        Template::set_block('sub_nav_menu', '_menu_module');
-        Template::render('mod_index');
+        Template::set_block('sub_nav', 'content/_sub_nav');
+        Template::render();
 
     }
 
@@ -319,8 +319,8 @@ class Group extends Front_Controller{
             Template::set('toolbar_title', $group->group_name);
             Template::set_view('group/page');
 
-            Template::set_block('sub_nav_menu', '_menu_module');
-            Template::render('mod_index');
+            Template::set_block('sub_nav', 'content/_sub_nav');
+            Template::render();
 
   }
   }

@@ -1,4 +1,4 @@
-
+<div class="card">
 <?php if($contatos){  ?>
 
   <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -53,9 +53,9 @@
             <td>
               <div class="btn-group btn-group-sm" role="group" >
 
-                <?php echo anchor('contact/edit/'.$contato->slug_contact,'<i class="fa fa-edit" aria-hidden="true"></i>
+                <?php echo anchor('admin/content/contact/edit/'.$contato->slug_contact,'<i class="fa fa-edit" aria-hidden="true"></i>
           ','class="btn btn-sm btn-secondary"'); ?>
-          <?php echo anchor('contact/delete/'.$contato->id_contact,'<i class="fa fa-trash" aria-hidden="true"></i>','data-message="'.lang("contact_delete_confirm").'" class="btn btn-light exc_bot" '); ?>
+          <?php echo anchor('admin/content/contact/delete/'.$contato->id_contact,'<i class="fa fa-trash" aria-hidden="true"></i>','data-message="'.lang("contact_delete_confirm").'" class="btn btn-light exc_bot" '); ?>
 
               </div>
             </td>
@@ -63,9 +63,6 @@
 <?php } ?>
     </tbody>
 </table>
-
-
-
 
 </div>
 
@@ -76,9 +73,10 @@
 <?php } } else{ ?>
   <div class="card-body text-center">
 
-  <h4 class="card-title">Sem registros</h4>
-    <p class="card-text">Não há contatos registrados.</p>
-    <?php echo anchor('contact/create',lang('contact_action_create'),'class="btn btn-sm btn-primary"'); ?>
+  <h4 class="card-title"><?php echo lang("contact_records_empty"); ?></h4>
+    <p class="card-text"><?php echo lang("contact_no_records"); ?></p>
+    <?php echo anchor('admin/content/contact/create',lang('contact_action_create'),'class="btn btn-sm btn-primary"'); ?>
 
 </div>
   <?php } ?>
+</div>

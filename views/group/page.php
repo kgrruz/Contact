@@ -1,8 +1,4 @@
-
-
-
-
-
+<div class="card">
 <div class="card-body">
 	<h4><?php echo $group->group_name; ?></h4>
 	<div class="card-text"><?php echo $group->description; ?></div>
@@ -60,3 +56,4 @@
 	<?php echo lang('group_zero_contacts_ingroup'); ?>
 </div>
 <?php } ?>
+</div>

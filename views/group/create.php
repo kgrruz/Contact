@@ -1,12 +1,10 @@
+<div class="card">
+    <?php echo form_open($this->uri->uri_string()); ?>
 <div class="card-body">
 
-<h2 class="Subhead-heading"><?php echo $toolbar_title; ?></h2>
-    <p class="Subhead-description">
-      <?php echo lang('group_desc_form_create'); ?>
-    </p>
 
 
-  <?php echo form_open($this->uri->uri_string()); ?>
+
     <?php if (validation_errors()) : ?>
 
 <div class='alert alert-block alert-danger'>
@@ -74,3 +72,4 @@ $id = isset($group->id_group) ? $group->id_group : '';
   </div>
 
   <?php echo form_close(); ?>
+</div>

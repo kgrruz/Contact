@@ -1,4 +1,5 @@
-<?php
+<div class="card">
+  <?php
 $defaultTimezone = isset($user->timezone) ? $user->timezone : strtoupper(settings_item('site.default_user_timezone'));
 $defaultCountry = settings_item('contact.default_country');
 $defaultState   = settings_item('contact.default_state');
@@ -157,7 +158,7 @@ $id = isset($contact->id_contact) ? $contact->id_contact : '';
 
       <?php
       echo timezone_menu(
-          set_value('timezones', isset($contact) ? $contact->timezone : $defaultTimezone),
+          set_value('timezones', isset($contact->timezone) ? $contact->timezone : $defaultTimezone),
           'form-control',
           'timezone',
           array('id' => 'timezone')
@@ -273,3 +274,4 @@ $id = isset($contact->id_contact) ? $contact->id_contact : '';
               ),
               'inline'
           ); ?>
+</div>

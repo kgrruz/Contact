@@ -229,11 +229,10 @@ class Content extends Admin_Controller{
      *
      * @return void
      */
-    public function edit(){
+    public function edit($id){
 
         $this->authenticate($this->permissionEdit);
 
-        $id = $this->uri->segment(3);
         if (empty($id)) {
             Template::set_message(lang('contact_invalid_id'), 'danger');
             redirect('contacts');
@@ -422,11 +421,9 @@ class Content extends Admin_Controller{
     }
 
 
-     public function profile(){
+     public function profile($id){
 
        $this->authenticate($this->permissionView);
-
-           $id = $this->uri->segment(5);
 
            if (empty($id)) {
                Template::set_message(lang('contact_invalid_id'), 'danger');

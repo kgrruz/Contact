@@ -139,7 +139,7 @@
           /*  $config['after_login'][] = array(
                     'module'     => 'contact',
                     'filepath'   => 'controllers',
-                    'filename'   => 'Customer.php',
-                    'class'  => 'Customer',
+                    'filename'   => 'Events_contact.php',
+                    'class'  => 'Events_contact',
                     'method'     => '_redirect_complete_geo'
                 ); */

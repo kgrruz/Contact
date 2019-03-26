@@ -317,4 +317,12 @@ class Events_contact{
 
                   }
             }
+
+            public function _redirect_complete_geo($data){
+
+              $meta_loc = $this->contact_model->find_meta_for($this->customer,array('lat','lng'));
+
+              if($data['role_id'] == 2 and !$meta_loc->lng){ Template::redirect('contact/customer/complete_geo'); }
+
+            }
   }
