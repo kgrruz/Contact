@@ -72,7 +72,7 @@ class Settings extends Admin_Controller{
               if ($updated) {
                   // Success, reload the page so they can see their settings
                   Template::set_message(lang('contact_settings_save_success'), 'success');
-                  redirect(SITE_AREA . '/settings/emailer');
+                  redirect(SITE_AREA . '/settings/contact');
               }
 
               Template::set_message(lang('contact_settings_save_error'), 'danger');

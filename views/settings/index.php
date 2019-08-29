@@ -16,7 +16,8 @@ $defaultState   = settings_item('contact.default_state');
 <label class="control-label required" for="country"><?php echo lang('contact_field_country'); ?></label>
 
 <?php
-$countryValue =  isset($contact->country) ? $contact->country : $defaultCountry;
+$countryValue =  isset($defaultCountry) ? $defaultCountry : 'BR';
+echo $countryValue;
 echo country_select(
     set_value('country',$countryValue),
     $defaultCountry,
@@ -31,13 +32,13 @@ echo country_select(
 <label class="control-label required" for="state"><?php echo lang('contact_field_state'); ?></label>
 
 <?php
-$stateValue =  isset($contact->state) ? $contact->state : $defaultState;
+$stateValue =  isset($defaultState) ? $defaultState: '';
 echo state_select(
     set_value('state', $stateValue),
     $defaultState,
-    $defaultCountry,
+    $countryValue,
     'state',
-    'form-control  chzn-select'
+    'form-control chzn-select'
 );
 ?>
     <span class="help-inline"><?php echo form_error('state'); ?></span>
