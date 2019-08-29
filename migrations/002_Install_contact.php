@@ -126,11 +126,23 @@ class Migration_Install_contact extends Migration
 			'name_widget'=>'Add contact',
 			'description_widget'=>'Display add contact button',
 			'order_view'=>0,
+			'panel'=>'available',
 			'path'=>serialize(array("class"=>"Events_contact","function"=>"_show_widget_button")),
 			'module'=>'contact'
 		);
 
 		$this->db->insert("widgets",$data_widget);
+
+		$data_widget2 = array(
+			'name_widget'=>'My contacts',
+			'description_widget'=>'Display list of my related contacts',
+			'order_view'=>0,
+			'panel'=>'available',
+			'path'=>serialize(array("class"=>"Events_contact","function"=>"_user_contacts")),
+			'module'=>'contact'
+		);
+
+		$this->db->insert("widgets",$data_widget2);
 
 		$version = Modules::config("contact");
 

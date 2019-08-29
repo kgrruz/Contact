@@ -21,56 +21,17 @@ class Events_contact{
 
  public function Create_user_contact($data){
 
-   $user = $this->CI->user_model->find_user_and_meta($data['user_id']);
+if($this->CI->input->post('contact_id')){
 
-   if($user->role_id == 2){
+     $data_contact_access = array(
+       'contact_id'=>$this->CI->input->post('contact_id'),
+       'user_id'=>$data['user_id'],
+       'created_on'=>date('Y-m-d H:i:s')
+     );
 
-   $config = array(
-       'field' => 'slug_contact',
-       'title' => 'display_name',
-       'table' => 'contacts',
-       'id' => 'id_contact',
-   );
-
-   $this->CI->load->library('contact/slug', $config);
-
-   $contact_data = array(
-     'display_name'=> $user->display_name,
-     'slug_contact'=> $this->CI->slug->create_uri($user->display_name),
-     'email'=> $user->email,
-     'timezone'=> $user->timezone,
-     'created_by'=>$user->id,
-     'created_on'=>date('Y-m-d H:i:s')
-   );
-
-   $this->CI->db->insert('contacts',$contact_data);
-   $id = $this->CI->db->insert_id();
-
-   $contact_data_meta = array(
-     'user_id'=> $user->id,
-     'contact_id'=> $id
-   );
-
-   $this->CI->db->insert('contacts_users',$contact_data_meta);
-
-   $contact_data_meta2 = array(
-     'meta_key'=> 'country',
-     'meta_value'=> $user->country,
-     'contact_id'=> $id
-   );
-
-   $this->CI->db->insert('contact_meta',$contact_data_meta2);
-
-   $contact_data_meta3 = array(
-     'meta_key'=> 'state',
-     'meta_value'=> $user->state,
-     'contact_id'=> $id
-   );
-
-   $this->CI->db->insert('contact_meta',$contact_data_meta3);
-
-  }
+     $this->CI->db->insert('contacts_users',$data_contact_access);
  }
+}
 
  public function _geral_search(&$data){
 
@@ -108,7 +69,7 @@ class Events_contact{
 
            if (has_permission($this->permissionView)) {
 
-        array_push($data['tours'],array('text'=>lang('contact_tour_register'),'link'=>'contact/create/2#at_tour'));
+        array_push($data['tours'],array('text'=>lang('contact_tour_register'),'link'=>'admin/content/contact/create/2#at_tour'));
 
        }
       }
@@ -244,17 +205,7 @@ class Events_contact{
         Assets::add_module_js('contact', 'locale.js');
         Assets::add_module_js('contact', 'contact.js');
 
-        if(isset($html['contact_type'])){
-
-          $this->CI->contact_model->where('contact_type',$html['contact_type']);
-
-        }
-
-        $this->CI->contact_model->where('deleted',0);
-
-        if(isset($html['contact_id'])){ $data['contact_id'] = $html['contact_id']; };
-
-        $data['contacts'] = $this->CI->contact_model->find_all();
+        $data['contact'] = (isset($html['contact_id']))? $this->CI->contact_model->find($html['contact_id']):0;
 
         $data['label'] = $html['label'];
 
@@ -265,7 +216,7 @@ class Events_contact{
       function _show_widget_button(){
 
       if (has_permission($this->permissionView)) {
-            return anchor('contact/create/2','<i class="fa fa-plus"></i><i class="fa fa-user"></i>','class="btn btn-success"');
+            return anchor('admin/content/contact/create/2','<i class="fa fa-plus"></i><i class="fa fa-user"></i>','class="btn btn-success"');
 
           }
       }
@@ -315,14 +266,20 @@ class Events_contact{
                     $data['data_table'] = $this->CI->user_model->find_all();
                     $data['view_page'] = 'contact/content/create_access';
 
-                  }
+
+                }
             }
 
-            public function _redirect_complete_geo($data){
 
-              $meta_loc = $this->contact_model->find_meta_for($this->customer,array('lat','lng'));
+            function _user_contacts(){
 
-              if($data['role_id'] == 2 and !$meta_loc->lng){ Template::redirect('contact/customer/complete_geo'); }
+              $this->CI->db->join("contacts","contacts.id_contact = contacts_users.contact_id","left");
+              $this->CI->db->where("contacts_users.user_id",$this->CI->auth->user_id());
+              $this->CI->db->where("contacts.deleted",0);
+              $data['contacts'] = $this->CI->db->get("contacts_users")->result();
+
+              $this->CI->load->view('contact/widgets/my_contacts',$data);
+
 
             }
   }
