@@ -1,4 +1,9 @@
 
+
+
+
+<?php if($this->auth->has_permission('Contact.Content.Create')){ ?>
+  <div class="card">
   <div class="card-header"><?php echo lang('contact_give_access'); ?></div>
 <?php $errorClass = 'error';
 $controlClass = 'form-control form-control-sm';
@@ -91,4 +96,4 @@ echo form_open('admin/content/contact/send_access', array('class' => 'form-horiz
 echo form_close();
 
 }else{ ?><div class="card-body"><?php echo (property_exists($meta, 'is_user') )? lang('us_already_register'):lang('us_not_email'); ?></div><?php }
-}else{ ?><div class="card-body"><?php echo lang('us_not_allowed_invites'); ?></div><?php } ?>
+}else{ ?><div class="card-body"><?php echo lang('us_not_allowed_invites'); ?></div><?php } ?>  </div><?php } ?>

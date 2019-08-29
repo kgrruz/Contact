@@ -46,11 +46,10 @@ class Content extends Admin_Controller{
      *
      * @return void
      */
-    public function index(){
+    public function index($offset = 0){
 
-      $this->authenticate($this->permissionView,'desktop');
+      $this->authenticate($this->permissionView,'home');
 
-      $offset = $this->uri->segment(3);
       $where = array('contacts.deleted'=>0);
 
       if(isset($_GET['term']) and !empty($_GET['term'])){ $this->contact_model->like("contacts.display_name",$_GET['term']); }
@@ -68,7 +67,7 @@ class Content extends Admin_Controller{
 
       $this->load->library('pagination');
 
-      $this->pager['base_url']    = base_url()."contact/index/";
+      $this->pager['base_url']    = SITE_AREA."/content/contact/index/";
       $this->pager['per_page']    = $this->limit;
       $this->pager['reuse_query_string'] = true;
 
@@ -83,7 +82,7 @@ class Content extends Admin_Controller{
         ");
       $this->contact_model->join('contact_meta','contact_meta.contact_id = contacts.id_contact','left');
       $this->pager['total_rows']  = $this->contact_model->where($where)->count_all();
-      $this->pager['uri_segment'] = 3;
+      $this->pager['uri_segment'] = 5;
 
       $this->pagination->initialize($this->pager);
 
@@ -95,6 +94,37 @@ class Content extends Admin_Controller{
       Template::set_block('sub_nav', 'content/_sub_nav');
 
       Template::render();
+
+    }
+
+    public function ajax_search(){
+
+      if (!$this->input->is_ajax_request()) {  exit('No direct script access allowed'); }
+
+      $this->authenticate($this->permissionView,'home');
+
+     $this->db->select("id_contact,email,display_name,phone");
+     $this->db->from('contacts');
+     $this->db->like('display_name',$this->input->get('term'));
+     $this->db->group_by("id_contact");
+     $this->db->limit(5);
+     $contacts = $this->db->get();
+
+
+     $result = array();
+
+     foreach($contacts->result() as $contact){
+
+     array_push($result,array(
+     'id' => $contact->id_contact,
+     'text'=> $contact->display_name,
+     'email'=> $contact->email
+     ));
+
+
+     }
+
+     $this->output->set_output(json_encode(array('total'=>$contacts->num_rows(),'results'=>$result)));
 
     }
 
@@ -115,7 +145,7 @@ class Content extends Admin_Controller{
 
         $this->load->model('contact/group_model');
 
-        $sell_redirect = $this->uri->segment(3,0);
+        $sell_redirect = $this->uri->segment(7,0);
 
         if (isset($_POST['save'])) {
 
@@ -142,7 +172,7 @@ class Content extends Admin_Controller{
 
               Template::set_message(lang('contact_create_success'), 'success');
 
-             Template::redirect('contato/'.$inserted_contact->slug_contact);
+             Template::redirect('admin/content/contact/profile/'.$inserted_contact->slug_contact);
 
             }
 
@@ -152,7 +182,7 @@ class Content extends Admin_Controller{
             }
         }
 
-        $type = $this->uri->segment(3,1);
+        $type = $this->uri->segment(5,1);
 
         $data_html = array('html'=>'','type'=>$type);
         Events::trigger('show_create_contact',$data_html);
@@ -168,7 +198,7 @@ class Content extends Admin_Controller{
 
         $ext = " - ".lang('contact_contact');
 
-        Template::set('selected_company',$this->uri->segment(4));
+        Template::set('selected_company',$this->uri->segment(6));
         $this->contact_model->where('contact_type',2);
         $this->contact_model->where('deleted',0);
         Template::set('companies', $this->contact_model->find_all());
@@ -229,7 +259,7 @@ class Content extends Admin_Controller{
      *
      * @return void
      */
-    public function edit($id){
+    public function edit($id = 0){
 
         $this->authenticate($this->permissionEdit);
 
@@ -512,6 +542,8 @@ class Content extends Admin_Controller{
 
      function send_access(){
 
+       $this->authenticate($this->permissionCreate);
+
        if (isset($_POST['save'])) {
 
          $this->form_validation->set_rules('user', 'lang:bf_user', 'required');
@@ -568,6 +600,8 @@ class Content extends Admin_Controller{
 
      public function remove_access($id_access){
 
+       $this->authenticate($this->permissionCreate);
+
        $this->db->where("id_access_key",$id_access);
        $this->db->delete('contacts_users');
 
@@ -580,8 +614,7 @@ class Content extends Admin_Controller{
 
      public function create_access(){
 
-       $this->auth->restrict($this->permissionCreate);
-       $this->online_users->run_online();
+       $this->authenticate($this->permissionCreate);
 
            $id = $this->uri->segment(3);
 
@@ -679,7 +712,8 @@ class Content extends Admin_Controller{
        $this->output->set_output('
   <img class="card-img-top" src="'.contact_avatar($contact->email, 200,'card-img-top img-fluid w-100',false,'profile_photo').'" alt="Card image cap">
   <div class="card-body">
-    <h5 class="card-title">'.$contact->display_name.'</h5>
+    <h5 class="card-title">'.anchor('admin/content/contact/profile/'.$contact->slug_contact,$contact->display_name,'target="_blank"').'</h5>
+    <p class="card-text">'.$contact->email.'</p>
     <p class="card-text">'.$contact->phone.'</p>
     </div>');
 

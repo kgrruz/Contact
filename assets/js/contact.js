@@ -59,9 +59,9 @@ if($(".phone").length){
         if (!option.id) { return option.text; }
 
         var $option = $('<div class="media">'+
-      '<img class="mr-3" src="'+option.element.dataset.img+'" style="width:20px;" alt="icon">'+
+      '<img class="mr-3" src="'+base_url+'uploads/users/thumbs/no_foto_avatar.png" style="width:20px;" alt="icon">'+
       '<div class="media-body">'+
-        '<h6 class="mt-0">'+option.element.dataset.contact+'</h6>'+
+        '<h6 class="mt-0">'+option.text+'</h6>'+
     '</div>');
         return $option;
 
@@ -69,13 +69,18 @@ if($(".phone").length){
 
 
                     $('#contact_id').select2({
+                    ajax: {
+                       url: base_url+'admin/content/contact/ajax_search',
+                       dataType: 'json',
+                       delay: 500
+                       // Additional AJAX parameters go here; see the end of this chapter for the full code of this example
+                     },
                       templateResult: format,
                       templateSelection: format,
                       theme: 'bootstrap',
                       placeholder: $.i18n('contact-placeholder'),
                       allowClear: true
-                    });
-
+                    },);
 
 
                   }

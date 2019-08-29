@@ -6,9 +6,6 @@ $defaultState   = settings_item('contact.default_state');
 ?>
 <?php echo form_open($this->uri->uri_string(),'id="form_contact"'); ?>
 <div class="card-body">
-<h4 class="card-title"><?php echo $toolbar_title; ?></h4>
-
-
 
     <?php if (validation_errors()) : ?>
 
@@ -221,6 +218,7 @@ $id = isset($contact->id_contact) ? $contact->id_contact : '';
                           <option value="<?php echo $city->meta_value; ?>" <?php if(isset($contact)){ echo ($contact->city == $city->meta_value)? 'selected':''; }else{ echo ($city_company == $city->meta_value)? 'selected':''; } ?>  ><?php echo $city->meta_value; ?></option>
                           <?php } ?>
                         </select>
+                        <span class='help-inline'><small><?php echo lang('help_tab_tokenize'); ?></small>
                       <span class='help-inline'><?php echo form_error('city'); ?></span>
               </div>
 
@@ -257,7 +255,7 @@ $id = isset($contact->id_contact) ? $contact->id_contact : '';
 <div class="card-footer">
                 <button type='submit' id="create_contact" class='btn btn-sm btn-primary'><?php echo lang('contact_action_create'); ?></button>
                 <?php echo lang('bf_or'); ?>
-                <?php echo anchor('contacts', lang('contact_cancel'), 'class="btn btn-sm btn-warning"'); ?>
+                <?php echo anchor('admin/content/contact', lang('contact_cancel'), 'class="btn btn-sm btn-warning"'); ?>
 </div>
 <?php echo form_close(); ?>
 
