@@ -3,7 +3,7 @@
 $checkSegment = $this->uri->segment(4);
 $areaUrl = SITE_AREA . '/content/contact/';
 ?>
- <ul class="nav nav-tabs card-header-tabs">
+ <ul class="nav nav-pills ">
 	 <li class="nav-item">
 		<?php echo anchor($areaUrl,lang('contact_list'),'class="nav-link '.check_url($areaUrl,true).'"'); ?>
 	 </li>
