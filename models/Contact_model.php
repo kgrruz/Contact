@@ -145,11 +145,14 @@ class Contact_model extends BF_Model{
 
     public function get_markersbound($north,$south,$east,$west){
 
+		 $this->db->cache_on();
      $this->db->select("
          'contact' as module,
-				 'bigcity.png' as icon,contacts.id_contact as idc,
+				 IF(contact_type = 2, 'bigcity.png', 'male.png') as icon,
+				 contacts.id_contact as idc,
 				 contacts.display_name as name,
 				 MAX(CASE WHEN {$this->db->dbprefix}contact_meta.meta_key = 'city' THEN {$this->db->dbprefix}contact_meta.meta_value END) AS 'city',
+				 MAX(CASE WHEN {$this->db->dbprefix}contact_meta.meta_key = 'neibor' THEN {$this->db->dbprefix}contact_meta.meta_value END) AS 'neibor',
 				 MAX(CASE WHEN {$this->db->dbprefix}contact_meta.meta_key = 'adress' THEN {$this->db->dbprefix}contact_meta.meta_value END) AS 'adress',
 				 MAX(CASE WHEN {$this->db->dbprefix}contact_meta.meta_key = 'num_adress' THEN {$this->db->dbprefix}contact_meta.meta_value END) AS 'num_adress',
 				 MAX(CASE WHEN {$this->db->dbprefix}contact_meta.meta_key = 'lat' THEN {$this->db->dbprefix}contact_meta.meta_value END) AS 'lat',
@@ -164,6 +167,7 @@ class Contact_model extends BF_Model{
 				 $this->db->having("cast(lng as DECIMAL(10,2)) >= '{$west}'");
 
 				 $coordinates = $this->db->get();
+				 $this->db->cache_off();
 		     return $coordinates->result_array();
     }
 
@@ -339,7 +343,8 @@ class Contact_model extends BF_Model{
 		public function find_contacts_user($id_user){
 
 		$data = array(
-			'user_id'=>$id_user
+			'user_id'=>$id_user,
+			'contacts.deleted'=>0
 		);
 
 		$this->db->select('id_contact,slug_contact,display_name,email');
@@ -351,4 +356,35 @@ class Contact_model extends BF_Model{
 		if($result->num_rows()){ return $result->result(); }else{ return false; }
 
 }
+
+	public function find_contacts_user_ids($id_user){
+
+		$data = array(
+			'user_id'=>$id_user
+		);
+
+		$this->db->select('GROUP_CONCAT(distinct contact_id) as ids');
+		$this->db->from('contacts_users');
+		$this->db->where($data);
+		$result = $this->db->get();
+
+		if($result->num_rows()){ return $result->row()->ids; }else{ return false; }
+
+	}
+
+	public function find_users_contact_ids($id_contact){
+
+		$data = array(
+			'contact_id'=>$id_contact
+		);
+
+		$this->db->select('GROUP_CONCAT(distinct user_id) as ids');
+		$this->db->from('contacts_users');
+		$this->db->where($data);
+		$result = $this->db->get();
+
+		if($result->num_rows()){ return $result->row()->ids; }else{ return false; }
+
+	}
+
 }
