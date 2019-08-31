@@ -78,19 +78,19 @@
 
   <?php } ?>
 
-  <div class="card">
+
 
   <?php if(is_array($contact_type) and !in_array($contact->contact_type,$contact_type)){ ?>
-
+  <div class="card">
 <div class="card-body text-center">
     <h4 class="card-title"><?php echo lang('contact_nothing_show_title'); ?></h4>
       <p class="card-text"><?php echo lang('contact_nothing_show_desc'); ?></p>
 
     </div>
-
+  </div>
   <?php }else{  $this->load->view($view_page); } ?>
 
-  </div>
+
 
   <?php $this->load->view('content/create_user'); ?>
 
