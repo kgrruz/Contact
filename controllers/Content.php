@@ -172,7 +172,7 @@ class Content extends Admin_Controller{
 
               Template::set_message(lang('contact_create_success'), 'success');
 
-             Template::redirect('admin/content/contact/profile/'.$inserted_contact->slug_contact);
+              Template::redirect('admin/content/contact/profile/'.$inserted_contact->slug_contact);
 
             }
 
@@ -265,7 +265,7 @@ class Content extends Admin_Controller{
 
         if (empty($id)) {
             Template::set_message(lang('contact_invalid_id'), 'danger');
-            redirect('contacts');
+            Template::redirect('admin/content/contact');
         }
 
         $contact = $this->contact_model->find_by('slug_contact',$id);
@@ -300,7 +300,7 @@ class Content extends Admin_Controller{
                 log_notify($this->auth->users_has_permission($this->permissionView), $id_act);
 
                 Template::set_message(lang('contact_edit_success'), 'success');
-                Template::redirect($this->agent->referrer());
+                Template::redirect('admin/content/contact/edit/'.$contact->slug_contact);
             }
 
             // Not validation error
@@ -359,7 +359,7 @@ class Content extends Admin_Controller{
       $contact = $this->contact_model->find_user_and_meta($id);
       if (! isset($contact)) {
           Template::set_message(lang('us_invalid_contact_id'), 'danger');
-          Template::redirect('contacts');
+          Template::redirect('admin/content/contact');
       }
 
           $this->authenticate($this->permissionDelete);
@@ -457,7 +457,7 @@ class Content extends Admin_Controller{
 
            if (empty($id)) {
                Template::set_message(lang('contact_invalid_id'), 'danger');
-               redirect('contacts');
+               Template::redirect('admin/content/contact');
            }
 
            if($id = $this->contact_model->find_by('slug_contact',$id)->id_contact){
@@ -467,7 +467,7 @@ class Content extends Admin_Controller{
            if($contact->deleted){
 
              Template::set_message(lang('contact_is_deleted'), 'danger');
-             redirect('contacts');
+             Template::redirect('admin/content/contact');
 
            }
 
@@ -509,7 +509,7 @@ class Content extends Admin_Controller{
          }else{
 
            Template::set_message(lang('contact_invalid_id'), 'danger');
-           redirect('contact');
+           Template::redirect('admin/content/contact');
          }
 
      }
@@ -620,7 +620,7 @@ class Content extends Admin_Controller{
 
            if (empty($id)) {
                Template::set_message(lang('contact_invalid_id'), 'danger');
-               redirect('contacts');
+               Template::redirect('admin/content/contact');
            }
 
        if($id = $this->contact_model->find_by('slug_contact',$id)->id_contact){
@@ -644,7 +644,7 @@ class Content extends Admin_Controller{
      }else{
 
        Template::set_message(lang('contact_invalid_id'), 'danger');
-       redirect('contacts');
+       Template::redirect('admin/content/contact');
      }
     }
 
