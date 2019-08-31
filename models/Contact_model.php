@@ -143,7 +143,7 @@ class Contact_model extends BF_Model{
 
     }
 
-    public function get_markersbound($north,$south,$east,$west){
+    public function get_markersbound($north,$south,$east,$west,$offset){
 
 		 $this->db->cache_on();
      $this->db->select("
@@ -165,10 +165,35 @@ class Contact_model extends BF_Model{
 				 $this->db->having("cast(lat as DECIMAL(10,2)) >= '{$south}'");
 				 $this->db->having("cast(lng as DECIMAL(10,2)) <= '{$east}'");
 				 $this->db->having("cast(lng as DECIMAL(10,2)) >= '{$west}'");
+				 $this->db->where("contacts.deleted",0);
+				 $this->db->limit(50,$offset);
 
 				 $coordinates = $this->db->get();
 				 $this->db->cache_off();
 		     return $coordinates->result_array();
+    }
+
+    public function count_markersbound($north,$south,$east,$west){
+
+		 $this->db->cache_on();
+     $this->db->select("contacts.id_contact as idc,
+		 MAX(CASE WHEN {$this->db->dbprefix}contact_meta.meta_key = 'city' THEN {$this->db->dbprefix}contact_meta.meta_value END) AS 'city',
+		 MAX(CASE WHEN {$this->db->dbprefix}contact_meta.meta_key = 'neibor' THEN {$this->db->dbprefix}contact_meta.meta_value END) AS 'neibor',
+		 MAX(CASE WHEN {$this->db->dbprefix}contact_meta.meta_key = 'adress' THEN {$this->db->dbprefix}contact_meta.meta_value END) AS 'adress',
+		 MAX(CASE WHEN {$this->db->dbprefix}contact_meta.meta_key = 'num_adress' THEN {$this->db->dbprefix}contact_meta.meta_value END) AS 'num_adress',
+		 MAX(CASE WHEN {$this->db->dbprefix}contact_meta.meta_key = 'lat' THEN {$this->db->dbprefix}contact_meta.meta_value END) AS 'lat',
+		 MAX(CASE WHEN {$this->db->dbprefix}contact_meta.meta_key = 'lng' THEN {$this->db->dbprefix}contact_meta.meta_value END) AS 'lng'");
+				 $this->db->from("contacts");
+         $this->db->join("contact_meta","contacts.id_contact = contact_meta.contact_id","left");
+         $this->db->group_by("id_contact");
+         $this->db->having("cast(lat as DECIMAL(10,2)) <= '{$north}'");
+				 $this->db->having("cast(lat as DECIMAL(10,2)) >= '{$south}'");
+				 $this->db->having("cast(lng as DECIMAL(10,2)) <= '{$east}'");
+				 $this->db->having("cast(lng as DECIMAL(10,2)) >= '{$west}'");
+				 $this->db->where("contacts.deleted",0);
+				 $coordinates = $this->db->get();
+				 $this->db->cache_off();
+		     return $coordinates->num_rows();
     }
 
     public function search_locs($search){
