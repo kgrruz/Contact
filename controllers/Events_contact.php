@@ -50,7 +50,7 @@ if($this->CI->input->post('contact_id')){
      <img class="mr-3" style="width:64px" src="'.contact_avatar($result->email, 64, null,false,null).'" alt="contact_photo">
      <div class="media-body row d-flex h-100">
         <div class="col-sm-9">
-     <h5 class="my-0">'.$type.anchor('contato/'.$result->slug_contact,$result->display_name).'</h5>
+     <h5 class="my-0">'.$type.anchor('admin/content/contact/profile/'.$result->slug_contact,$result->display_name).'</h5>
      </div><div class="col-sm-3 my-auto" >'.anchor('contact/edit/'.$result->slug_contact,'<i class="fa fa-edit"></i>','class=""').'</div>
    </div></div>'));
 
