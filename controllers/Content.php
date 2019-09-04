@@ -160,7 +160,7 @@ class Content extends Admin_Controller{
               $inserted_contact = $this->contact_model->find($insert_id);
 
               // TODO: fix relative url
-              $msg_event = '[contact_act_create_record]' . ': ' . '<a href="contato/'.$inserted_contact->slug_contact.'">'.$inserted_contact->display_name.'</a>';
+              $msg_event = '[contact_act_create_record]' . ': ' . '<a href="admin/content/contact/profile/'.$inserted_contact->slug_contact.'">'.$inserted_contact->display_name.'</a>';
 
               $data_sse = array('event'=>'refresh_not','msg'=>$msg_event,'to'=>array(4,1),'timestamp'=>now());
 
@@ -295,7 +295,7 @@ class Content extends Admin_Controller{
 
               Events::trigger('insert_contact',$data_insert);
 
-                $id_act = log_activity($this->auth->user_id(), '[contact_act_edit_record]' . ' : ' . '<a href="contato/'.$contact->slug_contact.'">'.$contact->display_name.'</a>', 'contact');
+                $id_act = log_activity($this->auth->user_id(), '[contact_act_edit_record]' . ' : ' . '<a href="admin/content/contact/profile/'.$contact->slug_contact.'">'.$contact->display_name.'</a>', 'contact');
 
                 log_notify($this->auth->users_has_permission($this->permissionView), $id_act);
 
@@ -366,7 +366,7 @@ class Content extends Admin_Controller{
 
           if ($this->contact_model->delete($id)) {
 
-              $id_act = log_activity($this->auth->user_id(), '[contact_act_delete_record]' . ': '. '<a href="contato/'.$contact->slug_contact.'">'.$contact->display_name.'</a>', 'contact');
+              $id_act = log_activity($this->auth->user_id(), '[contact_act_delete_record]' . ': '. '<a href="admin/content/contact/profile/'.$contact->slug_contact.'">'.$contact->display_name.'</a>', 'contact');
               log_notify($this->auth->users_has_permission($this->permissionView), $id_act);
 
               Template::set_message(lang("contact_contact_name").' <strong>'.$contact->display_name.'</strong> '.lang('contact_delete_success'),'success');
