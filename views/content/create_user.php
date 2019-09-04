@@ -6,12 +6,10 @@
   $editSettings   = 'edit';
 
   ?>
-  <div class="accordion" id="accordionExample2">
+
   <div class="card mt-3">
      <div class="card-header">
-       <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseUser" aria-expanded="true" aria-controls="collapseUser">
        <?php echo lang('us_create_user'); ?>
-     </button>
      </div>
 <?php $errorClass = 'error';
 $controlClass = 'form-control form-control-sm';
@@ -50,7 +48,6 @@ $meta = $this->contact_model->find_meta_for($contact->id_contact,array('is_user'
  if ($this->settings_lib->item('contact.allow_user_invite') == 1){ ?>
 
    <?php  if(!property_exists($meta, 'is_user')){ ?>
-     <div id="collapseUser" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
      <div class="card-body">
        <?php
 echo form_open('admin/content/users/create', array('class' => 'form-horizontal', 'autocomplete' => 'off'));
@@ -136,12 +133,10 @@ echo form_open('admin/content/users/create', array('class' => 'form-horizontal',
 
     <div class="card-footer">
         <input type="submit" name="save" class="btn btn-sm btn-primary" value="<?php echo lang('bf_action_save') . ' ' . lang('bf_user'); ?>" />
-    </div>  </div>
+    </div>
 <?php
 echo form_close();
 
 }else{ ?><div class="card-body"><?php echo (property_exists($meta, 'is_user') )? lang('us_already_register'):lang('us_not_email'); ?></div><?php }
-}else{ ?><div class="card-body"><?php echo lang('us_not_allowed_invites'); ?></div><?php } ?><?php } ?>
-
-</div>
-</div>
+}else{ ?><div class="card-body"><?php echo lang('us_not_allowed_invites'); ?></div><?php } ?></div>
+<?php } ?>

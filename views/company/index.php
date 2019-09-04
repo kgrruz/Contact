@@ -1,4 +1,4 @@
-<?php if($data){ ?>
+<div class="card"><?php if($data){ ?>
 
   <nav class="navbar navbar-expand-lg navbar-light bg-light">
 
@@ -63,4 +63,4 @@
     <?php echo anchor('admin/content/contact/create/1/'.$id_contact,lang('contact_action_create'),'class="btn btn-sm btn-primary"'); ?>
 
 </div>
-  <?php } ?>
+<?php } ?></div>

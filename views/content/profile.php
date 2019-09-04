@@ -91,9 +91,6 @@
   <?php }else{  $this->load->view($view_page); } ?>
 
 
-
-  <?php $this->load->view('content/create_user'); ?>
-
 </div>
 </div>
 </div>
