@@ -8,7 +8,6 @@
 
   <div class="card-body">
     <h4 class="card-title"><?php echo ($contact->contact_type == 1)? '<i class="fa fa-user" aria-hidden="true"></i>':'<i class="fa fa-building" aria-hidden="true"></i>'; ?> <?php echo (isset($contact->is_user))? '<i class="fa fa-key"></i>':''; ?> <?php echo $contact->display_name; ?> </h4>
-    <?php echo anchor('contact/content/edit/'.$contact->slug_contact,'<i class="fa fa-edit" aria-hidden="true"></i> '.lang('contact_action_edit')); ?>
       <?php echo (!empty($contact->job_role))? '<p class="card-text">'.$contact->job_role.'</p>':''; ?>
     <p class="card-text"><?php echo mailto($contact->email); ?></p>
   </div>
@@ -28,7 +27,7 @@
 
     <?php if(isset($contact->company) and $contact->company != 0){ ?>
     <?php $company = $this->contact_model->find($contact->company);  ?>
-    <li class="list-group-item"><?php echo anchor('admin/contact/content/profile/'.$company->slug_contact,'<i class="fa fa-building" aria-hidden="true"></i> '.$company->display_name); ?></li>
+    <li class="list-group-item"><?php echo anchor('contato/'.$company->slug_contact,'<i class="fa fa-building" aria-hidden="true"></i> '.$company->display_name); ?></li>
 <?php } ?>
 
 <?php if(count($tabs)){ ?>
@@ -36,7 +35,7 @@
     <?php foreach($tabs as $tab){ ?>
       <?php if(isset($tab['contact_type']) and in_array($contact->contact_type,$tab['contact_type']) or !isset($tab['contact_type'])){ ?>
 
-        <a href="<?php echo base_url().'admin/contact/content/profile/'.$contact->slug_contact.'/'.$tab['url']; ?>"  class="list-group-item list-group-item-action <?php echo ($function_tab == $tab['url'])? 'active':''; ?> "> <?php echo $tab['label'][$current_user->language]; ?> </a>
+        <a href="<?php echo base_url().'contato/'.$contact->slug_contact.'/'.$tab['url']; ?>"  class="list-group-item list-group-item-action <?php echo ($function_tab == $tab['url'])? 'active':''; ?> "> <?php echo $tab['label'][$current_user->language]; ?> </a>
 
     <?php } ?>
   <?php } ?>
@@ -66,7 +65,7 @@
                 <span class="badge badge-success" ><?php echo role_user_by_id($us->role_id); ?></span>
                 </div>
                         <div class="col-md-3 my-auto">
-                          <?php echo ($this->auth->has_permission("Contact.Content.Create"))? anchor("contact/content/remove_access/".$us->id_access_key,'<i class="fa fa-trash"></i>','data-message="'.lang("contact_confirm_remove_access").'" class="btn btn-light exc_bot" '):''; ?>
+
               </div>
               </div>
               </div>
@@ -81,17 +80,15 @@
 
 
   <?php if(is_array($contact_type) and !in_array($contact->contact_type,$contact_type)){ ?>
-  <div class="card">
-<div class="card-body text-center">
+
     <h4 class="card-title"><?php echo lang('contact_nothing_show_title'); ?></h4>
       <p class="card-text"><?php echo lang('contact_nothing_show_desc'); ?></p>
 
-    </div>
-    </div>
+
 
   <?php }else{ ?>
 
-   <?php $this->load->view($view_page); ?>
+   <?php echo $this->load->view($view_page); ?>
 
  <?php } ?>
 

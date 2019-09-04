@@ -20,7 +20,7 @@ class Contact extends Front_Controller{
 
       }
 
-    
+
 
       public function profile($id){
 
@@ -42,37 +42,10 @@ class Contact extends Front_Controller{
 
             }
 
-            $modules = Modules::list_modules(true);
 
-            $tabs = array();
-
-              foreach($modules as $module) :
-                $config = Modules::config($module);
-                if(isset($config['tab_contact']) and $config['tab_contact']['url']){
-                array_push($tabs,$config['tab_contact']);
-             }
-
-            endforeach;
-
-            if(count($tabs)){
-
-            $function = $this->uri->segment(3,$tabs[0]['url']);
-
-            $data = array('function'=>$function,'view_page'=>'','contact_type'=>'','id_contact'=>$id,'data_table'=>'','slug'=>$contact->slug_contact);
-
-            Events::trigger('show_profile_contact',$data);
-            Template::set('function_tab',$function);
-
-            Template::set('data',$data['data_table']);
-            Template::set('contact_type',$data['contact_type']);
-            Template::set('id_contact',$data['id_contact']);
-            Template::set('view_page', $data['view_page']);
-
-            }
-
-
-            Template::set('tabs',$tabs);
-            Template::set('users_access', $this->db->join("users","users.id = contacts_users.user_id","left")->where("contacts_users.contact_id",$data['id_contact'])->get("contacts_users"));
+            Template::set('tabs',array());
+            Template::set('contact_type',array());
+            Template::set('users_access', $this->db->join("users","users.id = contacts_users.user_id","left")->where("contacts_users.contact_id",$id)->get("contacts_users"));
             Template::set('contact', $contact);
             Template::set('toolbar_title', $contact->display_name);
             Template::render();
