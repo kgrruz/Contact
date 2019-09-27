@@ -28,7 +28,7 @@ class Contact extends Front_Controller{
 
             if (empty($id)) {
                 Template::set_message(lang('contact_invalid_id'), 'danger');
-                redirect('contacts');
+                redirect('home');
             }
 
             if($id = $this->contact_model->find_by('slug_contact',$id)->id_contact){
@@ -38,7 +38,7 @@ class Contact extends Front_Controller{
             if($contact->deleted){
 
               Template::set_message(lang('contact_is_deleted'), 'danger');
-              Template::redirect('contacts');
+              Template::redirect('home');
 
             }
 
@@ -53,7 +53,7 @@ class Contact extends Front_Controller{
           }else{
 
             Template::set_message(lang('contact_invalid_id'), 'danger');
-            redirect('contact');
+            redirect('home');
           }
 
       }
@@ -63,7 +63,18 @@ class Contact extends Front_Controller{
 
         $this->authenticate();
 
+        if (empty($idc)) {
+            Template::set_message(lang('contact_invalid_id'), 'danger');
+            Template::redirect($this->agent->referrer());
+        }
+
+        if($idc = $this->contact_model->find_by('slug_contact',$idc)->id_contact){
+
         if (isset($_POST['save'])) {
+
+          $this->form_validation->set_rules('lat', 'lang:contact_card_locale', 'required');
+
+          if($this->form_validation->run()){
 
           $meta_data_lat = array(
             'meta_key'=>'lat',
@@ -82,9 +93,24 @@ class Contact extends Front_Controller{
           $this->db->insert('contact_meta',$meta_data_lng);
 
           Template::set_message(lang('contact_customer_geo_success'), 'success');
-          Template::redirect('home');
+
+          if($current_user->role_id == 2){
+
+                  Template::redirect('home');
+
+          }else{
+
+                  Template::redirect('admin/content/map');
+
+          }
+
+        }else{
+
+          Template::set_message(validation_errors(),'danger');
+          Template::redirect($this->agent->referrer());
 
         }
+      }
 
         $data_html = array('html'=>'');
         Events::trigger('show_geo_complete',$data_html);
@@ -94,6 +120,11 @@ class Contact extends Front_Controller{
         Template::set('toolbar_title', lang('contact_customer_check_position'));
         Template::render();
 
-      }
+      }else{
 
+          Template::set_message(lang('contact_invalid_id'), 'danger');
+          Template::redirect($this->agent->referrer());
+
+      }
     }
+  }

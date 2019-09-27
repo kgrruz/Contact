@@ -70,7 +70,7 @@ if($(".phone").length){
 
                     $('#contact_id').select2({
                     ajax: {
-                       url: base_url+'admin/content/contact/ajax_search',
+                       url: base_url+'admin/content/contact/ajax_search/'+$('#contact_id').data('type'),
                        dataType: 'json',
                        delay: 500
                        // Additional AJAX parameters go here; see the end of this chapter for the full code of this example
