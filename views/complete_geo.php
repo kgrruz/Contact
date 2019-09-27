@@ -1,4 +1,5 @@
-
+<div class="card">
+<div class="card-header">Mapa</div>
 
 <?php echo form_open($this->uri->uri_string()); ?>
 
@@ -8,8 +9,11 @@
 <input type="hidden" id="neibor" value="" />
 
 <?php echo $data_html; ?>
-<hr>
+<div class="card-footer">
 
 <input type="submit" name="save" value="<?php echo lang('contact_customer_save_coordinate'); ?>" class="btn btn-success" />
 
 <?php echo form_close(); ?>
+
+</div>
+</div>
