@@ -97,7 +97,7 @@ class Content extends Admin_Controller{
 
     }
 
-    public function ajax_search(){
+    public function ajax_search($type = 0){
 
       if (!$this->input->is_ajax_request()) {  exit('No direct script access allowed'); }
 
@@ -106,6 +106,7 @@ class Content extends Admin_Controller{
      $this->db->select("id_contact,email,display_name,phone");
      $this->db->from('contacts');
      $this->db->like('display_name',$this->input->get('term'));
+     if($type){ $this->db->where("contact_type",$type); }
      $this->db->group_by("id_contact");
      $this->db->limit(5);
      $contacts = $this->db->get();

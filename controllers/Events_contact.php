@@ -209,6 +209,8 @@ if($this->CI->input->post('contact_id')){
 
         $data['label'] = $html['label'];
 
+        $data['contact_type'] = (isset($html['contact_type']))? $html['contact_type']:0;
+
         $html['html'] =  $this->CI->load->view('contact/form_widget',$data,true);
 
       }
