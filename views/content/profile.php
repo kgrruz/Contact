@@ -17,7 +17,9 @@
     	<?php if(isset($contact->country)){ ?>
 				<li class="list-group-item">
 				<i class="fa fa-map-marker" aria-hidden="true"></i>
-	 <?php echo (isset($contact->city))? $contact->city:lang("contact_city_indef"); ?>,  <?php echo (isset($contact->state))? $contact->state:''; ?><br/>
+	 <?php echo (isset($contact->city))? $contact->city:lang("contact_city_indef"); ?>,  <?php echo (isset($contact->state))? $contact->state:''; ?>
+   <?php echo anchor("contact/complete_geo/".$contact->slug_contact,lang("contact_set_coordinate"),"class='float-right'"); ?>
+   <br/>
 	 <?php echo (isset($contact->neibor) and !empty($contact->neibor))? $contact->neibor.'<br/>':''; ?>
 	 <?php echo (isset($contact->adress) and !empty($contact->adress))? $contact->adress:''; ?><?php echo (isset($contact->num_adress) and !empty($contact->num_adress))? '-'.$contact->num_adress:''; ?>
 	  </li>
@@ -48,36 +50,6 @@
 </div>
 
 <div class="col-md-9">
-
-  <?php if($users_access->num_rows()){ ?>
-
-  <div class="card mb-3">
-    <div class="card-header"><i class="fa fa-key"></i>&nbsp;<?php echo lang('contact_access_by'); ?></div>
-        <ul class="list-group list-group-flush">
-          <div class="row">
-          <?php foreach($users_access->result() as $us){ ?>
-            <div class="col-md-6">
-            <li class="list-group-item">
-              <div class="media">
-                <?php echo user_avatar($us->photo_avatar,$us->email, 60,'d-flex mr-3', true,'thumbs'); ?>
-                <div class="media-body row">
-                  <div class="col-md-9">
-                  <h5 class="mt-0"><?php echo anchor($us->username,$us->display_name); ?></h5>
-                <span class="badge badge-success" ><?php echo role_user_by_id($us->role_id); ?></span>
-                </div>
-                        <div class="col-md-3 my-auto">
-                          <?php echo anchor("contact/content/remove_access/".$us->id_access_key,'<i class="fa fa-trash"></i>','data-message="'.lang("contact_confirm_remove_access").'" class="btn btn-light exc_bot" '); ?>
-              </div>
-              </div>
-              </div>
-            </li>  </div>
-          <?php } ?>
-          </div>
-        </ul>
-    </div>
-
-  <?php } ?>
-
 
 
   <?php if(is_array($contact_type) and !in_array($contact->contact_type,$contact_type)){ ?>

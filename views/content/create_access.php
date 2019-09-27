@@ -1,5 +1,32 @@
 
+<?php if($users_access->num_rows()){ ?>
 
+<div class="card mb-3">
+  <div class="card-header"><i class="fa fa-key"></i>&nbsp;<?php echo lang('contact_access_by'); ?></div>
+      <ul class="list-group list-group-flush">
+        <div class="row">
+        <?php foreach($users_access->result() as $us){ ?>
+          <div class="col-md-6">
+          <li class="list-group-item">
+            <div class="media">
+              <?php echo user_avatar($us->photo_avatar,$us->email, 60,'d-flex mr-3', true,'thumbs'); ?>
+              <div class="media-body row">
+                <div class="col-md-9">
+                <h5 class="mt-0"><?php echo anchor($us->username,ellipsize($us->display_name,30)); ?></h5>
+              <span class="badge badge-success" ><?php echo role_user_by_id($us->role_id); ?></span>
+              </div>
+                      <div class="col-md-3 my-auto">
+                        <?php echo anchor("contact/content/remove_access/".$us->id_access_key,'<i class="fa fa-trash"></i>','data-message="'.lang("contact_confirm_remove_access").'" class="btn btn-light exc_bot" '); ?>
+            </div>
+            </div>
+            </div>
+          </li>  </div>
+        <?php } ?>
+        </div>
+      </ul>
+  </div>
+
+<?php } ?>
 
 
 <?php if($this->auth->has_permission('Contact.Content.Create')){ ?>

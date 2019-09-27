@@ -4,6 +4,8 @@
   $controlClass   = empty($controlClass) ? 'form-control' : $controlClass;
   $registerClass  = ' required';
   $editSettings   = 'edit';
+  $password       = $this->auth->generateStrongPassword();
+  $username       = $this->auth->generate_unique_username($contact->display_name);
 
   ?>
 
@@ -12,7 +14,7 @@
        <?php echo lang('us_create_user'); ?>
      </div>
 <?php $errorClass = 'error';
-$controlClass = 'form-control form-control-sm';
+$controlClass = 'form-control';
 $fieldData = array(
     'errorClass'    => $errorClass,
     'controlClass'  => $controlClass,
@@ -92,7 +94,7 @@ echo form_open('admin/content/users/create', array('class' => 'form-horizontal',
 <div class="col-sm-6">
 <label class="control-label required" for="username"><?php echo lang('bf_username'); ?></label>
 <div class="controls">
-    <input class="<?php echo $controlClass; ?> " type="text" id="username" name="username" value="" />
+    <input class="<?php echo $controlClass; ?> " type="text" id="username" name="username" value="<?php echo $username; ?>" />
     <span class="help-inline"><?php echo form_error('username'); ?></span>
 </div>
 </div>
@@ -101,17 +103,15 @@ echo form_open('admin/content/users/create', array('class' => 'form-horizontal',
 
 <div class="form-group row<?php echo form_error('password') ? $errorClass : ''; ?>">
 <div class="col-md-6">
-<label class="control-label<?php echo $registerClass; ?>" for="password"><?php echo lang('bf_password'); ?></label>
 <div class="controls">
-    <input autocomplete="off" data-toggle="popover" data-trigger="focus" title="<?php echo lang('bf_password'); ?>" data-placement="left" data-html="true" data-content="<?php echo isset($password_hints) ? $password_hints : ''; ?>" class="<?php echo $controlClass; ?>" type="password" id="password" name="password" value="" />
+    <input autocomplete="off" data-toggle="popover" data-trigger="focus" title="<?php echo lang('bf_password'); ?>" data-placement="left" data-html="true" data-content="<?php echo isset($password_hints) ? $password_hints : ''; ?>" class="<?php echo $controlClass; ?>" type="hidden" id="password" name="password" value="<?php echo $password; ?>" />
     <span class="help-inline"><?php echo form_error('password'); ?></span>
 
 </div>
 </div>
 <div class="col-md-6">
-<label class="control-label<?php echo $registerClass; ?>" for="pass_confirm"><?php echo lang('bf_password_confirm'); ?></label>
 <div class="controls">
-    <input autocomplete="off" class="<?php echo $controlClass; ?>" type="password" id="pass_confirm" name="pass_confirm" value="" />
+    <input autocomplete="off" class="<?php echo $controlClass; ?>" type="hidden" id="pass_confirm" name="pass_confirm" value="<?php echo $password; ?>" />
     <span class="help-inline"><?php echo form_error('pass_confirm'); ?></span>
 </div>
 </div>
@@ -121,6 +121,8 @@ echo form_open('admin/content/users/create', array('class' => 'form-horizontal',
 <input type="hidden" value="<?php echo $contact->id_contact; ?>" name="contact_id" />
 <input type="hidden" value="portuguese_br" name="language" />
 <input type="hidden" value="UM3" name="timezone" />
+<input type="hidden" value="<?php echo $contact->country; ?>" name="country" />
+<input type="hidden" value="<?php echo $contact->state; ?>" name="state" />
 
 
         <?php
