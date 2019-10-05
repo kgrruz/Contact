@@ -154,7 +154,13 @@ class Migration_Install_contact extends Migration
 
 		$this->db->insert("settings",$data_st);
 
+		$data_st1 = array(
+			'name' => 'contact.default_country',
+			'module' => 'contact',
+			'value' => $this->input->post('country')
+		);
 
+		$this->db->insert("settings",$data_st1);
 
 	}
 
