@@ -162,6 +162,14 @@ class Migration_Install_contact extends Migration
 
 		$this->db->insert("settings",$data_st1);
 
+		$data_st2 = array(
+			'name' => 'contact.allow_user_invite',
+			'module' => 'contact',
+			'value' => 1
+		);
+
+		$this->db->insert("settings",$data_st2);
+
 	}
 
 	/**
