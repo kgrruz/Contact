@@ -1,7 +1,7 @@
 <div class="card">
 <?php if($contatos){  ?>
 
-  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <nav class="navbar navbar-expand-lg p-2">
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
 
     <form action="<?php echo $this->uri->uri_string(); ?>" method="get" class="form-inline my-2 my-lg-0">
