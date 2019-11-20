@@ -1,8 +1,8 @@
 <div class="card">
   <?php
-$defaultTimezone = isset($user->timezone) ? $user->timezone : strtoupper(settings_item('site.default_user_timezone'));
-$defaultCountry = settings_item('contact.default_country');
-$defaultState   = settings_item('contact.default_state');
+$defaultTimezone = settings_item('contact.default_timezone');
+$defaultCountry  = settings_item('contact.default_country');
+$defaultState    = settings_item('contact.default_state');
 
 ?>
 <?php echo form_open($this->uri->uri_string(),'id="form_contact"'); ?>
@@ -151,9 +151,11 @@ $id = isset($contact->id_contact) ? $contact->id_contact : '';
 
 <?php if(!isset($data_html_adress)){ ?>
 
-  <div class="form-group<?php echo form_error('timezone') ? ' error' : ''; ?>">
-  <label class="control-label required" for="timezones"><?php echo lang('bf_timezone'); ?></label>
 
+
+  <div <?php echo (settings_item('contact.display_timezone_select'))?'':'style="display:none"'; ?> class="form-group<?php echo form_error('timezone') ? ' error' : ''; ?>">
+
+  <label class="control-label required" for="timezones"><?php echo lang('bf_timezone'); ?></label>
       <?php
       echo timezone_menu(
           set_value('timezones', isset($contact->timezone) ? $contact->timezone : $defaultTimezone),
@@ -165,9 +167,12 @@ $id = isset($contact->id_contact) ? $contact->id_contact : '';
       <span class="help-inline"><?php echo form_error('timezones'); ?></span>
   </div>
 
+
 <div class="row">
 
-  <div class="col-sm-6 form-group<?php echo form_error('country') ? ' error' : ''; ?>">
+
+
+  <div <?php echo (settings_item('contact.display_country_select'))?'':'style="display:none"'; ?> class="col-sm-6 form-group<?php echo form_error('country') ? ' error' : ''; ?>">
   <label class="control-label required" for="country"><?php echo lang('contact_field_country'); ?></label>
 
   <?php
@@ -182,7 +187,8 @@ $id = isset($contact->id_contact) ? $contact->id_contact : '';
       <span class="help-inline"><?php echo form_error('country'); ?></span>
   </div>
 
-  <div class="col-sm-6 form-group<?php echo form_error('state') ? ' error' : ''; ?>">
+
+  <div <?php echo (settings_item('contact.display_state_select'))?'':'style="display:none"'; ?> class="col-sm-6 form-group<?php echo form_error('state') ? ' error' : ''; ?>">
   <label class="control-label required" for="state"><?php echo lang('contact_field_state'); ?></label>
 
   <?php
@@ -197,6 +203,8 @@ $id = isset($contact->id_contact) ? $contact->id_contact : '';
   ?>
       <span class="help-inline"><?php echo form_error('state'); ?></span>
   </div>
+
+
   </div>
 
               <div class="form-group<?php echo form_error('postcode') ? ' error' : ''; ?>">
@@ -246,21 +254,23 @@ $id = isset($contact->id_contact) ? $contact->id_contact : '';
 
 <input type="hidden" name="contact_type" value="<?php echo $contact_type; ?>" />
 
-<?php echo form_input(array('name'=>'save','type'=>'hidden','value'=>lang('contact_action_create'))); ?>
 <?php } ?>
+    <?php echo form_input(array('name'=>'save','type'=>'hidden','value'=>lang('contact_action_create'))); ?>
             </div>
             </div>
+
             </div>
 
 
 <div class="card-footer">
-                <button type='submit' id="create_contact" class='btn btn-sm btn-primary'><?php echo lang('contact_action_create'); ?></button>
+
+                <button type='submit'  id="create_contact" class='btn btn-sm btn-primary'><?php echo lang('contact_action_create'); ?></button>
                 <?php echo lang('bf_or'); ?>
                 <?php echo anchor('admin/content/contact', lang('contact_cancel'), 'class="btn btn-sm btn-warning"'); ?>
 </div>
 <?php echo form_close(); ?>
 
-  <?php   Assets::add_js(
+  <?php  if(isset($countryValue) and isset($stateValue)){ Assets::add_js(
               $this->load->view(
                   'users/country_state_js',
                   array(
@@ -272,5 +282,5 @@ $id = isset($contact->id_contact) ? $contact->id_contact : '';
                   true
               ),
               'inline'
-          ); ?>
+          ); } ?>
 </div>

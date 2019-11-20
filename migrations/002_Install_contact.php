@@ -154,13 +154,31 @@ class Migration_Install_contact extends Migration
 
 		$this->db->insert("settings",$data_st);
 
+		$country = (isset($this->input->post('country')))? $this->input->post('country'): '';
+
+		$data_st0 = array(
+			'name' => 'contact.default_timezone',
+			'module' => 'contact',
+			'value' => settings_item('site.default_user_timezone')
+		);
+
+		$this->db->insert("settings",$data_st0);
+
 		$data_st1 = array(
 			'name' => 'contact.default_country',
 			'module' => 'contact',
-			'value' => $this->input->post('country')
+			'value' => $country
 		);
 
 		$this->db->insert("settings",$data_st1);
+
+		$data_st1A = array(
+			'name' => 'contact.default_state',
+			'module' => 'contact',
+			'value' => ""
+		);
+
+		$this->db->insert("settings",$data_st1A);
 
 		$data_st2 = array(
 			'name' => 'contact.allow_user_invite',
@@ -169,6 +187,30 @@ class Migration_Install_contact extends Migration
 		);
 
 		$this->db->insert("settings",$data_st2);
+
+		$data_st3 = array(
+			'name' => 'contact.display_timezone_select',
+			'module' => 'contact',
+			'value' => 1
+		);
+
+		$this->db->insert("settings",$data_st3);
+
+		$data_st4 = array(
+			'name' => 'contact.display_country_select',
+			'module' => 'contact',
+			'value' => 1
+		);
+
+		$this->db->insert("settings",$data_st4);
+
+		$data_st5 = array(
+			'name' => 'contact.display_state_select',
+			'module' => 'contact',
+			'value' => 1
+		);
+
+		$this->db->insert("settings",$data_st5);
 
 	}
 

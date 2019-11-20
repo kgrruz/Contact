@@ -1,7 +1,7 @@
 <?php
-$defaultTimezone = strtoupper(settings_item('site.default_user_timezone'));
-$defaultCountry = settings_item('contact.default_country');
-$defaultState   = settings_item('contact.default_state');
+$defaultTimezone = settings_item('contact.default_timezone');
+$defaultCountry  = settings_item('contact.default_country');
+$defaultState    = settings_item('contact.default_state');
 ?>
 
 <?php echo form_open($this->uri->uri_string()); ?>
@@ -12,12 +12,35 @@ $defaultState   = settings_item('contact.default_state');
 
 <div class="row">
 
-<div class="col-sm-6 form-group<?php echo form_error('country') ? ' error' : ''; ?>">
+  <div class="col-sm-4">
+    <div class="form-group<?php echo form_error('timezone') ? ' error' : ''; ?>">
+  <label class="control-label required" for="timezone"><?php echo lang('bf_timezone'); ?></label>
+
+  <?php
+  $timezoneValue =  isset($defaultTimezone) ? $defaultTimezone : 'UM3';
+  echo timezone_menu(
+      set_value('timezones', $timezoneValue),
+      'form-control',
+      'timezone',
+      array('id' => 'timezone')
+  );
+  ?>
+      <span class="help-inline"><?php echo form_error('timezone'); ?></span>
+  </div>
+    <div class="form-group<?php echo form_error('display_timezone_select') ? ' error' : ''; ?> form-check">
+    <input type="checkbox" name="display_timezone_select" <?php echo (settings_item('contact.display_timezone_select'))? 'checked':''; ?> class="form-check-input" id="display_timezone_select">
+    <label class="form-check-label" for="display_timezone_select"><?php echo lang('contact_settings_show_options'); ?></label>
+  </div>
+
+  </div>
+
+
+<div class="col-sm-4">
+  <div class="form-group<?php echo form_error('country') ? ' error' : ''; ?>">
 <label class="control-label required" for="country"><?php echo lang('contact_field_country'); ?></label>
 
 <?php
 $countryValue =  isset($defaultCountry) ? $defaultCountry : 'BR';
-echo $countryValue;
 echo country_select(
     set_value('country',$countryValue),
     $defaultCountry,
@@ -28,7 +51,15 @@ echo country_select(
     <span class="help-inline"><?php echo form_error('country'); ?></span>
 </div>
 
-<div class="col-sm-6 form-group<?php echo form_error('state') ? ' error' : ''; ?>">
+  <div class="form-group<?php echo form_error('display_country_select') ? ' error' : ''; ?> form-check">
+  <input type="checkbox" name="display_country_select" <?php echo (settings_item('contact.display_country_select'))? 'checked':''; ?>  class="form-check-input" id="display_country_select">
+  <label class="form-check-label" for="display_country_select"><?php echo lang('contact_settings_show_options'); ?></label>
+</div>
+
+</div>
+
+<div class="col-sm-4">
+  <div class="form-group<?php echo form_error('state') ? ' error' : ''; ?>">
 <label class="control-label required" for="state"><?php echo lang('contact_field_state'); ?></label>
 
 <?php
@@ -42,6 +73,13 @@ echo state_select(
 );
 ?>
     <span class="help-inline"><?php echo form_error('state'); ?></span>
+</div>
+
+<div class="form-group<?php echo form_error('display_state_select') ? ' error' : ''; ?> form-check">
+<input type="checkbox" name="display_state_select" <?php echo (settings_item('contact.display_state_select'))? 'checked':''; ?>  class="form-check-input" id="display_state_select">
+<label class="form-check-label" for="display_state_select"><?php echo lang('contact_settings_show_options'); ?></label>
+</div>
+
 </div>
 </div>
 </div>

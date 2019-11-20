@@ -63,8 +63,12 @@ class Settings extends Admin_Controller{
           } else {
 
               $data = array(
+                  array('name' => 'contact.default_timezone', 'value' => $this->input->post('timezone')),
                   array('name' => 'contact.default_state', 'value' => $this->input->post('state')),
-                  array('name' => 'contact.default_country',     'value' => $this->input->post('country'))
+                  array('name' => 'contact.default_country',     'value' => $this->input->post('country')),
+                  array('name' => 'contact.display_country_select',     'value' => $this->input->post('display_country_select')),
+                  array('name' => 'contact.display_state_select',     'value' => $this->input->post('display_state_select')),
+                  array('name' => 'contact.display_timezone_select',     'value' => $this->input->post('display_timezone_select'))
                   );
 
               // Save the settings to the db
