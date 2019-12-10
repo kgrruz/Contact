@@ -14,6 +14,7 @@ if($(".phone").length){
       });
 
       $('.cnpj').inputmask($('#country').find(':selected').data("comp_id_pattern"));
+
       $("input[name='cpf']").inputmask($('#country').find(':selected').data("person_id_pattern"));
 
                 $('#country').change(function(){
@@ -79,13 +80,29 @@ if($(".phone").length){
                       templateSelection: format,
                       theme: 'bootstrap',
                       placeholder: $.i18n('contact-placeholder'),
-                      allowClear: true
-                    },);
+                      allowClear: true,
+                      tags: true,
+                      createTag: function (tag) {
+                        if($("#form_proposta").length){
+                         return {
+                             id: tag.term,
+                             text: 'Irá criar: '+tag.term,
+                             // add indicator:
+                             isNew : true
+                         };
+                      }
+                    }
 
+                    }).on("select2:select", function(e) {
 
+                      if(e.params.data.isNew){
+                        $('#block_create_contact').css('display','block');
+                      }else{
+                          $('#block_create_contact').css('display','none');
+                      }
+
+                    });
                   }
-
-
 
                   if($("#company").length){
 
