@@ -94,7 +94,7 @@ class Contact extends Front_Controller{
 
           Template::set_message(lang('contact_customer_geo_success'), 'success');
 
-          if($current_user->role_id == 2){
+          if($this->current_user->role_id == 2){
 
                   Template::redirect('home');
 

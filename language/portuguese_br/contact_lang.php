@@ -39,6 +39,7 @@ $lang['contact_has_user'] = 'O contato possui um usuário relacionado. Não pode
 $lang['contact_city_indef'] = 'Sem cidade';
 $lang['contact_access_to'] = 'Acesso aos contatos';
 $lang['contact_access_by'] = 'Usuários com acesso';
+$lang['contact_miss_info'] = 'Não informado.';
 // Create/Edit Buttons
 $lang['contact_action_edit']   = 'Editar contato';
 $lang['contact_action_create']   = 'Registrar contato';
