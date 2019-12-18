@@ -1,4 +1,544 @@
-### Add lang line message on delete group. (HEAD -> master)
+### Remove unnecessary routes. (HEAD -> master)
+>Wed, 18 Dec 2019 08:31:20 -0300
+
+>Author: kleber (ruzkleber@gmail.com)
+
+>Commiter: kleber (ruzkleber@gmail.com)
+
+
+
+
+### Change module version. (tag: v1.5.0)
+>Sun, 15 Dec 2019 22:09:41 -0300
+
+>Author: kleber (ruzkleber@gmail.com)
+
+>Commiter: kleber (ruzkleber@gmail.com)
+
+
+
+
+### Add new language line. Fix incorrect object call. (origin/master, origin/HEAD)
+>Tue, 10 Dec 2019 13:42:25 -0300
+
+>Author: kleber (ruzkleber@gmail.com)
+
+>Commiter: kleber (ruzkleber@gmail.com)
+
+
+
+
+### Add select2 message to inform that the value searched was not found and a new contact will be created. And display new fields in this case.
+>Tue, 10 Dec 2019 13:39:49 -0300
+
+>Author: kleber (ruzkleber@gmail.com)
+
+>Commiter: kleber (ruzkleber@gmail.com)
+
+
+
+
+### Add setting display country/state/timezone fields at contact form.
+>Wed, 20 Nov 2019 11:19:30 +0000
+
+>Author: kleber (ruzkleber@gmail.com)
+
+>Commiter: kleber (ruzkleber@gmail.com)
+
+
+
+
+### Minor layout changes.
+>Mon, 28 Oct 2019 19:38:37 -0300
+
+>Author: kgr (ruzkleber@gmail.com)
+
+>Commiter: kgr (ruzkleber@gmail.com)
+
+
+
+
+### Insert missing setting on migration script.
+>Thu, 10 Oct 2019 18:00:47 -0300
+
+>Author: kleber (ruzkleber@gmail.com)
+
+>Commiter: kleber (ruzkleber@gmail.com)
+
+
+
+
+### Set default country setting.
+>Sat, 5 Oct 2019 10:01:21 -0300
+
+>Author: kleber (ruzkleber@gmail.com)
+
+>Commiter: kleber (ruzkleber@gmail.com)
+
+
+
+
+### Fix ajax contact search using select widget.
+>Fri, 27 Sep 2019 11:33:56 -0300
+
+>Author: kleber (ruzkleber@gmail.com)
+
+>Commiter: kleber (ruzkleber@gmail.com)
+
+
+
+
+### Add set coordinate link at profile page. Add create user form to create access tab.
+>Fri, 27 Sep 2019 11:33:20 -0300
+
+>Author: kleber (ruzkleber@gmail.com)
+
+>Commiter: kleber (ruzkleber@gmail.com)
+
+
+
+
+### Minor layout change.
+>Fri, 27 Sep 2019 11:31:49 -0300
+
+>Author: kleber (ruzkleber@gmail.com)
+
+>Commiter: kleber (ruzkleber@gmail.com)
+
+
+
+
+### Remove unnecessary folder.
+>Fri, 27 Sep 2019 11:31:16 -0300
+
+>Author: kleber (ruzkleber@gmail.com)
+
+>Commiter: kleber (ruzkleber@gmail.com)
+
+
+
+
+### Fix urls paths.
+>Fri, 27 Sep 2019 11:30:59 -0300
+
+>Author: kleber (ruzkleber@gmail.com)
+
+>Commiter: kleber (ruzkleber@gmail.com)
+
+
+
+
+### Fix notifications links.
+>Wed, 4 Sep 2019 15:06:42 -0300
+
+>Author: kleber (ruzkleber@gmail.com)
+
+>Commiter: kleber (ruzkleber@gmail.com)
+
+
+
+
+### Minor layout changes. Add user create form to "create access" view.
+>Wed, 4 Sep 2019 15:06:30 -0300
+
+>Author: kleber (ruzkleber@gmail.com)
+
+>Commiter: kleber (ruzkleber@gmail.com)
+
+
+
+
+### Remove/change admin elements from public view.
+>Wed, 4 Sep 2019 15:05:48 -0300
+
+>Author: kleber (ruzkleber@gmail.com)
+
+>Commiter: kleber (ruzkleber@gmail.com)
+
+
+
+
+### Fix incorrect profile contact url.
+>Sun, 1 Sep 2019 16:46:07 -0300
+
+>Author: kleber (ruzkleber@gmail.com)
+
+>Commiter: kleber (ruzkleber@gmail.com)
+
+
+
+
+### Add accordion effect to cards at contact profile to clean the ui.
+>Sat, 31 Aug 2019 16:22:28 -0300
+
+>Author: kleber (ruzkleber@gmail.com)
+
+>Commiter: kleber (ruzkleber@gmail.com)
+
+
+
+
+### Paginate markers map event results.
+>Sat, 31 Aug 2019 16:21:55 -0300
+
+>Author: kleber (ruzkleber@gmail.com)
+
+>Commiter: kleber (ruzkleber@gmail.com)
+
+
+
+
+### Fix url redirections paths.
+>Sat, 31 Aug 2019 16:21:34 -0300
+
+>Author: kleber (ruzkleber@gmail.com)
+
+>Commiter: kleber (ruzkleber@gmail.com)
+
+
+
+
+### Add marker images/icon for person type contact to be displayed on maps module. Add new portuguese_br translation.
+>Thu, 29 Aug 2019 11:00:18 -0300
+
+>Author: kleber (ruzkleber@gmail.com)
+
+>Commiter: kleber (ruzkleber@gmail.com)
+
+
+
+
+### Add public profile page. Fix routes.
+>Thu, 29 Aug 2019 10:58:56 -0300
+
+>Author: kleber (ruzkleber@gmail.com)
+
+>Commiter: kleber (ruzkleber@gmail.com)
+
+
+
+
+### Remove unnecessary event.
+>Thu, 29 Aug 2019 10:57:32 -0300
+
+>Author: kleber (ruzkleber@gmail.com)
+
+>Commiter: kleber (ruzkleber@gmail.com)
+
+
+
+
+### Set selected value on edit form.
+>Thu, 29 Aug 2019 10:57:10 -0300
+
+>Author: kleber (ruzkleber@gmail.com)
+
+>Commiter: kleber (ruzkleber@gmail.com)
+
+
+
+
+### Fix form action url. Add event variable to get html elements.
+>Thu, 29 Aug 2019 10:55:44 -0300
+
+>Author: kleber (ruzkleber@gmail.com)
+
+>Commiter: kleber (ruzkleber@gmail.com)
+
+
+
+
+### Fix default state/country settings form. Fix address redirection.
+>Thu, 29 Aug 2019 10:54:56 -0300
+
+>Author: kleber (ruzkleber@gmail.com)
+
+>Commiter: kleber (ruzkleber@gmail.com)
+
+
+
+
+### Minor layout changes.
+>Thu, 29 Aug 2019 10:53:49 -0300
+
+>Author: kleber (ruzkleber@gmail.com)
+
+>Commiter: kleber (ruzkleber@gmail.com)
+
+
+
+
+### Fix queries. Cache map markers query. Add functions to get only ids of contacts related to user and vice-versa.
+>Thu, 29 Aug 2019 10:53:14 -0300
+
+>Author: kleber (ruzkleber@gmail.com)
+
+>Commiter: kleber (ruzkleber@gmail.com)
+
+
+
+
+### Add widget "My contacts".
+>Thu, 29 Aug 2019 10:46:45 -0300
+
+>Author: kleber (ruzkleber@gmail.com)
+
+>Commiter: kleber (ruzkleber@gmail.com)
+
+
+
+
+### Move ajax contact search to 'Content' context. Use image placeholder instead of gravatar. Fix links paths. Add form "create user" to contact profile to allow creation of user related/owner of a contact register.
+>Thu, 29 Aug 2019 10:44:30 -0300
+
+>Author: kleber (ruzkleber@gmail.com)
+
+>Commiter: kleber (ruzkleber@gmail.com)
+
+
+
+
+### Remove default contact country settings on install.
+>Tue, 26 Mar 2019 10:01:21 -0300
+
+>Author: kleber (ruzkleber@gmail.com)
+
+>Commiter: kleber (ruzkleber@gmail.com)
+
+
+
+
+### Add public controller. Minor changes in layout. Fix wrong functions parameters.
+>Tue, 26 Mar 2019 10:00:56 -0300
+
+>Author: kleber (ruzkleber@gmail.com)
+
+>Commiter: kleber (ruzkleber@gmail.com)
+
+
+
+
+### Move contact public function to content context. Add user access contact info based on db table select an user without invite it.
+>Tue, 12 Feb 2019 00:42:06 -0200
+
+>Author: kleber (ruzkleber@gmail.com)
+
+>Commiter: kleber (ruzkleber@gmail.com)
+
+
+
+
+### Change text lang lines. Change list users contact access layout.
+>Tue, 5 Feb 2019 11:10:39 -0200
+
+>Author: kleber (ruzkleber@gmail.com)
+
+>Commiter: kleber (ruzkleber@gmail.com)
+
+
+
+
+### Add functions to handle users access.
+>Tue, 5 Feb 2019 11:10:10 -0200
+
+>Author: kleber (ruzkleber@gmail.com)
+
+>Commiter: kleber (ruzkleber@gmail.com)
+
+
+
+
+### Disable redirect complete contact geoposition.
+>Mon, 4 Feb 2019 17:09:03 -0200
+
+>Author: kleber (ruzkleber@gmail.com)
+
+>Commiter: kleber (ruzkleber@gmail.com)
+
+
+
+
+### Add table to handle multiple users access to a contact. Add text placeholder to contact without a definied city.
+>Mon, 4 Feb 2019 17:07:32 -0200
+
+>Author: kleber (ruzkleber@gmail.com)
+
+>Commiter: kleber (ruzkleber@gmail.com)
+
+
+
+
+### Change id of default role customer.
+>Mon, 4 Feb 2019 14:01:00 -0200
+
+>Author: kleber (ruzkleber@gmail.com)
+
+>Commiter: kleber (ruzkleber@gmail.com)
+
+
+
+
+### Add default country,state settings form.
+>Mon, 4 Feb 2019 13:38:52 -0200
+
+>Author: kleber (ruzkleber@gmail.com)
+
+>Commiter: kleber (ruzkleber@gmail.com)
+
+
+
+
+### Remove unique rule validation from phone input. Change redirect path after submit edit form.
+>Sat, 2 Feb 2019 08:37:42 -0200
+
+>Author: kleber (ruzkleber@gmail.com)
+
+>Commiter: kleber (ruzkleber@gmail.com)
+
+
+
+
+### Add phone validation rules to model.
+>Sat, 2 Feb 2019 08:36:25 -0200
+
+>Author: kleber (ruzkleber@gmail.com)
+
+>Commiter: kleber (ruzkleber@gmail.com)
+
+
+
+
+### Reduce display characters limit of contact name.
+>Fri, 1 Feb 2019 21:25:01 -0200
+
+>Author: kleber (ruzkleber@gmail.com)
+
+>Commiter: kleber (ruzkleber@gmail.com)
+
+
+
+
+### Add placeholder to select2 input.
+>Fri, 1 Feb 2019 21:24:38 -0200
+
+>Author: kleber (ruzkleber@gmail.com)
+
+>Commiter: kleber (ruzkleber@gmail.com)
+
+
+
+
+### Reduce contact image in form widget select input.
+>Fri, 1 Feb 2019 21:24:14 -0200
+
+>Author: kleber (ruzkleber@gmail.com)
+
+>Commiter: kleber (ruzkleber@gmail.com)
+
+
+
+
+### Add index to a column on install.
+>Mon, 28 Jan 2019 16:03:41 -0200
+
+>Author: kleber (ruzkleber@gmail.com)
+
+>Commiter: kleber (ruzkleber@gmail.com)
+
+
+
+
+### Add select2 to companies input.
+>Mon, 28 Jan 2019 15:47:38 -0200
+
+>Author: kleber (ruzkleber@gmail.com)
+
+>Commiter: kleber (ruzkleber@gmail.com)
+
+
+
+
+### Fix instalation steps format.
+>Sat, 12 Jan 2019 21:28:36 -0200
+
+>Author: kleber (ruzkleber@gmail.com)
+
+>Commiter: kleber (ruzkleber@gmail.com)
+
+
+
+
+### Add screenshot at readme.
+>Sat, 12 Jan 2019 14:31:06 -0200
+
+>Author: kleber (ruzkleber@gmail.com)
+
+>Commiter: kleber (ruzkleber@gmail.com)
+
+
+
+
+### Add instalation steps to readme.
+>Sat, 12 Jan 2019 13:32:43 -0200
+
+>Author: kleber (ruzkleber@gmail.com)
+
+>Commiter: kleber (ruzkleber@gmail.com)
+
+
+
+
+### Add gestor version requisit to install.
+>Fri, 4 Jan 2019 17:38:51 -0200
+
+>Author: kleber (ruzkleber@gmail.com)
+
+>Commiter: kleber (ruzkleber@gmail.com)
+
+
+
+
+### Add check table exist to migration install.
+>Fri, 4 Jan 2019 16:49:36 -0200
+
+>Author: kleber (ruzkleber@gmail.com)
+
+>Commiter: kleber (ruzkleber@gmail.com)
+
+
+
+
+### Serialize before insert setting.
+>Fri, 4 Jan 2019 14:39:39 -0200
+
+>Author: kleber (ruzkleber@gmail.com)
+
+>Commiter: kleber (ruzkleber@gmail.com)
+
+
+
+
+### Fix module name in insert setting.
+>Fri, 4 Jan 2019 14:28:37 -0200
+
+>Author: kleber (ruzkleber@gmail.com)
+
+>Commiter: kleber (ruzkleber@gmail.com)
+
+
+
+
+### Add install config requisites.
+>Fri, 4 Jan 2019 14:28:04 -0200
+
+>Author: kleber (ruzkleber@gmail.com)
+
+>Commiter: kleber (ruzkleber@gmail.com)
+
+
+
+
+### Add lang line message on delete group.
 >Fri, 4 Jan 2019 13:49:40 -0200
 
 >Author: kleber (ruzkleber@gmail.com)
@@ -18,7 +558,7 @@
 
 
 
-### Fix contact group queries. (origin/master, origin/HEAD, ge/master)
+### Fix contact group queries.
 >Thu, 3 Jan 2019 19:09:24 -0200
 
 >Author: kleber (ruzkleber@gmail.com)
