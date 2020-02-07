@@ -248,7 +248,7 @@ if($this->CI->input->post('contact_id')){
         function _get_markersbound(&$data_json){
 
           $markers = $this->CI->contact_model->get_markersbound($data_json['north'],$data_json['south'],$data_json['east'],$data_json['west'],$data_json['offset']);
-          $data_json['num_markers'] = $this->CI->contact_model->count_markersbound($data_json['north'],$data_json['south'],$data_json['east'],$data_json['west']);
+          $data_json['num_markers'] += $this->CI->contact_model->count_markersbound($data_json['north'],$data_json['south'],$data_json['east'],$data_json['west']);
           array_push($data_json['markers'],$markers);
 
         }
