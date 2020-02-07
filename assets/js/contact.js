@@ -137,4 +137,7 @@ if($(".phone").length){
 
                   }
 
+                  $("[data-toggle=popover]").popover({html:true,trigger: 'hover',placement:'right'});
+
+
               });

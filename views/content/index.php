@@ -1,5 +1,5 @@
 <div class="card">
-<?php if($contatos){  ?>
+
 
   <nav class="navbar navbar-expand-lg p-2">
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
@@ -24,7 +24,7 @@
     </form>
   </div>
 </nav>
-
+<?php if($contatos){  ?>
 <div class="table-responsive">
 
 <table id="table_contacts" class="table table-hover table-outline table-vcenter text-nowrap mb-0" >
@@ -44,7 +44,7 @@
 
       <tr>
             <td><?php echo ($contato->contact_type == 1)? '<i class="fa fa-user" aria-hidden="true"></i>':'<i class="fa fa-building" aria-hidden="true"></i>'; ?> </td>
-            <td><?php echo anchor('admin/content/contact/profile/'.$contato->slug_contact,ellipsize($contato->display_name,20)); ?></td>
+            <td><?php echo anchor('admin/content/contact/profile/'.$contato->slug_contact,ellipsize($contato->display_name,20),'role="button" data-toggle="popover" title="" data-content="'.$contato->display_name.'"'); ?></td>
             <td><?php echo mailto($contato->email); ?></td>
             <td><?php echo $contato->phone; ?></td>
             <td><?php echo $contato->city; ?></td>
