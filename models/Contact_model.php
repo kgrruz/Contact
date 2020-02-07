@@ -161,10 +161,10 @@ class Contact_model extends BF_Model{
 				 $this->db->from("contacts");
          $this->db->join("contact_meta","contacts.id_contact = contact_meta.contact_id","left");
          $this->db->group_by("id_contact");
-         $this->db->having("cast(lat as DECIMAL(10,2)) <= '{$north}'");
-				 $this->db->having("cast(lat as DECIMAL(10,2)) >= '{$south}'");
-				 $this->db->having("cast(lng as DECIMAL(10,2)) <= '{$east}'");
-				 $this->db->having("cast(lng as DECIMAL(10,2)) >= '{$west}'");
+         $this->db->having("cast(lat as DECIMAL(10,3)) <= '{$north}'");
+				 $this->db->having("cast(lat as DECIMAL(10,3)) >= '{$south}'");
+				 $this->db->having("cast(lng as DECIMAL(10,3)) <= '{$east}'");
+				 $this->db->having("cast(lng as DECIMAL(10,3)) >= '{$west}'");
 				 $this->db->where("contacts.deleted",0);
 				 $this->db->limit(50,$offset);
 
@@ -186,10 +186,10 @@ class Contact_model extends BF_Model{
 				 $this->db->from("contacts");
          $this->db->join("contact_meta","contacts.id_contact = contact_meta.contact_id","left");
          $this->db->group_by("id_contact");
-         $this->db->having("cast(lat as DECIMAL(10,2)) <= '{$north}'");
-				 $this->db->having("cast(lat as DECIMAL(10,2)) >= '{$south}'");
-				 $this->db->having("cast(lng as DECIMAL(10,2)) <= '{$east}'");
-				 $this->db->having("cast(lng as DECIMAL(10,2)) >= '{$west}'");
+         $this->db->having("cast(lat as DECIMAL(10,3)) <= '{$north}'");
+				 $this->db->having("cast(lat as DECIMAL(10,3)) >= '{$south}'");
+				 $this->db->having("cast(lng as DECIMAL(10,3)) <= '{$east}'");
+				 $this->db->having("cast(lng as DECIMAL(10,3)) >= '{$west}'");
 				 $this->db->where("contacts.deleted",0);
 				 $coordinates = $this->db->get();
 				 $this->db->cache_off();
