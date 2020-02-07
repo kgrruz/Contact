@@ -1,8 +1,6 @@
 <?php defined('BASEPATH') || exit('No direct script access allowed');
 
 $route[] = '';
-Route::any('contacts', 'contact/index');
-Route::any('contacts/(:num)', 'contact/index/$1');
 Route::any('contato/(:any)', 'contact/profile/$1');
 Route::any('contato/(:any)/(:any)', 'contact/profile/$1/$2');
 Route::any('contato/(:any)/(:any)/(:any)', 'contact/profile/$1/$2/$3');
