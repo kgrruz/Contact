@@ -76,6 +76,14 @@ class Contact extends Front_Controller{
 
           if($this->form_validation->run()){
 
+            $this->db->where('contact_id',$idc);
+            $this->db->where('meta_key', 'lat');
+            $this->db->delete('contact_meta');
+
+            $this->db->where('contact_id',$idc);
+            $this->db->where('meta_key', 'lng');
+            $this->db->delete('contact_meta');
+
           $meta_data_lat = array(
             'meta_key'=>'lat',
             'meta_value'=>$this->input->post('lat'),
