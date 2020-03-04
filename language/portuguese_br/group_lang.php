@@ -36,6 +36,7 @@ $lang['group_action_edit'] = 'Salvar Grupo';
 $lang['group_action_create'] = 'Adicionar grupo';
 
 $lang['group_act_delete_record'] = 'Removeu o grupo';
+$lang['group_act_create_record'] = 'Adicionou o grupo';
 
 $lang['group_module_name'] = 'Grupos';
 
