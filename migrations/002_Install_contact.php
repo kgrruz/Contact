@@ -156,18 +156,16 @@ class Migration_Install_contact extends Migration
 
 		if(!empty($this->input->post('country'))){
 
-		 $country = $this->input->post('country'); 
+		 $country = $this->input->post('country');
 
-		}else{ 
-
-			$country = settings_item('auth.default_country'); 
-
+		}else{
+			$country = settings_item('auth.default_country');
 		}
 
 		$data_st0 = array(
 			'name' => 'contact.default_timezone',
 			'module' => 'contact',
-			'value' => settings_item('site.default_user_timezone')
+			'value' => ''
 		);
 
 		$this->db->insert("settings",$data_st0);
