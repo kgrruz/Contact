@@ -5,7 +5,7 @@ $config['module_config'] = array(
 	'category'    => 'CRM',
 	'name'		    => 'Contact',
 	'home'				=> 'contacts',
-	'label'       => array('english'=>'contacts','portuguese_br'=>'contatos'),
+	'label'       => array('english'=>'contacts','portuguese_br'=>'contatos','spanish_am'=>'contactos','russian'=>'контакты'),
 	'route'       => 'contact',
 	'visible_module' => false,
 	'version'		=> '1.4.0',
