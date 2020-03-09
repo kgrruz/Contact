@@ -5,7 +5,7 @@
   <?php if($contact){ ?>
   <option selected value="<?php echo $contact->id_contact; ?>"><?php echo $contact->display_name; ?></option>
   <?php }else{ ?>
-  <option><?php echo lang("contact_placeholder"); ?></option>
+  <option><?php echo $placeholder; ?></option>
   <?php } ?>
 </select>
 
