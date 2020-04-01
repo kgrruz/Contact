@@ -50,7 +50,7 @@ if($this->CI->input->post('contact_id')){
      <img class="mr-3" style="width:64px" src="'.contact_avatar($result->email, 64, null,false,null).'" alt="contact_photo">
      <div class="media-body row d-flex h-100">
         <div class="col-sm-9">
-     <h5 class="my-0">'.$type.anchor('admin/content/contact/profile/'.$result->slug_contact,$result->display_name).'</h5>
+     <h5 class="my-0">'.$type.anchor('contato/'.$result->slug_contact,$result->display_name).'</h5>
      </div><div class="col-sm-3 my-auto" >'.anchor('admin/content/contact/edit/'.$result->slug_contact,'<i class="fa fa-edit"></i>','class=""').'</div>
    </div></div>'));
 
@@ -159,6 +159,7 @@ if($this->CI->input->post('contact_id')){
        $this->CI->db->from('contacts');
        $this->CI->db->join('contact_meta','contact_meta.contact_id = contacts.id_contact','left');
        $this->CI->db->like('display_name',$this->CI->input->get('query'));
+       $this->CI->db->from('contacts.deleted',0);
        $this->CI->db->group_by("id_contact");
        $this->CI->db->limit(5);
        $contacts = $this->CI->db->get();
@@ -220,7 +221,7 @@ if($this->CI->input->post('contact_id')){
       function _show_widget_button(){
 
       if (has_permission($this->permissionView)) {
-            return anchor('admin/content/contact/create/2','<i class="fa fa-plus"></i><i class="fa fa-user"></i>','class="btn btn-success"');
+            return anchor('add_contato/2','<i class="fa fa-plus"></i><i class="fa fa-user"></i>','class="btn btn-success"');
 
           }
       }

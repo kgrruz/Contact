@@ -412,4 +412,44 @@ class Contact_model extends BF_Model{
 
 	}
 
+	public function filter_input(){
+
+		if(isset($_GET['term']) and !empty($_GET['term'])){ $this->db->like("contacts.display_name",$_GET['term']); }
+		if(isset($_GET['contact_type']) and $_GET['contact_type'] != 0){ $this->db->where("contacts.contact_type",$_GET['contact_type']);}
+		if(isset($_GET['city']) and !empty($_GET['city'])){ $this->db->having("city",$_GET['city']);}
+
+	}
+
+	public function get_contacts($offset,$limit){
+
+		$this->filter_input();
+
+		$where = array('contacts.deleted'=>0);
+
+		$this->db->select("MAX(CASE WHEN meta_key = 'city' THEN meta_value END) AS 'city',
+			id_contact,display_name,contact_type,slug_contact,phone,email,contacts.created_on as created_on");
+		$this->db->join('contact_meta','contact_meta.contact_id = contacts.id_contact','left');
+
+		$this->db->limit($limit, $offset)->where($where);
+		$this->db->order_by('display_name','asc');
+		$this->db->group_by('id_contact');
+
+		return $this->db->get($this->table_name);
+
+	}
+
+	public function count_contacts(){
+
+		$this->filter_input();
+
+		$where = array('contacts.deleted'=>0);
+
+		$this->db->select("id_contact");
+		$this->db->where($where);
+		$this->db->group_by('id_contact');
+
+		return $this->db->get($this->table_name)->num_rows();
+
+	}
+
 }

@@ -24,7 +24,7 @@
     </form>
   </div>
 </nav>
-<?php if($contatos){  ?>
+<?php if($contatos->num_rows()){  ?>
 <div class="table-responsive">
 
 <table id="table_contacts" class="table table-hover table-outline table-vcenter text-nowrap mb-0" >
@@ -40,11 +40,11 @@
         </tr>
     </thead>
     <tbody>
-<?php foreach($contatos as $contato){ ?>
+<?php foreach($contatos->result() as $contato){ ?>
 
       <tr>
             <td><?php echo ($contato->contact_type == 1)? '<i class="fa fa-user" aria-hidden="true"></i>':'<i class="fa fa-building" aria-hidden="true"></i>'; ?> </td>
-            <td><?php echo anchor('admin/content/contact/profile/'.$contato->slug_contact,ellipsize($contato->display_name,20),'role="button" data-toggle="popover" title="" data-content="'.$contato->display_name.'"'); ?></td>
+            <td><?php echo anchor('contato/'.$contato->slug_contact,ellipsize($contato->display_name,20),'role="button" data-toggle="popover" title="" data-content="'.$contato->display_name.'"'); ?></td>
             <td><?php echo mailto($contato->email); ?></td>
             <td><?php echo $contato->phone; ?></td>
             <td><?php echo $contato->city; ?></td>
@@ -75,7 +75,7 @@
 
   <h4 class="card-title"><?php echo lang("contact_records_empty"); ?></h4>
     <p class="card-text"><?php echo lang("contact_no_records"); ?></p>
-    <?php echo anchor('admin/content/contact/create',lang('contact_action_create'),'class="btn btn-sm btn-primary"'); ?>
+    <?php echo anchor('add_contato',lang('contact_action_create'),'class="btn btn-sm btn-primary"'); ?>
 
 </div>
   <?php } ?>

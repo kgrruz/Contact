@@ -188,5 +188,10 @@ $config['company_meta_fields'] =  array(
 		'name'   => 'lng',
 		'label'  => 'lng',
 		'rules'  => 'trim'
+	),
+	array(
+		'name'   => 'matriz',
+		'label'  => 'matriz',
+		'rules'  => 'trim'
 	)
 );

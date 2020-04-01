@@ -4,7 +4,7 @@
 
   <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
     <div class="navbar-nav">
-      <a class="nav-item nav-link btn btn-success btn-sm text-white" href="<?php echo base_url(); ?>admin/content/contact/create/1/<?php echo $contact->id_contact; ?>"><?php echo lang('contact_action_create'); ?></a>
+      <a class="nav-item nav-link btn btn-success btn-sm text-white" href="<?php echo base_url(); ?>add_contato/1/<?php echo $contact->id_contact; ?>"><?php echo lang('contact_action_create'); ?></a>
   </div>
   </div>
 </nav>
@@ -27,7 +27,7 @@
 
         <tr>
               <td><?php echo ($contato->contact_type == 1)? '<i class="fa fa-user" aria-hidden="true"></i>':'<i class="fa fa-building" aria-hidden="true"></i>'; ?></td>
-              <td><?php echo anchor('admin/content/contact/profile/'.$contato->slug_contact,$contato->display_name); ?></td>
+              <td><?php echo anchor('contato/'.$contato->slug_contact,$contato->display_name); ?></td>
               <td><?php echo mailto($contato->email); ?></td>
               <td><?php echo $contato->phone; ?></td>
               <td><?php echo $contato->cargo; ?></td>
@@ -60,7 +60,7 @@
 
   <h4 class="card-title"><?php echo lang('contact_records_empty'); ?></h4>
     <p class="card-text"><?php echo lang('contact_no_records'); ?></p>
-    <?php echo anchor('admin/content/contact/create/1/'.$id_contact,lang('contact_action_create'),'class="btn btn-sm btn-primary"'); ?>
+    <?php echo anchor('add_contato/1/'.$id_contact,lang('contact_action_create'),'class="btn btn-sm btn-primary"'); ?>
 
 </div>
 <?php } ?></div>

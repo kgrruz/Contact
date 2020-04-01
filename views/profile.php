@@ -10,6 +10,7 @@
     <h4 class="card-title"><?php echo ($contact->contact_type == 1)? '<i class="fa fa-user" aria-hidden="true"></i>':'<i class="fa fa-building" aria-hidden="true"></i>'; ?> <?php echo (isset($contact->is_user))? '<i class="fa fa-key"></i>':''; ?> <?php echo $contact->display_name; ?> </h4>
       <?php echo (!empty($contact->job_role))? '<p class="card-text">'.$contact->job_role.'</p>':''; ?>
     <p class="card-text"><?php echo mailto($contact->email); ?></p>
+      <?php //echo (!$this->contact_model->find_meta_for($contact->id_contact,array('lat','lng'))->lng)? anchor('contact/complete_geo/'.$contact->slug_contact,'<i class="fa fa-map-marker"></i> '.lang('contact_set_coordinate')):'&nbsp;'; ?>
   </div>
   <ul class="list-group list-group-flush">
 
@@ -58,7 +59,7 @@
             <div class="col-md-6">
             <li class="list-group-item">
               <div class="media">
-                <?php echo user_avatar($us->photo_avatar,$us->email, 60,'d-flex mr-3', true,'thumbs'); ?>
+                <?php echo user_avatar($us->photo_avatar,$us->email, 60,'d-flex mr-3 rounded', true,'thumbs'); ?>
                 <div class="media-body row">
                   <div class="col-md-9">
                   <h5 class="mt-0"><?php echo anchor($us->username,ellipsize($us->display_name,30)); ?></h5>

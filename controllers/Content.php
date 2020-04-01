@@ -37,6 +37,11 @@ class Content extends Admin_Controller{
         Assets::add_module_js('contact', 'group.js');
         Assets::add_module_js('contact', 'group_contact.js');
 
+        Assets::add_js('mask/jquery.inputmask.bundle.min.js');
+        Assets::add_css('select2.min.css');
+        Assets::add_css('select2-bootstrap.min.css');
+        Assets::add_js('select2.min.js');
+
         $this->form_validation->set_error_delimiters("<span class='danger'>", "</span>");
 
     }
@@ -48,41 +53,17 @@ class Content extends Admin_Controller{
      */
     public function index($offset = 0){
 
-      $this->authenticate($this->permissionView,'home');
+      $this->authenticate($this->permissionView);
 
-      $where = array('contacts.deleted'=>0);
-
-      if(isset($_GET['term']) and !empty($_GET['term'])){ $this->contact_model->like("contacts.display_name",$_GET['term']); }
-      if(isset($_GET['contact_type']) and $_GET['contact_type'] != 0){ $this->contact_model->where("contacts.contact_type",$_GET['contact_type']);}
-      if(isset($_GET['city']) and !empty($_GET['city'])){ $this->contact_model->having("city",$_GET['city']);}
-
-      $this->contact_model->limit($this->limit, $offset)->where($where);
-      $this->db->order_by('display_name','asc');
-      $this->db->group_by('id_contact');
-      $this->contact_model->select("
-        MAX(CASE WHEN meta_key = 'city' THEN meta_value END) AS 'city',
-        id_contact,display_name,contact_type,slug_contact,phone,email,contacts.created_on as created_on");
-      $this->contact_model->join('contact_meta','contact_meta.contact_id = contacts.id_contact','left');
-      $contacts = $this->contact_model->find_all();
+      $contacts = $this->contact_model->get_contacts($offset,$this->limit);
 
       $this->load->library('pagination');
 
-      $this->pager['base_url']    = SITE_AREA."/content/contact/index/";
+      $this->pager['base_url']    = "contatos";
       $this->pager['per_page']    = $this->limit;
       $this->pager['reuse_query_string'] = true;
-
-      if(isset($_GET['term']) and !empty($_GET['term'])){ $this->contact_model->like("contacts.display_name",$_GET['term']); }
-      if(isset($_GET['contact_type']) and $_GET['contact_type'] != 0){ $this->contact_model->where("contacts.contact_type",$_GET['contact_type']);}
-      if(isset($_GET['city']) and !empty($_GET['city'])){ $this->contact_model->having("city",$_GET['city']);}
-
-      $this->db->group_by('id_contact');
-      $this->contact_model->select("
-        MAX(CASE WHEN meta_key = 'city' THEN meta_value END) AS 'city',
-        id_contact,display_name,contact_type,slug_contact,phone,email,contacts.created_on as created_on
-        ");
-      $this->contact_model->join('contact_meta','contact_meta.contact_id = contacts.id_contact','left');
-      $this->pager['total_rows']  = $this->contact_model->where($where)->count_all();
-      $this->pager['uri_segment'] = 5;
+      $this->pager['total_rows']  = $this->contact_model->count_contacts();
+      $this->pager['uri_segment'] = 2;
 
       $this->pagination->initialize($this->pager);
 
@@ -90,7 +71,6 @@ class Content extends Admin_Controller{
 
       Template::set('toolbar_title', lang('contact_list'));
       Template::set('contatos', $contacts);
-
       Template::set_block('sub_nav', 'content/_sub_nav');
 
       Template::render();
@@ -107,6 +87,7 @@ class Content extends Admin_Controller{
      $this->db->from('contacts');
      $this->db->like('display_name',$this->input->get('term'));
      if($type){ $this->db->where("contact_type",$type); }
+     $this->db->where("contacts.deleted",0);
      $this->db->group_by("id_contact");
      $this->db->limit(5);
      $contacts = $this->db->get();
@@ -146,11 +127,19 @@ class Content extends Admin_Controller{
 
         $this->load->model('contact/group_model');
 
-        $sell_redirect = $this->uri->segment(7,0);
+        $sell_redirect = $this->uri->segment(4,0);
 
         if (isset($_POST['save'])) {
 
-            if($_POST['contact_type'] == 1){ $meta_fields = config_item('person_meta_fields'); }else{ $meta_fields = config_item('company_meta_fields'); }
+            if($_POST['contact_type'] == 1){
+
+              $meta_fields = config_item('person_meta_fields');
+
+            }else{
+
+               $meta_fields = config_item('company_meta_fields');
+
+            }
 
             if ($insert_id = $this->save_contact('insert',0,$meta_fields)) {
 
@@ -161,19 +150,13 @@ class Content extends Admin_Controller{
               $inserted_contact = $this->contact_model->find($insert_id);
 
               // TODO: fix relative url
-              $msg_event = '[contact_act_create_record]' . ': ' . '<a href="admin/content/contact/profile/'.$inserted_contact->slug_contact.'">'.$inserted_contact->display_name.'</a>';
-
-              $data_sse = array('event'=>'refresh_not','msg'=>$msg_event,'to'=>array(4,1),'timestamp'=>now());
-
-              Events::trigger('sse_event',$data_sse);
-
+              $msg_event = '[contact_act_create_record]' . ': ' . '<a href="contato/'.$inserted_contact->slug_contact.'">'.$inserted_contact->display_name.'</a>';
               $id_act = log_activity($this->auth->user_id(), $msg_event , 'contact');
-
               log_notify($this->auth->users_has_permission($this->permissionView), $id_act);
 
               Template::set_message(lang('contact_create_success'), 'success');
 
-              Template::redirect('admin/content/contact/profile/'.$inserted_contact->slug_contact);
+              Template::redirect('contato/'.$inserted_contact->slug_contact);
 
             }
 
@@ -183,7 +166,7 @@ class Content extends Admin_Controller{
             }
         }
 
-        $type = $this->uri->segment(5,1);
+        $type = $this->uri->segment(2,1);
 
         $data_html = array('html'=>'','type'=>$type);
         Events::trigger('show_create_contact',$data_html);
@@ -195,14 +178,14 @@ class Content extends Admin_Controller{
 
         Template::set('tree', $tree);
 
-        if($type == 1){
-
-        $ext = " - ".lang('contact_contact');
-
-        Template::set('selected_company',$this->uri->segment(6));
+        Template::set('selected_company',$this->uri->segment(3));
         $this->contact_model->where('contact_type',2);
         $this->contact_model->where('deleted',0);
         Template::set('companies', $this->contact_model->find_all());
+
+        if($type == 1){
+
+        $ext = " - ".lang('contact_contact');
         Template::set('job_roles', $this->contact_model->get_job_roles());
 
       }else{
@@ -266,7 +249,7 @@ class Content extends Admin_Controller{
 
         if (empty($id)) {
             Template::set_message(lang('contact_invalid_id'), 'danger');
-            Template::redirect('admin/content/contact');
+            Template::redirect('contatos');
         }
 
         $contact = $this->contact_model->find_by('slug_contact',$id);
@@ -275,6 +258,7 @@ class Content extends Admin_Controller{
 
         $this->load->model('contact/group_model');
         $meta_fields = config_item('person_meta_fields');
+
         $this->load->config('address');
         $this->load->helper('address');
 
@@ -296,7 +280,7 @@ class Content extends Admin_Controller{
 
               Events::trigger('insert_contact',$data_insert);
 
-                $id_act = log_activity($this->auth->user_id(), '[contact_act_edit_record]' . ' : ' . '<a href="admin/content/contact/profile/'.$contact->slug_contact.'">'.$contact->display_name.'</a>', 'contact');
+                $id_act = log_activity($this->auth->user_id(), '[contact_act_edit_record]' . ' : ' . '<a href="contato/'.$contact->slug_contact.'">'.$contact->display_name.'</a>', 'contact');
 
                 log_notify($this->auth->users_has_permission($this->permissionView), $id_act);
 
@@ -326,14 +310,15 @@ class Content extends Admin_Controller{
         Template::set('tree', $tree);
         Template::set('contact_type', $contact->contact_type);
 
-        if($contact->contact_type == 1){
-
-        $ext = " - ".lang('contact_contact');
-
         if(isset($contact_meta->company) and $contact_meta->company != 0){ Template::set('selected_company',$contact_meta->company); }
 
         $this->contact_model->where('contact_type',2);
+        $this->contact_model->where('deleted',0);
         Template::set('companies', $this->contact_model->find_all());
+
+        if($contact->contact_type == 1){
+
+        $ext = " - ".lang('contact_contact');
         Template::set('job_roles', $this->contact_model->get_job_roles());
 
       }else{
@@ -341,7 +326,8 @@ class Content extends Admin_Controller{
         $ext = " - ".lang('contact_company');
 
       }
-      Template::set('cities', $this->contact_model->cities_contacts());
+
+        Template::set('cities', $this->contact_model->cities_contacts());
 
         Template::set('toolbar_title', lang('contact_edit_heading').$ext);
         Template::set_view('create');
@@ -360,14 +346,14 @@ class Content extends Admin_Controller{
       $contact = $this->contact_model->find_user_and_meta($id);
       if (! isset($contact)) {
           Template::set_message(lang('us_invalid_contact_id'), 'danger');
-          Template::redirect('admin/content/contact');
+          Template::redirect('contatos');
       }
 
           $this->authenticate($this->permissionDelete);
 
           if ($this->contact_model->delete($id)) {
 
-              $id_act = log_activity($this->auth->user_id(), '[contact_act_delete_record]' . ': '. '<a href="admin/content/contact/profile/'.$contact->slug_contact.'">'.$contact->display_name.'</a>', 'contact');
+              $id_act = log_activity($this->auth->user_id(), '[contact_act_delete_record]' . ': '. '<a href="contato/'.$contact->slug_contact.'">'.$contact->display_name.'</a>', 'contact');
               log_notify($this->auth->users_has_permission($this->permissionView), $id_act);
 
               Template::set_message(lang("contact_contact_name").' <strong>'.$contact->display_name.'</strong> '.lang('contact_delete_success'),'success');
@@ -408,7 +394,7 @@ class Content extends Admin_Controller{
         // Validate the data
 
         $this->form_validation->set_rules($this->contact_model->get_validation_rules($type));
-        $this->form_validation->set_rules('email', 'lang:contact_field_email', "unique[contacts.email{$extraUniqueRule}]|trim|valid_email|max_length[255]");
+        $this->form_validation->set_rules('email', 'lang:contact_field_email', "trim|valid_email|max_length[255]");
 
 
         if ($this->form_validation->run() === false) {
@@ -456,9 +442,11 @@ class Content extends Admin_Controller{
 
        $this->authenticate($this->permissionView);
 
+       $this->load->model('equip_rad/equip_rad_model');
+
            if (empty($id)) {
                Template::set_message(lang('contact_invalid_id'), 'danger');
-               Template::redirect('admin/content/contact');
+               Template::redirect('contatos');
            }
 
            if($id = $this->contact_model->find_by('slug_contact',$id)->id_contact){
@@ -468,7 +456,7 @@ class Content extends Admin_Controller{
            if($contact->deleted){
 
              Template::set_message(lang('contact_is_deleted'), 'danger');
-             Template::redirect('admin/content/contact');
+             Template::redirect('contatos');
 
            }
 
@@ -486,7 +474,7 @@ class Content extends Admin_Controller{
 
            if(count($tabs)){
 
-           $function = $this->uri->segment(6,$tabs[0]['url']);
+           $function = $this->uri->segment(3,'contact_attends');
 
            $data = array('function'=>$function,'view_page'=>'','contact_type'=>'','id_contact'=>$id,'data_table'=>'','slug'=>$contact->slug_contact);
 
@@ -502,15 +490,24 @@ class Content extends Admin_Controller{
 
 
            Template::set('tabs',$tabs);
+
+           $data_html = array('html'=>'','contact'=>$contact);
+           Events::trigger('show_profile_contact_widget',$data_html);
+           Template::set('data_html',$data_html['html']);
+
+           $this->db->join('contacts','contacts.id_contact = contact_meta.contact_id','left');
+           $this->db->where('meta_key','matriz');
+           $this->db->where('meta_value',$contact->id_contact);
+           Template::set('filiais',$this->db->get('contact_meta'));
            Template::set('users_access', $this->db->join("users","users.id = contacts_users.user_id","left")->where("contacts_users.contact_id",$data['id_contact'])->get("contacts_users"));
            Template::set('contact', $contact);
            Template::set('toolbar_title', $contact->display_name);
-           Template::render();
+           Template::render('profile_template');
 
          }else{
 
            Template::set_message(lang('contact_invalid_id'), 'danger');
-           Template::redirect('admin/content/contact');
+           Template::redirect('contatos');
          }
 
      }
@@ -621,7 +618,7 @@ class Content extends Admin_Controller{
 
            if (empty($id)) {
                Template::set_message(lang('contact_invalid_id'), 'danger');
-               Template::redirect('admin/content/contact');
+               Template::redirect('contatos');
            }
 
        if($id = $this->contact_model->find_by('slug_contact',$id)->id_contact){
@@ -645,7 +642,7 @@ class Content extends Admin_Controller{
      }else{
 
        Template::set_message(lang('contact_invalid_id'), 'danger');
-       Template::redirect('admin/content/contact');
+       Template::redirect('contatos');
      }
     }
 
@@ -708,17 +705,40 @@ class Content extends Admin_Controller{
 
        $this->authenticate($this->permissionCreate);
 
+       $this->db->join("contact_meta","contacts.id_contact = contact_meta.contact_id","left");
        $contact = $this->contact_model->find($id);
+       $coord = $this->contact_model->find_meta_for($id,array('lat','lng'));
 
-       $this->output->set_output('
-  <img class="card-img-top" src="'.contact_avatar($contact->email, 200,'card-img-top img-fluid w-100',false,'profile_photo').'" alt="Card image cap">
-  <div class="card-body">
-    <h5 class="card-title">'.anchor('admin/content/contact/profile/'.$contact->slug_contact,$contact->display_name,'target="_blank"').'</h5>
-    <p class="card-text">'.$contact->email.'</p>
-    <p class="card-text">'.$contact->phone.'</p>
-    </div>');
+       $this->db->select("slug_contact,display_name,email,phone");
+       $this->db->from("contacts");
+       $this->db->join("contact_meta","contacts.id_contact = contact_meta.contact_id","left");
+       $this->db->where("deleted",0);
+       $this->db->where("meta_key",'lat');
+       $this->db->where("meta_value",$coord->lat);
+       $this->db->or_where("meta_key",'lng');
+       $this->db->where("meta_value",$coord->lng);
+       $this->db->group_by("id_contact");
+       $neibors = $this->db->get();
+
+       $ht = array();
+
+       foreach($neibors->result() as $contact){
+
+         $phone = ($contact->phone)? '<li class="list-group-item">  <p class="card-text">'.$contact->phone.'</p></li>':'';
+         $email = ($contact->email)? '<li class="list-group-item">  <p class="card-text">'.$contact->email.'</p></li>':'';
+
+       array_push($ht, '<ul style="margin: -0.5rem -0.75rem;" class="list-group list-group-flush">
+    <li class="list-group-item bg-primary">'.anchor('contato/'.$contact->slug_contact,$contact->display_name,'class="text-white" target="_blank"').'</li>
+  '.$email.'
+  '.$phone.'
+    </ul>');
 
      }
+
+     $this->output->set_output(implode(' ',$ht));
+
+    }
+
 
 
 

@@ -145,6 +145,23 @@ $id = isset($contact->id_contact) ? $contact->id_contact : '';
 
           <?php } ?>
 
+              <?php if($contact_type == 2){ ?>
+
+            <div class="form-group<?php echo form_error('company') ? ' error' : ''; ?>">
+                <?php echo form_label('Matriz' , 'matriz', array('class' => 'control-label')); ?>
+
+            <select class="form-control" id="company" name="matriz">
+              <option value="0"><?php echo lang('contact_select_company'); ?></option>
+              <?php if($companies){ foreach($companies as $comp){ ?>
+              <option value="<?php echo $comp->id_contact; ?>" <?php echo (isset($contact->matriz) and $contact->matriz == $comp->id_contact)? 'selected':''; ?> ><?php echo $comp->display_name; ?></option>
+            <?php } }?>
+            </select>
+            <span class='help-inline'><?php echo form_error('matriz'); ?></span>
+
+            </div>
+
+          <?php } ?>
+
             </div>
 
             <div class="col-md-6">
@@ -266,7 +283,7 @@ $id = isset($contact->id_contact) ? $contact->id_contact : '';
 
                 <button type='submit'  id="create_contact" class='btn btn-sm btn-primary'><?php echo lang('contact_action_create'); ?></button>
                 <?php echo lang('bf_or'); ?>
-                <?php echo anchor('admin/content/contact', lang('contact_cancel'), 'class="btn btn-sm btn-warning"'); ?>
+                <?php echo anchor('contatos', lang('contact_cancel'), 'class="btn btn-sm btn-warning"'); ?>
 </div>
 <?php echo form_close(); ?>
 

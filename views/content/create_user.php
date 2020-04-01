@@ -131,6 +131,11 @@ echo form_open('admin/content/users/create', array('class' => 'form-horizontal',
         ?>
       </div>
       </div>
+
+      <div class="alert alert-info">
+        A senha será gerada automaticamente e enviada para e-mail informado.
+      </div>
+
       </div>
 
     <div class="card-footer">
