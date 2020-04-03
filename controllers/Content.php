@@ -42,8 +42,6 @@ class Content extends Admin_Controller{
         Assets::add_css('select2-bootstrap.min.css');
         Assets::add_js('select2.min.js');
 
-        $this->form_validation->set_error_delimiters("<span class='danger'>", "</span>");
-
     }
 
     /**
@@ -442,8 +440,6 @@ class Content extends Admin_Controller{
 
        $this->authenticate($this->permissionView);
 
-       $this->load->model('equip_rad/equip_rad_model');
-
            if (empty($id)) {
                Template::set_message(lang('contact_invalid_id'), 'danger');
                Template::redirect('contatos');
@@ -474,7 +470,7 @@ class Content extends Admin_Controller{
 
            if(count($tabs)){
 
-           $function = $this->uri->segment(3,'contact_attends');
+           $function = $this->uri->segment(3,'contact_create_access');
 
            $data = array('function'=>$function,'view_page'=>'','contact_type'=>'','id_contact'=>$id,'data_table'=>'','slug'=>$contact->slug_contact);
 
