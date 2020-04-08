@@ -83,7 +83,7 @@ class Content extends Admin_Controller{
 
      $this->db->select("id_contact,email,display_name,phone");
      $this->db->from('contacts');
-     $this->db->like('display_name',$this->input->get('term'));
+     $this->db->like('display_name',$this->db->escape_str($this->input->get('term')));
      if($type){ $this->db->where("contact_type",$type); }
      $this->db->where("contacts.deleted",0);
      $this->db->group_by("id_contact");

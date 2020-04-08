@@ -84,7 +84,7 @@ class Contact_model extends BF_Model{
 
     function search_general($term,$fields,$limit,$offset){
 
-      $like = array('display_name' => $term);
+      $like = array('display_name' => $this->db->escape_str($term));
       $this->db->select($fields);
       $this->db->from('contacts');
       $this->db->where('deleted', 0);
@@ -131,7 +131,7 @@ class Contact_model extends BF_Model{
 
     function search_list_json($term){
 
-      $like = array('display_name' => $term);
+      $like = array('display_name' => $this->db->escape_str($term));
       $this->db->select("contacts.id_contact as value,contacts.display_name as text");
       $this->db->from('contacts');
       $this->db->where('deleted', 0);
@@ -414,7 +414,7 @@ class Contact_model extends BF_Model{
 
 	public function filter_input(){
 
-		if(isset($_GET['term']) and !empty($_GET['term'])){ $this->db->like("contacts.display_name",$_GET['term']); }
+		if(isset($_GET['term']) and !empty($_GET['term'])){ $this->db->like("contacts.display_name",$this->db->escape_str($_GET['term'])); }
 		if(isset($_GET['contact_type']) and $_GET['contact_type'] != 0){ $this->db->where("contacts.contact_type",$_GET['contact_type']);}
 		if(isset($_GET['city']) and !empty($_GET['city'])){ $this->db->having("city",$_GET['city']);}
 
@@ -447,7 +447,7 @@ class Contact_model extends BF_Model{
 		$this->db->select("id_contact");
 		$this->db->where($where);
 		$this->db->group_by('id_contact');
-
+		$this->db->join('contact_meta','contact_meta.contact_id = contacts.id_contact','left');
 		return $this->db->get($this->table_name)->num_rows();
 
 	}
