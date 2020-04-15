@@ -139,5 +139,20 @@ if($(".phone").length){
 
                   $("[data-toggle=popover]").popover({html:true,trigger: 'hover',placement:'right'});
 
+                  $('#email_confirm').on("cut copy paste",function(e) {
+                    e.preventDefault();
+                  });
+
+
+                  $('#display_name').on('blur', function(){
+                      if($(this).val()){
+                      $.post(base_url+'users/check_username',{ 'display_name': $(this).val().replace(/ /g,'') }, function(data){
+
+                          $('#username').val(data.username);
+
+                      },"json");
+                    }
+                  });
+
 
               });
