@@ -444,7 +444,7 @@ class Contact_model extends BF_Model{
 
 		$where = array('contacts.deleted'=>0);
 
-		$this->db->select("id_contact");
+		$this->db->select("MAX(CASE WHEN meta_key = 'city' THEN meta_value END) AS 'city',id_contact");
 		$this->db->where($where);
 		$this->db->group_by('id_contact');
 		$this->db->join('contact_meta','contact_meta.contact_id = contacts.id_contact','left');
