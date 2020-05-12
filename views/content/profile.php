@@ -88,7 +88,7 @@
 <div class="col-md-8">
 
 
-    <ul class="nav nav-tabs mb-3">
+    <ul class="nav nav-tabs">
 
         <?php if(count($tabs)){ ?>
 
