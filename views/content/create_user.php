@@ -1,7 +1,7 @@
 <?php if($this->auth->has_permission('Contact.Content.Create')){
 
   $errorClass     = empty($errorClass) ? ' error' : $errorClass;
-  $controlClass   = empty($controlClass) ? 'form-control' : $controlClass;
+  $controlClass   = empty($controlClass) ? 'form-control form-control-sm' : $controlClass;
   $registerClass  = ' required';
   $editSettings   = 'edit';
   $password       = $this->auth->generateStrongPassword();
@@ -13,13 +13,8 @@
      <div class="card-header">
        <?php echo lang('us_create_user'); ?>
      </div>
-<?php $errorClass = 'error';
-$controlClass = 'form-control';
-$fieldData = array(
-    'errorClass'    => $errorClass,
-    'controlClass'  => $controlClass,
-);
 
+<?php
 
 if (isset($password_hints)) {
     $fieldData['password_hints'] = $password_hints;
@@ -133,7 +128,7 @@ echo form_open('admin/content/users/create', array('class' => 'form-horizontal',
       </div>
 
       <div class="alert alert-info">
-        A senha será gerada automaticamente e enviada para e-mail informado.
+        <?php echo lang('us_password_auto_generate'); ?>
       </div>
 
       </div>

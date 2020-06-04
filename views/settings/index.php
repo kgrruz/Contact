@@ -20,7 +20,7 @@ $defaultState    = settings_item('contact.default_state');
   $timezoneValue =  isset($defaultTimezone) ? $defaultTimezone : 'UM3';
   echo timezone_menu(
       set_value('timezones', $timezoneValue),
-      'form-control',
+      'form-control form-control-sm',
       'timezone',
       array('id' => 'timezone')
   );
@@ -45,7 +45,7 @@ echo country_select(
     set_value('country',$countryValue),
     $defaultCountry,
     'country',
-    'form-control  chzn-select'
+    'form-control form-control-sm chzn-select'
 );
 ?>
     <span class="help-inline"><?php echo form_error('country'); ?></span>
@@ -69,7 +69,7 @@ echo state_select(
     $defaultState,
     $countryValue,
     'state',
-    'form-control chzn-select'
+    'form-control form-control-sm chzn-select'
 );
 ?>
     <span class="help-inline"><?php echo form_error('state'); ?></span>

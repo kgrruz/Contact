@@ -1,33 +1,33 @@
 <div class="card">
 
 
-  <nav class="navbar navbar-expand-lg p-2">
+  <nav class="navbar navbar-expand-lg p-2 bg-light">
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
 
     <form action="<?php echo $this->uri->uri_string(); ?>" method="get" class="form-inline my-2 my-lg-0">
 
-      <select class="form-control mr-sm-2" name="city">
+      <select class="form-control form-control-sm mr-sm-2" name="city">
         <option value="0"><?php echo lang('contact_field_city'); ?></option>
         <?php foreach($cities->result() as $city){ ?>
           <option value="<?php echo $city->meta_value; ?>" <?php echo (isset($_GET['city']) and $_GET['city'] == $city->meta_value)? 'selected':''; ?> ><?php echo $city->meta_value; ?></option>
           <?php } ?>
       </select>
 
-      <select class="form-control mr-sm-2" name="contact_type">
+      <select class="form-control form-control-sm mr-sm-2" name="contact_type">
         <option value="0"><?php echo lang('contact_all_types'); ?></option>
         <option value="1" <?php echo (isset($_GET['contact_type']) and $_GET['contact_type'] == 1)? 'selected':''; ?> ><?php echo lang('contact_contact'); ?></option>
         <option value="2" <?php echo (isset($_GET['contact_type']) and $_GET['contact_type'] == 2)? 'selected':''; ?> ><?php echo lang('contact_company'); ?></option>
       </select>
 
-      <input class="form-control mr-sm-2" type="search"  value="<?php echo (isset($_GET['term']) and !empty($_GET['term']))? $_GET['term']:''; ?>" name="term" placeholder="<?php echo lang('bf_search'); ?>" aria-label="<?php echo lang('bf_search'); ?>">
-      <button class="btn btn-success my-2 my-sm-0" type="submit"><?php echo lang('bf_search'); ?></button>
+      <input class="form-control form-control-sm mr-sm-2" type="search"  value="<?php echo (isset($_GET['term']) and !empty($_GET['term']))? $_GET['term']:''; ?>" name="term" placeholder="<?php echo lang('bf_search'); ?>" aria-label="<?php echo lang('bf_search'); ?>">
+      <button class="btn btn-sm btn-success my-2 my-sm-0" type="submit"><?php echo lang('bf_search'); ?></button>
     </form>
   </div>
 </nav>
 <?php if($contatos->num_rows()){  ?>
 <div class="table-responsive">
 
-<table id="table_contacts" class="table table-hover table-outline table-vcenter text-nowrap mb-0" >
+<table id="table_contacts" class="table table-sm table-hover table-outline table-vcenter text-nowrap mb-0" >
     <thead>
         <tr>
             <th></th>
@@ -55,7 +55,7 @@
 
                 <?php echo anchor('admin/content/contact/edit/'.$contato->slug_contact,'<i class="fa fa-edit" aria-hidden="true"></i>
           ','class="btn btn-sm btn-secondary"'); ?>
-          <?php echo anchor('admin/content/contact/delete/'.$contato->id_contact,'<i class="fa fa-trash" aria-hidden="true"></i>','data-message="'.lang("contact_delete_confirm").'" class="btn btn-light exc_bot" '); ?>
+          <?php echo anchor('admin/content/contact/delete/'.$contato->id_contact,'<i class="fa fa-trash" aria-hidden="true"></i>','data-message="'.lang("contact_delete_confirm").'" class="btn btn-sm btn-light exc_bot" '); ?>
 
               </div>
             </td>
