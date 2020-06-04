@@ -5,13 +5,13 @@ $config['module_config'] = array(
 	'category'    => 'CRM',
 	'name'		    => 'Contact',
 	'home'				=> 'contacts',
-	'label'       => array('english'=>'contacts','portuguese_br'=>'contatos','spanish_am'=>'contactos','russian'=>'контакты'),
+	'label'       => array('en_US'=>'contacts','pt_BR'=>'contatos','es'=>'contactos'),
 	'route'       => 'contact',
 	'visible_module' => false,
 	'version'		=> '1.4.0',
 	'author'		=> 'admin',
 	'tab_contact'=>array(
-		'label'=> array('english'=>'Employees','portuguese_br'=>'Funcionários'),
+		'label'=> array('en_US'=>'Employees','pt_BR'=>'Funcionários'),
 		'url'=>'company_contacts',
 		'contact_type'=>array(2)
 	)
