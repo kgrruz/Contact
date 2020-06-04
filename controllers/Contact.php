@@ -14,13 +14,9 @@ class Contact extends Front_Controller{
         parent::__construct();
 
         $this->lang->load('contact/contact');
-        $this->load->model('users/user_model');
         $this->load->model('contact/contact_model');
-        $this->load->library('users/auth');
 
       }
-
-
 
       public function profile($id){
 
