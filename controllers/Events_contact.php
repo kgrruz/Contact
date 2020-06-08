@@ -203,7 +203,6 @@ if($this->CI->input->post('contact_id')){
 
       public function _form_widget(&$html){
 
-        Assets::add_module_js('contact', 'locale.js');
         Assets::add_module_js('contact', 'contact.js');
 
         $data['contact'] = (isset($html['contact_id']))? $this->CI->contact_model->find($html['contact_id']):0;

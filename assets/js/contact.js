@@ -79,7 +79,7 @@ if($(".phone").length){
                       templateResult: format,
                       templateSelection: format,
                       theme: 'bootstrap',
-                      placeholder: $.i18n('contact-placeholder'),
+
                       allowClear: true,
                       tags: true,
                       createTag: function (tag) {
@@ -131,7 +131,6 @@ if($(".phone").length){
                       templateResult: format_user,
                       templateSelection: format_user,
                       theme: 'bootstrap',
-                      placeholder: $.i18n('contact-placeholder'),
                       allowClear: true
                     });
 
