@@ -220,7 +220,7 @@ if($this->CI->input->post('contact_id')){
       function _show_widget_button(){
 
       if (has_permission($this->permissionView)) {
-            return anchor('add_contato/2','<i class="fa fa-plus"></i><i class="fa fa-user"></i>','class="btn btn-success"');
+            return anchor('add_contato/2','<i class="fa fa-plus"></i><i class="fa fa-user"></i>','class="btn btn-sm btn-success mx-1"');
 
           }
       }
