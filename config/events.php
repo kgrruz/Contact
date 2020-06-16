@@ -30,6 +30,14 @@
             'method'     => '_geral_search'
         );
 
+        $config['search_geral_ajax'][] = array(
+                'module'     => 'contact',
+                'filepath'   => 'controllers',
+                'filename'   => 'Events_contact.php',
+                'class'  => 'Events_contact',
+                'method'     => '_geral_search_ajax'
+            );
+
     $config['search_contact'][] = array(
             'module'     => 'contact',
             'filepath'   => 'controllers',

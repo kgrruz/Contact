@@ -19,6 +19,22 @@ class Events_contact{
  }
 
 
+ function _geral_search_ajax(&$data){
+
+      $data['data'][] =  array(
+        'value'=>'contact_list',
+        'data'=> array('link'=>'contatos'),
+        'permission'=> 'Contact.Content.View'
+      );
+
+      $data['data'][] = array(
+      'value'=>'contact_action_create',
+      'data'=> array('link'=>'add_contato'),
+      'permission'=> 'Contact.Content.Create'
+  );
+
+ }
+
  public function Create_user_contact($data){
 
 if($this->CI->input->post('contact_id')){
