@@ -1,6 +1,4 @@
 <div class="card">
-
-
   <nav class="navbar navbar-expand-lg p-2 bg-light">
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
 
@@ -13,7 +11,7 @@
           <?php } ?>
       </select>
 
-      <select class="form-control form-control-sm mr-sm-2" name="contact_type">
+      <select class="form-control form-control-sm mx-sm-2" name="contact_type">
         <option value="0"><?php echo lang('contact_all_types'); ?></option>
         <option value="1" <?php echo (isset($_GET['contact_type']) and $_GET['contact_type'] == 1)? 'selected':''; ?> ><?php echo lang('contact_contact'); ?></option>
         <option value="2" <?php echo (isset($_GET['contact_type']) and $_GET['contact_type'] == 2)? 'selected':''; ?> ><?php echo lang('contact_company'); ?></option>
@@ -44,7 +42,7 @@
 
       <tr>
             <td><?php echo ($contato->contact_type == 1)? '<i class="fa fa-user" aria-hidden="true"></i>':'<i class="fa fa-building" aria-hidden="true"></i>'; ?> </td>
-            <td><?php echo anchor('contato/'.$contato->slug_contact,ellipsize($contato->display_name,20),'role="button" data-toggle="popover" title="" data-content="'.$contato->display_name.'"'); ?></td>
+            <td><?php echo anchor('contato/'.$contato->slug_contact,ellipsize($contato->display_name,45),'role="button" data-toggle="popover" title="" data-content="'.$contato->display_name.'"'); ?></td>
             <td><?php echo mailto($contato->email); ?></td>
             <td><?php echo $contato->phone; ?></td>
             <td><?php echo $contato->city; ?></td>

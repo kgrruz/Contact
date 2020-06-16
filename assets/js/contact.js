@@ -50,9 +50,13 @@ if($(".phone").length){
 
               })
 
-              }
+          }
 
-
+          $("select[name='city']").select2({
+            placeholder: $(this).data('placeholder'),
+            theme: 'bootstrap'
+          });
+          
       if($("#contact_id").length){
 
                 function format (option) {
